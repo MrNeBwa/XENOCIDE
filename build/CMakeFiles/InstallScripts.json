@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/NeBwa/Projects/XENOCIDE/build/cmake_install.cmake",
+		"/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/cmake_install.cmake",
+		"/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/cmake_install.cmake",
+		"/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/docs/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
