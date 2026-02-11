@@ -237,6 +237,78 @@ src/core/Application.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/core/Application.cpp.s
 .PHONY : src/core/Application.cpp.s
 
+src/graphics/Renderer.o: src/graphics/Renderer.cpp.o
+.PHONY : src/graphics/Renderer.o
+
+# target to build an object file
+src/graphics/Renderer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o
+.PHONY : src/graphics/Renderer.cpp.o
+
+src/graphics/Renderer.i: src/graphics/Renderer.cpp.i
+.PHONY : src/graphics/Renderer.i
+
+# target to preprocess a source file
+src/graphics/Renderer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.i
+.PHONY : src/graphics/Renderer.cpp.i
+
+src/graphics/Renderer.s: src/graphics/Renderer.cpp.s
+.PHONY : src/graphics/Renderer.s
+
+# target to generate assembly for a file
+src/graphics/Renderer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.s
+.PHONY : src/graphics/Renderer.cpp.s
+
+src/graphics/Shader.o: src/graphics/Shader.cpp.o
+.PHONY : src/graphics/Shader.o
+
+# target to build an object file
+src/graphics/Shader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/graphics/Shader.cpp.o
+.PHONY : src/graphics/Shader.cpp.o
+
+src/graphics/Shader.i: src/graphics/Shader.cpp.i
+.PHONY : src/graphics/Shader.i
+
+# target to preprocess a source file
+src/graphics/Shader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/graphics/Shader.cpp.i
+.PHONY : src/graphics/Shader.cpp.i
+
+src/graphics/Shader.s: src/graphics/Shader.cpp.s
+.PHONY : src/graphics/Shader.s
+
+# target to generate assembly for a file
+src/graphics/Shader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/graphics/Shader.cpp.s
+.PHONY : src/graphics/Shader.cpp.s
+
+src/graphics/Texture.o: src/graphics/Texture.cpp.o
+.PHONY : src/graphics/Texture.o
+
+# target to build an object file
+src/graphics/Texture.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o
+.PHONY : src/graphics/Texture.cpp.o
+
+src/graphics/Texture.i: src/graphics/Texture.cpp.i
+.PHONY : src/graphics/Texture.i
+
+# target to preprocess a source file
+src/graphics/Texture.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.i
+.PHONY : src/graphics/Texture.cpp.i
+
+src/graphics/Texture.s: src/graphics/Texture.cpp.s
+.PHONY : src/graphics/Texture.s
+
+# target to generate assembly for a file
+src/graphics/Texture.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.s
+.PHONY : src/graphics/Texture.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -280,6 +352,15 @@ help:
 	@echo "... src/core/Application.o"
 	@echo "... src/core/Application.i"
 	@echo "... src/core/Application.s"
+	@echo "... src/graphics/Renderer.o"
+	@echo "... src/graphics/Renderer.i"
+	@echo "... src/graphics/Renderer.s"
+	@echo "... src/graphics/Shader.o"
+	@echo "... src/graphics/Shader.i"
+	@echo "... src/graphics/Shader.s"
+	@echo "... src/graphics/Texture.o"
+	@echo "... src/graphics/Texture.i"
+	@echo "... src/graphics/Texture.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

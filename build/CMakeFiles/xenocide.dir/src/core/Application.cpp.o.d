@@ -2,6 +2,8 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o: \
  /home/NeBwa/Projects/XENOCIDE/src/core/Application.cpp \
  /usr/include/stdc-predef.h \
  /home/NeBwa/Projects/XENOCIDE/include/mine/core/Application.hpp \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/graphics/Renderer.hpp \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/math/Vector2.hpp \
  /home/NeBwa/Projects/XENOCIDE/third_party/glfw/include/GLFW/glfw3.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stddef.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdint.h \
@@ -150,23 +152,4 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o: \
  /usr/include/c++/15.2.1/bits/locale_facets.tcc \
  /usr/include/c++/15.2.1/bits/basic_ios.tcc \
  /usr/include/c++/15.2.1/bits/ostream.tcc /usr/include/c++/15.2.1/istream \
- /usr/include/c++/15.2.1/bits/istream.tcc /usr/include/c++/15.2.1/cmath \
- /usr/include/math.h /usr/include/bits/math-vector.h \
- /usr/include/bits/libm-simd-decl-stubs.h \
- /usr/include/bits/flt-eval-method.h /usr/include/bits/fp-logb.h \
- /usr/include/bits/fp-fast.h /usr/include/bits/mathcalls-macros.h \
- /usr/include/bits/mathcalls-helper-functions.h \
- /usr/include/bits/mathcalls.h /usr/include/bits/mathcalls-narrow.h \
- /usr/include/bits/iscanonical.h /usr/include/c++/15.2.1/bits/specfun.h \
- /usr/include/c++/15.2.1/limits /usr/include/c++/15.2.1/tr1/gamma.tcc \
- /usr/include/c++/15.2.1/tr1/special_function_util.h \
- /usr/include/c++/15.2.1/tr1/bessel_function.tcc \
- /usr/include/c++/15.2.1/tr1/beta_function.tcc \
- /usr/include/c++/15.2.1/tr1/ell_integral.tcc \
- /usr/include/c++/15.2.1/tr1/exp_integral.tcc \
- /usr/include/c++/15.2.1/tr1/hypergeometric.tcc \
- /usr/include/c++/15.2.1/tr1/legendre_function.tcc \
- /usr/include/c++/15.2.1/tr1/modified_bessel_func.tcc \
- /usr/include/c++/15.2.1/tr1/poly_hermite.tcc \
- /usr/include/c++/15.2.1/tr1/poly_laguerre.tcc \
- /usr/include/c++/15.2.1/tr1/riemann_zeta.tcc
+ /usr/include/c++/15.2.1/bits/istream.tcc
