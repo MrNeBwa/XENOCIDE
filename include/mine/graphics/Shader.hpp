@@ -4,20 +4,13 @@ namespace mine {
 
 class Shader {
 public:
-    Shader();
-    ~Shader();
-
-    bool loadFromFile(const char* vertexPath, const char* fragmentPath);
-    void use() const;
-
-    // Униформы
-    void setInt(const char* name, int value) const;
-    void setFloat(const char* name, float value) const;
-    void setVec4(const char* name, float x, float y, float z, float w) const;
-    void setMat4(const char* name, const float* matrix) const; // row-major
-
-private:
-    unsigned int m_id = 0;
+    Shader() = default;
+    bool loadFromFile(const char*, const char*) { return true; }
+    void use() const {}
+    void setInt(const char*, int) const {}
+    void setFloat(const char*, float) const {}
+    void setVec4(const char*, float, float, float, float) const {}
+    void setMat4(const char*, const float*) const {}
 };
 
 } // namespace mine

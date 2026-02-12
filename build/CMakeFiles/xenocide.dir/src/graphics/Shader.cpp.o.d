@@ -1,8 +1,9 @@
-CMakeFiles/xenocide.dir/src/core/Application.cpp.o: \
- /home/NeBwa/Projects/XENOCIDE/src/core/Application.cpp \
+CMakeFiles/xenocide.dir/src/graphics/Shader.cpp.o: \
+ /home/NeBwa/Projects/XENOCIDE/src/graphics/Shader.cpp \
  /usr/include/stdc-predef.h \
- /home/NeBwa/Projects/XENOCIDE/include/glad/glad.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glad/include/KHR/khrplatform.h \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/graphics/Shader.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glfw/include/GLFW/glfw3.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stddef.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -12,21 +13,17 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o: \
  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
  /usr/include/bits/time64.h /usr/include/bits/wchar.h \
  /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
- /usr/include/bits/stdint-least.h \
- /home/NeBwa/Projects/XENOCIDE/include/mine/core/Application.hpp \
- /home/NeBwa/Projects/XENOCIDE/include/mine/math/Vector2.hpp \
- /home/NeBwa/Projects/XENOCIDE/include/mine/graphics/Renderer.hpp \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/include/GLFW/glfw3.h \
- /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stddef.h \
- /usr/include/c++/15.2.1/iostream \
+ /usr/include/bits/stdint-least.h /usr/include/GL/gl.h \
+ /usr/include/GL/glext.h \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glad/include/KHR/khrplatform.h \
+ /usr/include/c++/15.2.1/fstream \
  /usr/include/c++/15.2.1/bits/requires_hosted.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/os_defines.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/cpu_defines.h \
  /usr/include/c++/15.2.1/pstl/pstl_config.h \
- /usr/include/c++/15.2.1/ostream /usr/include/c++/15.2.1/bits/ostream.h \
- /usr/include/c++/15.2.1/ios /usr/include/c++/15.2.1/iosfwd \
- /usr/include/c++/15.2.1/bits/stringfwd.h \
+ /usr/include/c++/15.2.1/istream /usr/include/c++/15.2.1/ios \
+ /usr/include/c++/15.2.1/iosfwd /usr/include/c++/15.2.1/bits/stringfwd.h \
  /usr/include/c++/15.2.1/bits/memoryfwd.h \
  /usr/include/c++/15.2.1/bits/postypes.h /usr/include/c++/15.2.1/cwchar \
  /usr/include/wchar.h /usr/include/bits/floatn.h \
@@ -152,24 +149,12 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o: \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_inline.h \
  /usr/include/c++/15.2.1/bits/locale_facets.tcc \
  /usr/include/c++/15.2.1/bits/basic_ios.tcc \
- /usr/include/c++/15.2.1/bits/ostream.tcc /usr/include/c++/15.2.1/istream \
- /usr/include/c++/15.2.1/bits/istream.tcc /usr/include/c++/15.2.1/cmath \
- /usr/include/math.h /usr/include/bits/math-vector.h \
- /usr/include/bits/libm-simd-decl-stubs.h \
- /usr/include/bits/flt-eval-method.h /usr/include/bits/fp-logb.h \
- /usr/include/bits/fp-fast.h /usr/include/bits/mathcalls-macros.h \
- /usr/include/bits/mathcalls-helper-functions.h \
- /usr/include/bits/mathcalls.h /usr/include/bits/mathcalls-narrow.h \
- /usr/include/bits/iscanonical.h /usr/include/c++/15.2.1/bits/specfun.h \
- /usr/include/c++/15.2.1/limits /usr/include/c++/15.2.1/tr1/gamma.tcc \
- /usr/include/c++/15.2.1/tr1/special_function_util.h \
- /usr/include/c++/15.2.1/tr1/bessel_function.tcc \
- /usr/include/c++/15.2.1/tr1/beta_function.tcc \
- /usr/include/c++/15.2.1/tr1/ell_integral.tcc \
- /usr/include/c++/15.2.1/tr1/exp_integral.tcc \
- /usr/include/c++/15.2.1/tr1/hypergeometric.tcc \
- /usr/include/c++/15.2.1/tr1/legendre_function.tcc \
- /usr/include/c++/15.2.1/tr1/modified_bessel_func.tcc \
- /usr/include/c++/15.2.1/tr1/poly_hermite.tcc \
- /usr/include/c++/15.2.1/tr1/poly_laguerre.tcc \
- /usr/include/c++/15.2.1/tr1/riemann_zeta.tcc
+ /usr/include/c++/15.2.1/ostream /usr/include/c++/15.2.1/bits/ostream.h \
+ /usr/include/c++/15.2.1/bits/ostream.tcc \
+ /usr/include/c++/15.2.1/bits/istream.tcc \
+ /usr/include/c++/15.2.1/bits/codecvt.h \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/basic_file.h \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++io.h \
+ /usr/include/c++/15.2.1/bits/fstream.tcc /usr/include/c++/15.2.1/sstream \
+ /usr/include/c++/15.2.1/bits/sstream.tcc \
+ /usr/include/c++/15.2.1/iostream

@@ -1,10 +1,8 @@
 CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o: \
  /home/NeBwa/Projects/XENOCIDE/src/graphics/Renderer.cpp \
  /usr/include/stdc-predef.h \
- /home/NeBwa/Projects/XENOCIDE/include/mine/graphics/Renderer.hpp \
- /home/NeBwa/Projects/XENOCIDE/include/mine/math/Vector2.hpp \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/include/GLFW/glfw3.h \
- /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stddef.h \
+ /home/NeBwa/Projects/XENOCIDE/include/glad/glad.h \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glad/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -14,8 +12,11 @@ CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o: \
  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
  /usr/include/bits/time64.h /usr/include/bits/wchar.h \
  /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
- /usr/include/bits/stdint-least.h /usr/include/GL/gl.h \
- /usr/include/GL/glext.h /usr/include/KHR/khrplatform.h \
+ /usr/include/bits/stdint-least.h \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/graphics/Renderer.hpp \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/math/Vector2.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glfw/include/GLFW/glfw3.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stddef.h \
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/glm.hpp \
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/detail/_fixes.hpp \
  /usr/include/c++/15.2.1/cmath \
@@ -279,6 +280,46 @@ CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o: \
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../ext/matrix_transform.hpp \
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../ext/matrix_transform.inl \
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/matrix_transform.inl \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/type_ptr.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/quaternion.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/vector_relational.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/vector_relational.inl \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/../detail/type_float.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/../detail/setup.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/quaternion_common.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/../ext/quaternion_geometric.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/../ext/quaternion_geometric.inl \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/quaternion_common.inl \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/quaternion_float.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/../detail/type_quat.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/../detail/../ext/quaternion_relational.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/../detail/../ext/quaternion_relational.inl \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/../detail/type_quat.inl \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/quaternion_float_precision.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/quaternion_double.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/quaternion_double_precision.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/quaternion_trigonometric.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/quaternion_trigonometric.inl \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/quaternion_transform.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/quaternion_transform.inl \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/quaternion.inl \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/epsilon.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../detail/setup.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/epsilon.inl \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/vec1.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/vector_bool1.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/vector_bool1_precision.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/vector_float1.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/vector_float1_precision.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/vector_double1.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/vector_double1_precision.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/vector_int1.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/vector_int1_sized.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/vector_uint1.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/../gtc/../ext/vector_uint1_sized.hpp \
+ /usr/include/c++/15.2.1/cstring /usr/include/string.h \
+ /usr/include/strings.h \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/type_ptr.inl \
  /usr/include/c++/15.2.1/iostream /usr/include/c++/15.2.1/ostream \
  /usr/include/c++/15.2.1/bits/ostream.h /usr/include/c++/15.2.1/ios \
  /usr/include/c++/15.2.1/iosfwd /usr/include/c++/15.2.1/bits/stringfwd.h \

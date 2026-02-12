@@ -87,6 +87,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/glad.dir/DependInfo.cmake"
   "CMakeFiles/xenocide.dir/DependInfo.cmake"
   "third_party/glfw/CMakeFiles/uninstall.dir/DependInfo.cmake"
   "third_party/glfw/src/CMakeFiles/glfw.dir/DependInfo.cmake"

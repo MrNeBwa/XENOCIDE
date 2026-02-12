@@ -3,13 +3,12 @@
 
 CMakeFiles/xenocide.dir/src/core/Application.cpp.o
  /home/NeBwa/Projects/XENOCIDE/src/core/Application.cpp
+ /home/NeBwa/Projects/XENOCIDE/include/glad/glad.h
  /home/NeBwa/Projects/XENOCIDE/include/mine/core/Application.hpp
  /home/NeBwa/Projects/XENOCIDE/include/mine/graphics/Renderer.hpp
  /home/NeBwa/Projects/XENOCIDE/include/mine/math/Vector2.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glad/include/KHR/khrplatform.h
  /home/NeBwa/Projects/XENOCIDE/third_party/glfw/include/GLFW/glfw3.h
- /usr/include/GL/gl.h
- /usr/include/GL/glext.h
- /usr/include/KHR/khrplatform.h
  /usr/include/alloca.h
  /usr/include/asm-generic/bitsperlong.h
  /usr/include/asm-generic/errno-base.h
@@ -30,9 +29,19 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o
  /usr/include/bits/errno.h
  /usr/include/bits/floatn-common.h
  /usr/include/bits/floatn.h
+ /usr/include/bits/flt-eval-method.h
+ /usr/include/bits/fp-fast.h
+ /usr/include/bits/fp-logb.h
+ /usr/include/bits/iscanonical.h
  /usr/include/bits/libc-header-start.h
+ /usr/include/bits/libm-simd-decl-stubs.h
  /usr/include/bits/locale.h
  /usr/include/bits/long-double.h
+ /usr/include/bits/math-vector.h
+ /usr/include/bits/mathcalls-helper-functions.h
+ /usr/include/bits/mathcalls-macros.h
+ /usr/include/bits/mathcalls-narrow.h
+ /usr/include/bits/mathcalls.h
  /usr/include/bits/pthread_stack_min-dynamic.h
  /usr/include/bits/pthreadtypes-arch.h
  /usr/include/bits/pthreadtypes.h
@@ -125,6 +134,7 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o
  /usr/include/c++/15.2.1/bits/range_access.h
  /usr/include/c++/15.2.1/bits/refwrap.h
  /usr/include/c++/15.2.1/bits/requires_hosted.h
+ /usr/include/c++/15.2.1/bits/specfun.h
  /usr/include/c++/15.2.1/bits/std_abs.h
  /usr/include/c++/15.2.1/bits/stl_algobase.h
  /usr/include/c++/15.2.1/bits/stl_construct.h
@@ -144,6 +154,7 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o
  /usr/include/c++/15.2.1/cctype
  /usr/include/c++/15.2.1/cerrno
  /usr/include/c++/15.2.1/clocale
+ /usr/include/c++/15.2.1/cmath
  /usr/include/c++/15.2.1/concepts
  /usr/include/c++/15.2.1/cstddef
  /usr/include/c++/15.2.1/cstdio
@@ -163,6 +174,7 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o
  /usr/include/c++/15.2.1/iosfwd
  /usr/include/c++/15.2.1/iostream
  /usr/include/c++/15.2.1/istream
+ /usr/include/c++/15.2.1/limits
  /usr/include/c++/15.2.1/new
  /usr/include/c++/15.2.1/ostream
  /usr/include/c++/15.2.1/pstl/pstl_config.h
@@ -171,6 +183,18 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o
  /usr/include/c++/15.2.1/string
  /usr/include/c++/15.2.1/string_view
  /usr/include/c++/15.2.1/system_error
+ /usr/include/c++/15.2.1/tr1/bessel_function.tcc
+ /usr/include/c++/15.2.1/tr1/beta_function.tcc
+ /usr/include/c++/15.2.1/tr1/ell_integral.tcc
+ /usr/include/c++/15.2.1/tr1/exp_integral.tcc
+ /usr/include/c++/15.2.1/tr1/gamma.tcc
+ /usr/include/c++/15.2.1/tr1/hypergeometric.tcc
+ /usr/include/c++/15.2.1/tr1/legendre_function.tcc
+ /usr/include/c++/15.2.1/tr1/modified_bessel_func.tcc
+ /usr/include/c++/15.2.1/tr1/poly_hermite.tcc
+ /usr/include/c++/15.2.1/tr1/poly_laguerre.tcc
+ /usr/include/c++/15.2.1/tr1/riemann_zeta.tcc
+ /usr/include/c++/15.2.1/tr1/special_function_util.h
  /usr/include/c++/15.2.1/tuple
  /usr/include/c++/15.2.1/type_traits
  /usr/include/c++/15.2.1/typeinfo
@@ -198,6 +222,7 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o
  /usr/include/linux/stddef.h
  /usr/include/linux/types.h
  /usr/include/locale.h
+ /usr/include/math.h
  /usr/include/pthread.h
  /usr/include/sched.h
  /usr/include/stdc-predef.h
@@ -217,8 +242,10 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o
 
 CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o
  /home/NeBwa/Projects/XENOCIDE/src/graphics/Renderer.cpp
+ /home/NeBwa/Projects/XENOCIDE/include/glad/glad.h
  /home/NeBwa/Projects/XENOCIDE/include/mine/graphics/Renderer.hpp
  /home/NeBwa/Projects/XENOCIDE/include/mine/math/Vector2.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glad/include/KHR/khrplatform.h
  /home/NeBwa/Projects/XENOCIDE/third_party/glfw/include/GLFW/glfw3.h
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/common.hpp
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/detail/func_exponential.inl
@@ -365,8 +392,46 @@ CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/matrix_projection.inl
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/matrix_transform.hpp
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/matrix_transform.inl
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/detail/setup.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_relational.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_relational.inl
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/detail/setup.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/detail/type_float.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/detail/type_quat.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/detail/type_quat.inl
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_geometric.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_geometric.inl
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_common.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_common.inl
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_double.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_double_precision.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_float.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_float_precision.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_transform.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_transform.inl
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_trigonometric.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/quaternion_trigonometric.inl
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/vector_bool1.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/vector_bool1_precision.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/vector_double1.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/vector_double1_precision.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/vector_float1.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/vector_float1_precision.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/vector_int1.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/vector_int1_sized.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/vector_relational.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/vector_relational.inl
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/vector_uint1.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/ext/vector_uint1_sized.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/epsilon.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/epsilon.inl
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/quaternion.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/quaternion.inl
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/vec1.hpp
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/matrix_transform.hpp
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/matrix_transform.inl
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/type_ptr.hpp
+ /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/gtc/type_ptr.inl
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/integer.hpp
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/mat2x2.hpp
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/packing.hpp
@@ -374,9 +439,6 @@ CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/vec2.hpp
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/vec3.hpp
  /home/NeBwa/Projects/XENOCIDE/third_party/glm/glm/vec4.hpp
- /usr/include/GL/gl.h
- /usr/include/GL/glext.h
- /usr/include/KHR/khrplatform.h
  /usr/include/alloca.h
  /usr/include/asm-generic/bitsperlong.h
  /usr/include/asm-generic/errno-base.h
@@ -550,6 +612,7 @@ CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o
  /usr/include/c++/15.2.1/cstdint
  /usr/include/c++/15.2.1/cstdio
  /usr/include/c++/15.2.1/cstdlib
+ /usr/include/c++/15.2.1/cstring
  /usr/include/c++/15.2.1/cwchar
  /usr/include/c++/15.2.1/cwctype
  /usr/include/c++/15.2.1/debug/assertions.h
@@ -626,6 +689,8 @@ CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o
  /usr/include/stdint.h
  /usr/include/stdio.h
  /usr/include/stdlib.h
+ /usr/include/string.h
+ /usr/include/strings.h
  /usr/include/sys/cdefs.h
  /usr/include/sys/select.h
  /usr/include/sys/single_threaded.h
@@ -640,8 +705,53 @@ CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdint.h
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/syslimits.h
 
+CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o
+ /home/NeBwa/Projects/XENOCIDE/src/graphics/Texture.cpp
+ /home/NeBwa/Projects/XENOCIDE/include/mine/graphics/Texture.hpp
+ /usr/include/stdc-predef.h
+
 CMakeFiles/xenocide.dir/src/main.cpp.o
  /home/NeBwa/Projects/XENOCIDE/src/main.cpp
  /home/NeBwa/Projects/XENOCIDE/include/mine/core/Application.hpp
+ /home/NeBwa/Projects/XENOCIDE/include/mine/math/Vector2.hpp
  /usr/include/stdc-predef.h
+
+xenocide
+ /usr/lib/Scrt1.o
+ /usr/lib/crti.o
+ /usr/lib/crtn.o
+ /usr/lib/libGL.so
+ /usr/lib/libc.so
+ /usr/lib/libdl.a
+ /usr/lib/libgcc_s.so
+ /usr/lib/libgcc_s.so.1
+ /usr/lib/libm.so
+ /usr/lib/libstdc++.so
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/libgcc.a
+ /usr/lib/ld-linux-x86-64.so.2
+ /usr/lib/libGLX.so.0
+ /usr/lib/libGLdispatch.so.0
+ /usr/lib/libX11.so.6
+ /usr/lib/libXau.so.6
+ /usr/lib/libXdmcp.so.6
+ /usr/lib/libc.so.6
+ /usr/lib/libc_nonshared.a
+ /usr/lib/libm.so.6
+ /usr/lib/libmvec.so.1
+ /usr/lib/librt.a
+ /usr/lib/libxcb.so.1
+ /usr/lib32/libGLX.so.0
+ /usr/lib32/libGLdispatch.so.0
+ /usr/lib32/libX11.so.6
+ /usr/lib32/libXau.so.6
+ /usr/lib32/libXdmcp.so.6
+ /usr/lib32/libxcb.so.1
+ /home/NeBwa/Projects/XENOCIDE/build/CMakeFiles/xenocide.dir/src/core/Application.cpp.o
+ /home/NeBwa/Projects/XENOCIDE/build/CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o
+ /home/NeBwa/Projects/XENOCIDE/build/CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o
+ /home/NeBwa/Projects/XENOCIDE/build/CMakeFiles/xenocide.dir/src/main.cpp.o
+ /home/NeBwa/Projects/XENOCIDE/build/libglad.a
+ /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/libglfw3.a
 

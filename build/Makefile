@@ -162,6 +162,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named glad
+
+# Build rule for target.
+glad: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 glad
+.PHONY : glad
+
+# fast build rule for target.
+glad/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/build
+.PHONY : glad/fast
+
+#=============================================================================
 # Target rules for targets named xenocide
 
 # Build rule for target.
@@ -261,30 +274,6 @@ src/graphics/Renderer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.s
 .PHONY : src/graphics/Renderer.cpp.s
 
-src/graphics/Shader.o: src/graphics/Shader.cpp.o
-.PHONY : src/graphics/Shader.o
-
-# target to build an object file
-src/graphics/Shader.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/graphics/Shader.cpp.o
-.PHONY : src/graphics/Shader.cpp.o
-
-src/graphics/Shader.i: src/graphics/Shader.cpp.i
-.PHONY : src/graphics/Shader.i
-
-# target to preprocess a source file
-src/graphics/Shader.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/graphics/Shader.cpp.i
-.PHONY : src/graphics/Shader.cpp.i
-
-src/graphics/Shader.s: src/graphics/Shader.cpp.s
-.PHONY : src/graphics/Shader.s
-
-# target to generate assembly for a file
-src/graphics/Shader.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/graphics/Shader.cpp.s
-.PHONY : src/graphics/Shader.cpp.s
-
 src/graphics/Texture.o: src/graphics/Texture.cpp.o
 .PHONY : src/graphics/Texture.o
 
@@ -333,6 +322,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+third_party/glad/src/glad.o: third_party/glad/src/glad.c.o
+.PHONY : third_party/glad/src/glad.o
+
+# target to build an object file
+third_party/glad/src/glad.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/third_party/glad/src/glad.c.o
+.PHONY : third_party/glad/src/glad.c.o
+
+third_party/glad/src/glad.i: third_party/glad/src/glad.c.i
+.PHONY : third_party/glad/src/glad.i
+
+# target to preprocess a source file
+third_party/glad/src/glad.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/third_party/glad/src/glad.c.i
+.PHONY : third_party/glad/src/glad.c.i
+
+third_party/glad/src/glad.s: third_party/glad/src/glad.c.s
+.PHONY : third_party/glad/src/glad.s
+
+# target to generate assembly for a file
+third_party/glad/src/glad.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/third_party/glad/src/glad.c.s
+.PHONY : third_party/glad/src/glad.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -347,6 +360,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... uninstall"
 	@echo "... update_mappings"
+	@echo "... glad"
 	@echo "... glfw"
 	@echo "... xenocide"
 	@echo "... src/core/Application.o"
@@ -355,15 +369,15 @@ help:
 	@echo "... src/graphics/Renderer.o"
 	@echo "... src/graphics/Renderer.i"
 	@echo "... src/graphics/Renderer.s"
-	@echo "... src/graphics/Shader.o"
-	@echo "... src/graphics/Shader.i"
-	@echo "... src/graphics/Shader.s"
 	@echo "... src/graphics/Texture.o"
 	@echo "... src/graphics/Texture.i"
 	@echo "... src/graphics/Texture.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... third_party/glad/src/glad.o"
+	@echo "... third_party/glad/src/glad.i"
+	@echo "... third_party/glad/src/glad.s"
 .PHONY : help
 
 

@@ -1,5 +1,5 @@
 #include "mine/graphics/Texture.hpp"
-
+/*
 #include <GLFW/glfw3.h>
 #include <stb/stb_image.h>
 #include <iostream>
@@ -56,3 +56,4 @@ void Texture::unbind() const {
 }
 
 } // namespace mine
+*/

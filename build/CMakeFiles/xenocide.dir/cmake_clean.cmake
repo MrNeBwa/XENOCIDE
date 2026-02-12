@@ -4,8 +4,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/xenocide.dir/src/core/Application.cpp.o.d"
   "CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o"
   "CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o.d"
-  "CMakeFiles/xenocide.dir/src/graphics/Shader.cpp.o"
-  "CMakeFiles/xenocide.dir/src/graphics/Shader.cpp.o.d"
   "CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o"
   "CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o.d"
   "CMakeFiles/xenocide.dir/src/main.cpp.o"

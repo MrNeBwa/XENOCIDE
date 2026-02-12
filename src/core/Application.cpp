@@ -1,7 +1,10 @@
+#include <glad/glad.h>
 #include "mine/core/Application.hpp"
 #include "mine/graphics/Renderer.hpp"
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <cmath>
+#include <cstdlib>
 
 namespace mine {
 
@@ -24,11 +27,17 @@ Application::Application(int width, int height, const char* title) {
     }
     glfwMakeContextCurrent(m_window);
 
-    // GLAD НЕ НУЖЕН для базового 2D рендеринга!
-    // Функции OpenGL доступны напрямую через драйвер
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        std::cerr << "❌ GLAD init failed\n";
+        exit(1);
+    }
 
     std::cout << "✅ OpenGL " << glGetString(GL_VERSION) << "\n";
     m_renderer = new Renderer(width, height);
+    
+    // Стартуем с центра экрана
+    m_cameraPos = {width / 2.0f, height / 2.0f};
+    m_cameraTarget = m_cameraPos;
 }
 
 Application::~Application() {
@@ -43,35 +52,83 @@ void Application::processInput() {
 
     if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(m_window, true);
-
+    if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+        shakeCamera(10.0f, 0.3f); // Интенсивность 10, длительность 0.3 сек
+    }
+    // Движение игрока
     if (glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
-        m_playerX -= speed * deltaTime;
+        m_playerPos.x -= speed * deltaTime;
     if (glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
-        m_playerX += speed * deltaTime;
+        m_playerPos.x += speed * deltaTime;
     if (glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS || glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
-        m_playerY -= speed * deltaTime;
+        m_playerPos.y -= speed * deltaTime;
     if (glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_KEY_S)
-        m_playerY += speed * deltaTime;
+        m_playerPos.y += speed * deltaTime;
+
+    // Поворот игрока к курсору мыши
+    double mouseX, mouseY;
+    int winWidth, winHeight;
+    glfwGetCursorPos(m_window, &mouseX, &mouseY);
+    glfwGetWindowSize(m_window, &winWidth, &winHeight);
+
+    float screenMouseX = (float)mouseX;
+    float screenMouseY = (float)(winHeight - mouseY);
+
+    float dx = screenMouseX - m_playerPos.x;
+    float dy = screenMouseY - m_playerPos.y;
+    m_playerRotation = atan2(dy, dx);
 }
 
-void Application::update(float) {}
+void Application::update(float deltaTime) {
+    // Сглаживаем позицию камеры к позиции игрока
+    m_cameraTarget = m_playerPos;
+    m_cameraPos.x += (m_cameraTarget.x - m_cameraPos.x) * m_cameraSmooth;
+    m_cameraPos.y += (m_cameraTarget.y - m_cameraPos.y) * m_cameraSmooth;
 
+    // Обработка тряски камеры
+    if (m_cameraShakeDuration > 0.0f) {
+        m_cameraShakeTimer += deltaTime;
+        float progress = m_cameraShakeTimer / m_cameraShakeDuration;
+        m_cameraShakeIntensity = (1.0f - progress) * m_cameraShakeIntensity;
+        
+        if (progress >= 1.0f) {
+            m_cameraShakeDuration = 0.0f;
+            m_cameraShakeIntensity = 0.0f;
+            m_cameraShakeTimer = 0.0f;
+        }
+    }
+}
 
 void Application::render() {
+    // Генерируем случайные смещения для тряски камеры
+    float shakeX = 0.0f;
+    float shakeY = 0.0f;
+    if (m_cameraShakeIntensity > 0.0f) {
+        shakeX = (rand() % 100 - 50) / 100.0f * m_cameraShakeIntensity;
+        shakeY = (rand() % 100 - 50) / 100.0f * m_cameraShakeIntensity;
+    }
+
     m_renderer->beginFrame();
     
-    // Декорации корабля пришельцев
-    m_renderer->drawColoredQuad({200, 200}, {100, 100}, 0.2f, 0.6f, 0.8f); // синий
-    m_renderer->drawColoredQuad({600, 400}, {150, 80},  0.7f, 0.3f, 0.1f); // оранжевый
+    // Устанавливаем камеру с учётом тряски
+    m_renderer->setCameraPosition(m_cameraPos, {shakeX, shakeY});
     
-    // Игрок
-    m_renderer->drawColoredQuad({m_playerX, m_playerY}, {64, 64}, 0.9f, 0.2f, 0.8f); // розовый
+    // Карта корабля (большой серый квадрат)
+    m_renderer->drawQuad({0, 0}, {2000, 2000}, 0.3f, 0.3f, 0.3f); // Теперь карта больше экрана
+
+    // Декорации корабля пришельцев
+    m_renderer->drawQuad({200, 200}, {100, 100}, 0.2f, 0.6f, 0.8f); // Синий
+    m_renderer->drawQuad({600, 400}, {150, 80},  0.7f, 0.3f, 0.1f); // Оранжевый
+
+    // Игрок (розовый квадрат)
+    m_renderer->drawQuad(m_playerPos, {64, 64}, 0.9f, 0.2f, 0.8f, m_playerRotation);
 
     m_renderer->endFrame();
 }
 
 void Application::run() {
-    std::cout << "🎮 XENOCIDE running! Move with WASD/arrow keys. ESC to exit.\n";
+    std::cout << "\n🎮 XENOCIDE running! Move with WASD/arrow keys. Mouse to aim. ESC to exit.\n";
+    std::cout << "   Press SPACE to shake camera (like in Hotline Miami)\n\n";
 
     while (!glfwWindowShouldClose(m_window) && m_running) {
         float current = (float)glfwGetTime();
@@ -87,6 +144,13 @@ void Application::run() {
     }
 
     std::cout << "\n👋 Exited cleanly\n";
+}
+
+// Новая функция: тряска камеры
+void Application::shakeCamera(float intensity, float duration) {
+    m_cameraShakeIntensity = intensity;
+    m_cameraShakeDuration = duration;
+    m_cameraShakeTimer = 0.0f;
 }
 
 } // namespace mine
