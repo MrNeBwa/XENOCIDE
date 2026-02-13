@@ -100,29 +100,39 @@ void Application::processInput(float deltaTime) {
   m_playerPos.x = std::clamp(m_playerPos.x, 32.0f, 2000.0f - 32.0f);
   m_playerPos.y = std::clamp(m_playerPos.y, 32.0f, 2000.0f - 32.0f);
   // 1. Получаем координаты мыши (0,0 — левый верх окна)
-  double mouseX, mouseY;
-  glfwGetCursorPos(m_window, &mouseX, &mouseY);
-
   int winWidth, winHeight;
   glfwGetWindowSize(m_window, &winWidth, &winHeight);
 
-  // 2. ПЕРЕВОДИМ МЫШЬ В ВЕКТОР ОТНОСИТЕЛЬНО ЦЕНТРА ЭКРАНА
-  // Мы не считаем мировые координаты через камеру (это часто плодит ошибки),
-  // мы просто смотрим, куда направлен курсор относительно центра монитора.
-  float screenDirX =
-      static_cast<float>(mouseX) - (static_cast<float>(winWidth) * 0.5f);
-  float screenDirY =
-      (static_cast<float>(winHeight) * 0.5f) - static_cast<float>(mouseY);
+  double mouseX, mouseY;
+  glfwGetCursorPos(m_window, &mouseX, &mouseY);
 
-  // 3. СЧИТАЕМ УГОЛ
-  // ВАЖНО: atan2(y, x)
-  // screenDirY уже инвертирован выше, так что положительный Y — это "вверх" по
-  // экрану.
-  float angle = std::atan2(screenDirY, screenDirX);
+  // 2. Нормализуем координаты МЫШИ (чтобы 0,0 был левый НИЖНИЙ угол)
+  // GLFW дает Y сверху вниз, нам нужно снизу вверх.
+  float screenMouseX = static_cast<float>(mouseX);
+  float screenMouseY =
+      static_cast<float>(winHeight) - static_cast<float>(mouseY);
 
-  // 4. КОРРЕКЦИЯ ПОД ВЕРТИКАЛЬНЫЙ СПРАЙТ
-  // Если твой персонаж нарисован "лицом вверх", вычитаем 90 градусов (PI/2).
-  m_playerRotation = angle - 1.57079632679f;
+  // 3. Вычисляем координаты ИГРОКА на ЭКРАНЕ
+  // Если камера (m_cameraPos) смотрит в центр экрана, то позиция игрока на
+  // экране: (Игрок - Камера) + Половина_Экрана
+  float screenPlayerX =
+      (m_playerPos.x - m_cameraPos.x) + (static_cast<float>(winWidth) * 0.5f);
+  float screenPlayerY =
+      (m_playerPos.y - m_cameraPos.y) + (static_cast<float>(winHeight) * 0.5f);
+
+  // 4. Считаем вектор разницы (от игрока к мыши)
+  float dx = screenMouseX - screenPlayerX;
+  float dy = screenMouseY - screenPlayerY;
+
+  // 5. Считаем угол
+  // atan2(y, x) возвращает угол, где 0 радиан — это направление ВПРАВО (по оси
+  // X)
+  float angle = std::atan2(dy, dx);
+
+  // 6. КОРРЕКЦИЯ СПРАЙТА
+  // Если твой спрайт нарисован "носом" ВВЕРХ, нужно вычесть 90 градусов (PI/2),
+  // чтобы совместить "верх" спрайта с математическим "право".
+  m_playerRotation = angle - 1.57079632679f; // -90 градусов
 }
 
 void Application::update(float deltaTime) {
