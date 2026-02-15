@@ -3,6 +3,7 @@
 #include "mine/math/Vector2.hpp"
 #include <memory>
 #include <random> // ADD THIS FOR RANDOM ENGINE
+#include <vector>
 struct GLFWwindow;
 
 namespace mine {
@@ -21,7 +22,28 @@ private:
   void processInput(float deltaTime); // FIXED: added parameter
   void update(float deltaTime);
   void render();
+  struct Room {
+    Vector2 position;
+    Vector2 size;
+    int floorLevel;
+  };
 
+  struct Elevator {
+    Vector2 position;
+    int floorLevel;
+    bool active = false; // For visual feedback
+    int mCurrentFloor = 0;
+  }; // 0 = B1, 1 = G, 2 = F1
+  std::vector<Room> m_rooms;
+  std::vector<Elevator> m_elevators;
+  int m_currentFloor = 0;
+  bool m_elevatorCooldown = false;
+
+  // Window dimensions for UI
+  int m_windowWidth = 0;
+  int m_windowHeight = 0;
+  void generateFloors();
+  bool canUseElevator(const Vector2 &playerPos);
   GLFWwindow *m_window = nullptr;
   Renderer *m_renderer = nullptr;
   bool m_running = true;

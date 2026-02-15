@@ -89,7 +89,8 @@ Renderer::Renderer(int width, int height) : m_width(width), m_height(height) {
     std::cerr << "❌ Failed to create shader program!\n";
     exit(1);
   }
-
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   float vertices[] = {
       // pos      // tex
       -0.5f, -0.5f, 0.0f, 0.0f, // Bottom-left
