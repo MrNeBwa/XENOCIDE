@@ -1,12 +1,12 @@
 #pragma once
 
 #include "mine/math/Vector2.hpp"
+#include <memory>
 #include <random> // ADD THIS FOR RANDOM ENGINE
-
 struct GLFWwindow;
 
 namespace mine {
-
+class Texture;
 class Renderer;
 
 class Application {
@@ -26,7 +26,7 @@ private:
   Renderer *m_renderer = nullptr;
   bool m_running = true;
   float m_lastFrameTime = 0.0f;
-
+  std::shared_ptr<Texture> m_playerTexture;
   Vector2 m_playerPos; // Removed inconsistent default init
   float m_playerRotation = 0.0f;
 
