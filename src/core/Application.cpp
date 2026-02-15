@@ -5,14 +5,16 @@
 #include <GLFW/glfw3.h>
 
 // Теперь безопасно подключать остальное
+
 #include "mine/core/Application.hpp"
 #include "mine/graphics/Renderer.hpp"
+#include "mine/graphics/Texture.hpp"
 #include "mine/math/Vector2.hpp"
-
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
+#include <memory>
 #include <random>
 namespace mine {
 
@@ -50,7 +52,7 @@ Application::Application(int width, int height, const char *title)
     glfwTerminate();
     std::exit(1);
   }
-
+  m_playerTexture = std::make_shared<Texture>("assets/textures/player.png");
   // Start player at center of screen
   m_playerPos = {static_cast<float>(width) / 2.0f,
                  static_cast<float>(height) / 2.0f};
@@ -168,12 +170,14 @@ void Application::render() {
   m_renderer->setCameraPosition(m_cameraPos, shakeOffset);
 
   // Draw scene
-  m_renderer->drawQuad({0, 0}, {2000, 2000}, 0.3f, 0.3f, 0.3f);   // Background
-  m_renderer->drawQuad({200, 200}, {100, 100}, 0.2f, 0.6f, 0.8f); // Blue box
-  m_renderer->drawQuad({0, 0}, {150, 80}, 0.7f, 0.3f, 0.1f);      // Orange box
-  m_renderer->drawQuad(m_playerPos, {64, 64}, 0.9f, 0.2f, 0.8f,
-                       m_playerRotation); // Player
-
+  m_renderer->drawQuad({1000, 1000}, {2000, 2000}, 0.3f, 0.3f,
+                       0.3f);                                     // Background
+  m_renderer->drawQuad({250, 250}, {100, 100}, 0.2f, 0.6f, 0.8f); // Blue box
+  m_renderer->drawQuad({75, 40}, {150, 80}, 0.7f, 0.3f, 0.1f);    // Orange box
+  // m_renderer->drawQuad(m_playerPos, {64, 64}, 0.9f, 0.2f, 0.8f,
+  // m_playerRotation); // Player
+  m_renderer->drawQuad(m_playerPos, {64, 64}, m_playerTexture.get(),
+                       m_playerRotation);
   m_renderer->endFrame();
 }
 
