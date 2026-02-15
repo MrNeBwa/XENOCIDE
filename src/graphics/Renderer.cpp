@@ -5,6 +5,7 @@
 
 // Теперь безопасно подключать остальное
 #include "mine/graphics/Renderer.hpp"
+#include "mine/graphics/Texture.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -88,7 +89,8 @@ Renderer::Renderer(int width, int height) : m_width(width), m_height(height) {
     std::cerr << "❌ Failed to create shader program!\n";
     exit(1);
   }
-
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   float vertices[] = {
       // pos      // tex
       -0.5f, -0.5f, 0.0f, 0.0f, // Bottom-left
@@ -164,6 +166,33 @@ void Renderer::drawQuad(const Vector2 &pos, const Vector2 &size, float r,
   glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "model"), 1,
                      GL_FALSE, glm::value_ptr(model));
 
+  glBindVertexArray(m_vao);
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
+void Renderer::drawQuad(const Vector2 &pos, const Vector2 &size,
+                        const Texture *texture, float rotation) {
+  glUseProgram(m_shaderProgram);
+
+  // 1. Говорим шейдеру использовать текстуру
+  glUniform1i(glGetUniformLocation(m_shaderProgram, "useTexture"), 1); // true
+  glUniform1i(glGetUniformLocation(m_shaderProgram, "texture0"), 0);   // слот 0
+
+  // 2. Биндим текстуру
+  if (texture) {
+    texture->bind(0);
+  }
+
+  // 3. Матрица модели (Тот же код, что и раньше)
+  glm::mat4 model = glm::mat4(1.0f);
+  model = glm::translate(model, glm::vec3(pos.x, pos.y, 0.0f));
+  model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+  model = glm::scale(model, glm::vec3(size.x, size.y, 1.0f));
+
+  glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "model"), 1,
+                     GL_FALSE, glm::value_ptr(model));
+
+  // 4. Рисуем
   glBindVertexArray(m_vao);
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
