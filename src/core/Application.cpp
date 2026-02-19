@@ -1,10 +1,8 @@
 // ⚠️ GLAD ДОЛЖЕН БЫТЬ АБСОЛЮТНО ПЕРВЫМ — НИЧЕГО ДО ЭТОГО!
 #include <glad/glad.h>
-// ⚠️ GLFW — СТРОГО ВТОРЫМ, чтобы он увидел макросы GLAD и пропустил системные
-// заголовки
+// ⚠️ GLFW — СТРОГО ВТОРЫМ
 #include <GLFW/glfw3.h>
 
-// Теперь безопасно подключать остальное
 #include "mine/core/Application.hpp"
 #include "mine/graphics/Renderer.hpp"
 #include "mine/graphics/Texture.hpp"
@@ -16,26 +14,27 @@
 #include <memory>
 #include <random>
 #include <string>
-#include <vector> // Для хранения этажей
+#include <vector>
 
 namespace mine {
 
-// Локальные структуры для системы этажей (не требуют изменений в
-// Application.hpp)
-struct Room {
-  Vector2 position;
-  Vector2 size;
-  int floorLevel;
-};
-
-struct Elevator {
-  Vector2 position;
-  int floorLevel;
-};
+// Вспомогательная функция для расширения пути ~
+static std::string expandPath(const std::string &path) {
+  if (!path.empty() && path[0] == '~') {
+    const char *home = std::getenv("HOME");
+    if (!home)
+      home = std::getenv("USERPROFILE");
+    if (home)
+      return std::string(home) + path.substr(1);
+  }
+  return path;
+}
 
 Application::Application(int width, int height, const char *title)
     : m_lastFrameTime(static_cast<float>(glfwGetTime())), m_running(true),
-      m_randomEngine(std::random_device{}()), m_randomDist(-1.0f, 1.0f) {
+      m_randomEngine(std::random_device{}()), m_randomDist(-1.0f, 1.0f),
+      mWindowWidth(width), mWindowHeight(height) {
+
   if (!glfwInit()) {
     std::cerr << "❌ GLFW init failed\n";
     std::exit(1);
@@ -68,38 +67,16 @@ Application::Application(int width, int height, const char *title)
     std::exit(1);
   }
 
-  // ✅ Расширяем ~ до реального пути домашней директории
-  std::string texturePath = "~/Projects/XENOCIDE/assets/textures/player.png";
-  if (!texturePath.empty() && texturePath[0] == '~') {
-    const char *home = std::getenv("HOME"); // Unix-like (Linux/macOS)
-    if (!home) {
-      home = std::getenv("USERPROFILE"); // Windows
-    }
-    if (home) {
-      texturePath = std::string(home) + texturePath.substr(1);
-    } else {
-      std::cerr
-          << "⚠️  Warning: Could not expand '~' (HOME/USERPROFILE not set). "
-          << "Using raw path.\n";
-    }
-  }
+  // Загрузка текстуры игрока
+  m_playerTexture = std::make_shared<Texture>(
+      expandPath("~/Projects/XENOCIDE/assets/textures/player.png").c_str());
+  if (!m_playerTexture)
+    std::cerr << "⚠️  Texture load failed, using fallback\n";
 
-  m_playerTexture = std::make_shared<Texture>(texturePath.c_str());
-  if (!m_playerTexture) {
-    std::cerr << "⚠️  Texture allocation failed. Using colored fallback.\n";
-  }
-
-  // Сохраняем размеры окна для UI
-  m_windowWidth = width;
-  m_windowHeight = height;
-
-  // Start player at center of screen
   m_playerPos = {static_cast<float>(width) / 2.0f,
                  static_cast<float>(height) / 2.0f};
   m_cameraPos = m_playerPos;
-  m_cameraTarget = m_playerPos;
 
-  // Генерация этажей
   generateFloors();
 }
 
@@ -110,72 +87,125 @@ Application::~Application() {
 }
 
 void Application::generateFloors() {
-  const float worldSize = 2000.0f;
-  const float roomSize = 200.0f;
-  const float corridorWidth = 120.0f;
+  // Clear any existing data and use consistent world size
+  m_gameObjects.clear();
+  m_elevators.clear();
+  m_stairs.clear();
+
+  const float worldSize = m_worldSize;
   const float padding = 40.0f;
+  const float elevatorSize = 80.0f;
+  const float stairSize = 100.0f;
 
-  // Generate 3 floors
+  // === УНИКАЛЬНЫЕ ДАННЫЕ ДЛЯ КАЖДОГО ЭТАЖА ===
+  // Формат: {x, y, width, height, isSolid, texturePath}
+  // isSolid=true = стена (коллизия), false = декор/комната
+
+  struct FloorLayout {
+    float bgColor[3];
+    std::vector<std::vector<float>> objects; // {x, y, w, h, isSolid}
+  };
+
+  std::vector<FloorLayout> floors = {
+      // ЭТАЖ 0: B1 (Basement) - Тёмный, много стен
+      {{0.15f, 0.10f, 0.25f},
+       {
+           // Стены по периметру
+           {100, 100, 1800, 50, 1.0f},
+           {100, 1850, 1800, 50, 1.0f},
+           {100, 100, 50, 1800, 1.0f},
+           {1850, 100, 50, 1800, 1.0f},
+           // Внутренние стены (лабиринт)
+           {400, 400, 600, 50, 1.0f},
+           {1000, 600, 50, 400, 1.0f},
+           {600, 1000, 500, 50, 1.0f},
+           {1400, 400, 50, 600, 1.0f},
+           // Комнаты (не сплошные)
+           {300, 300, 200, 200, 0.0f},
+           {1500, 1500, 200, 200, 0.0f},
+       }},
+      // ЭТАЖ 1: G (Ground) - Открытый, мало стен
+      {{0.20f, 0.25f, 0.15f},
+       {
+           {100, 100, 1800, 50, 1.0f},
+           {100, 1850, 1800, 50, 1.0f},
+           {100, 100, 50, 1800, 1.0f},
+           {1850, 100, 50, 1800, 1.0f},
+           // Немного внутренних стен
+           {500, 500, 400, 50, 1.0f},
+           {1100, 1000, 400, 50, 1.0f},
+           // Большие комнаты
+           {300, 300, 300, 300, 0.0f},
+           {1400, 300, 300, 300, 0.0f},
+           {300, 1400, 300, 300, 0.0f},
+           {1400, 1400, 300, 300, 0.0f},
+       }},
+      // ЭТАЖ 2: F1 (First) - Сложная структура
+      {{0.25f, 0.15f, 0.15f},
+       {
+           {100, 100, 1800, 50, 1.0f},
+           {100, 1850, 1800, 50, 1.0f},
+           {100, 100, 50, 1800, 1.0f},
+           {1850, 100, 50, 1800, 1.0f},
+           // Крестообразные стены
+           {900, 100, 200, 800, 1.0f},
+           {900, 1100, 200, 800, 1.0f},
+           {100, 900, 800, 200, 1.0f},
+           {1100, 900, 800, 200, 1.0f},
+           // Комнаты по секторам
+           {200, 200, 400, 400, 0.0f},
+           {1400, 200, 400, 400, 0.0f},
+           {200, 1400, 400, 400, 0.0f},
+           {1400, 1400, 400, 400, 0.0f},
+       }}};
+
+  // Генерация объектов для каждого этажа
   for (int floor = 0; floor < 3; ++floor) {
-    // Rooms along top edge
-    for (float x = padding; x <= worldSize - roomSize - padding;
-         x += roomSize + corridorWidth) {
-      m_rooms.push_back({{x + roomSize / 2, worldSize - padding - roomSize / 2},
-                         {roomSize, roomSize},
-                         floor});
-    }
-    // Rooms along bottom edge
-    for (float x = padding; x <= worldSize - roomSize - padding;
-         x += roomSize + corridorWidth) {
-      m_rooms.push_back({{x + roomSize / 2, padding + roomSize / 2},
-                         {roomSize, roomSize},
-                         floor});
-    }
-    // Rooms along left edge (skip corners)
-    for (float y = padding + roomSize + corridorWidth;
-         y <= worldSize - roomSize - padding - roomSize - corridorWidth;
-         y += roomSize + corridorWidth) {
-      m_rooms.push_back({{padding + roomSize / 2, y + roomSize / 2},
-                         {roomSize, roomSize},
-                         floor});
-    }
-    // Rooms along right edge (skip corners)
-    for (float y = padding + roomSize + corridorWidth;
-         y <= worldSize - roomSize - padding - roomSize - corridorWidth;
-         y += roomSize + corridorWidth) {
-      m_rooms.push_back({{worldSize - padding - roomSize / 2, y + roomSize / 2},
-                         {roomSize, roomSize},
-                         floor});
+    for (const auto &obj : floors[floor].objects) {
+      GameObject go;
+      go.position = {obj[0] + obj[2] / 2, obj[1] + obj[3] / 2};
+      go.size = {obj[2], obj[3]};
+      go.floorLevel = floor;
+      go.isSolid = (obj[4] > 0.5f);
+      go.r = go.isSolid ? 0.5f : 0.4f + (floor * 0.1f);
+      go.g = go.isSolid ? 0.5f : 0.3f + (floor * 0.1f);
+      go.b = go.isSolid ? 0.6f : 0.5f - (floor * 0.1f);
+      go.texture = nullptr; // Можно добавить загрузку текстур здесь
+      m_gameObjects.push_back(go);
     }
 
-    // Elevators at 4 corners
-    float elevatorSize = 80.0f;
-    m_elevators.push_back(
-        {{padding + elevatorSize / 2, padding + elevatorSize / 2},
-         floor}); // Bottom-left
-    m_elevators.push_back(
-        {{worldSize - padding - elevatorSize / 2, padding + elevatorSize / 2},
-         floor}); // Bottom-right
-    m_elevators.push_back(
-        {{padding + elevatorSize / 2, worldSize - padding - elevatorSize / 2},
-         floor}); // Top-left
-    m_elevators.push_back({{worldSize - padding - elevatorSize / 2,
-                            worldSize - padding - elevatorSize / 2},
-                           floor}); // Top-right
+    // Лифты (2 угла: левый-низ и правый-верх)
+    // Place elevators a bit inside the padding so they are reachable inside walls
+    m_elevators.push_back({{padding + elevatorSize, padding + elevatorSize},
+                 floor,
+                 true});
+    m_elevators.push_back({{worldSize - padding - elevatorSize,
+                worldSize - padding - elevatorSize},
+                 floor,
+                 false});
+
+    // Лестницы (2 угла: правый-низ и левый-верх)
+    m_stairs.push_back(
+      {{worldSize - padding - stairSize, padding + stairSize}, floor, false});
+    m_stairs.push_back(
+      {{padding + stairSize, worldSize - padding - stairSize}, floor, true});
   }
 
-  std::cout << "✅ Generated 3 floors with " << m_rooms.size() << " rooms and "
-            << m_elevators.size() << " elevator positions\n";
+  std::cout << "✅ Generated 3 unique floors with " << m_gameObjects.size()
+            << " objects, " << m_elevators.size() << " elevators, "
+            << m_stairs.size() << " stairs\n";
 }
 
-bool Application::canUseElevator(const Vector2 &playerPos) {
-  const float interactionRadius = 100.0f;
-
-  for (const auto &elevator : m_elevators) {
-    if (elevator.floorLevel == m_currentFloor) {
+bool Application::canUseElevator(const Vector2 &playerPos,
+                                 Elevator **outElevator) {
+  const float interactionRadius = 120.0f;
+  for (auto &elevator : m_elevators) {
+    if (elevator.floorLevel == mCurrentFloor) {
       float dx = playerPos.x - elevator.position.x;
       float dy = playerPos.y - elevator.position.y;
       if (dx * dx + dy * dy < interactionRadius * interactionRadius) {
+        if (outElevator)
+          *outElevator = &elevator;
         return true;
       }
     }
@@ -183,15 +213,48 @@ bool Application::canUseElevator(const Vector2 &playerPos) {
   return false;
 }
 
+bool Application::canUseStair(const Vector2 &playerPos, Stair **outStair) {
+  const float interactionRadius = 120.0f;
+  for (auto &stair : m_stairs) {
+    if (stair.floorLevel == mCurrentFloor) {
+      float dx = playerPos.x - stair.position.x;
+      float dy = playerPos.y - stair.position.y;
+      if (dx * dx + dy * dy < interactionRadius * interactionRadius) {
+        if (outStair)
+          *outStair = &stair;
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+bool Application::checkWallCollision(const Vector2 &newPos, float radius) {
+  for (const auto &obj : m_gameObjects) {
+    if (obj.isSolid && obj.floorLevel == mCurrentFloor) {
+      // AABB vs Circle collision
+      float closestX = std::clamp(newPos.x, obj.position.x - obj.size.x / 2,
+                                  obj.position.x + obj.size.x / 2);
+      float closestY = std::clamp(newPos.y, obj.position.y - obj.size.y / 2,
+                                  obj.position.y + obj.size.y / 2);
+      float dx = newPos.x - closestX;
+      float dy = newPos.y - closestY;
+      if (dx * dx + dy * dy < radius * radius)
+        return true; // Collision!
+    }
+  }
+  return false;
+}
+
 void Application::processInput(float deltaTime) {
   constexpr float speed = 300.0f;
+  Vector2 desiredPos = m_playerPos;
 
-  // 1. Управление выходом
-  if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+  // 1. Выход
+  if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     m_running = false;
-  }
 
-  // 2. Тряска камеры (Space)
+  // 2. Тряска камеры
   if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS) {
     if (!m_hasShaken) {
       shakeCamera(10.0f, 0.3f);
@@ -201,88 +264,104 @@ void Application::processInput(float deltaTime) {
     m_hasShaken = false;
   }
 
-  // 3. Переключение этажа через лифт (клавиша E)
-  if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS && !m_elevatorCooldown) {
-    if (canUseElevator(m_playerPos)) {
-      m_currentFloor = (m_currentFloor + 1) % 3; // Cycle: 0 → 1 → 2 → 0
-      m_elevatorCooldown = true;
-
-      std::cout << "🛗 Switched to floor ";
-      switch (m_currentFloor) {
-      case 0:
-        std::cout << "B1 (Basement)";
-        break;
-      case 1:
-        std::cout << "G (Ground)";
-        break;
-      case 2:
-        std::cout << "F1 (First)";
-        break;
-      }
-      std::cout << "\n";
-    }
-  } else if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_RELEASE) {
-    m_elevatorCooldown = false;
-  }
-
-  // 4. Передвижение (WASD / Arrows)
+  // 3. Движение (с коллизией)
   if (glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS ||
       glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
-    m_playerPos.x -= speed * deltaTime;
+    desiredPos.x -= speed * deltaTime;
   if (glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS ||
       glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
-    m_playerPos.x += speed * deltaTime;
+    desiredPos.x += speed * deltaTime;
   if (glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS ||
       glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
-    m_playerPos.y += speed * deltaTime;
+    desiredPos.y += speed * deltaTime;
   if (glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_PRESS ||
       glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
-    m_playerPos.y -= speed * deltaTime;
+    desiredPos.y -= speed * deltaTime;
 
-  // Ограничение движения (Bounds)
+  // Проверка коллизий по осям отдельно (для скольжения вдоль стен)
+  if (!checkWallCollision({desiredPos.x, m_playerPos.y}, 30.0f))
+    m_playerPos.x = desiredPos.x;
+  if (!checkWallCollision({m_playerPos.x, desiredPos.y}, 30.0f))
+    m_playerPos.y = desiredPos.y;
+
+  // Ограничение мира
   m_playerPos.x = std::clamp(m_playerPos.x, 32.0f, 2000.0f - 32.0f);
   m_playerPos.y = std::clamp(m_playerPos.y, 32.0f, 2000.0f - 32.0f);
 
-  // 5. Вращение спрайта к мыши
+  // 4. Лифт - выбор этажа (клавиши 1, 2, 3)
+  Elevator *elevator = nullptr;
+  mNearElevator = canUseElevator(m_playerPos, &elevator);
+
+  if (mNearElevator && !mElevatorCooldown) {
+    if (glfwGetKey(m_window, GLFW_KEY_1) == GLFW_PRESS) {
+      mSelectedFloor = 0;
+      mElevatorCooldown = true;
+    } else if (glfwGetKey(m_window, GLFW_KEY_2) == GLFW_PRESS) {
+      mSelectedFloor = 1;
+      mElevatorCooldown = true;
+    } else if (glfwGetKey(m_window, GLFW_KEY_3) == GLFW_PRESS) {
+      mSelectedFloor = 2;
+      mElevatorCooldown = true;
+    }
+
+    if (mElevatorCooldown && mCurrentFloor != mSelectedFloor) {
+      mCurrentFloor = mSelectedFloor;
+      std::cout << "🛗 Teleported to floor " << (mCurrentFloor + 1) << "\n";
+    }
+  }
+  if (glfwGetKey(m_window, GLFW_KEY_1) == GLFW_RELEASE &&
+      glfwGetKey(m_window, GLFW_KEY_2) == GLFW_RELEASE &&
+      glfwGetKey(m_window, GLFW_KEY_3) == GLFW_RELEASE) {
+    mElevatorCooldown = false;
+  }
+
+  // 5. Лестница - переход на 1 этаж вверх/вниз (E / Q)
+  Stair *stair = nullptr;
+  if (canUseStair(m_playerPos, &stair)) {
+    if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS && !mElevatorCooldown) {
+      if (mCurrentFloor < 2) {
+        mCurrentFloor++;
+        mElevatorCooldown = true;
+        std::cout << "🪜 Went UP\n";
+      }
+    }
+    if (glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_PRESS && !mElevatorCooldown) {
+      if (mCurrentFloor > 0) {
+        mCurrentFloor--;
+        mElevatorCooldown = true;
+        std::cout << "🪜 Went DOWN\n";
+      }
+    }
+    if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_RELEASE &&
+        glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_RELEASE)
+      mElevatorCooldown = false;
+  }
+
+  // 6. Вращение к мыши
   int winWidth, winHeight;
   glfwGetWindowSize(m_window, &winWidth, &winHeight);
-
   double mouseX, mouseY;
   glfwGetCursorPos(m_window, &mouseX, &mouseY);
-
-  // Нормализуем координаты мыши (0,0 — левый нижний угол)
   float screenMouseX = static_cast<float>(mouseX);
   float screenMouseY =
       static_cast<float>(winHeight) - static_cast<float>(mouseY);
-
-  // Позиция игрока на экране относительно камеры
-  float screenPlayerX =
-      (m_playerPos.x - m_cameraPos.x) + (static_cast<float>(winWidth) * 0.5f);
-  float screenPlayerY =
-      (m_playerPos.y - m_cameraPos.y) + (static_cast<float>(winHeight) * 0.5f);
-
-  // Вектор от игрока к мыши
-  float dx = screenMouseX - screenPlayerX;
-  float dy = screenMouseY - screenPlayerY;
-
-  // Угол в радианах (0 = право)
-  float angle = std::atan2(dy, dx);
-
-  // Коррекция для спрайта, направленного вверх (вычитаем 90°)
-  m_playerRotation = angle - 1.57079632679f; // -π/2
+  float screenPlayerX = (m_playerPos.x - m_cameraPos.x) + (winWidth * 0.5f);
+  float screenPlayerY = (m_playerPos.y - m_cameraPos.y) + (winHeight * 0.5f);
+  float angle =
+      std::atan2(screenMouseY - screenPlayerY, screenMouseX - screenPlayerX);
+  // Sprite in art points upwards; rotate so it faces the mouse.
+  const float PI = 3.14159265358979323846f;
+  m_playerRotation = angle + (PI * 0.5f);
 }
 
 void Application::update(float deltaTime) {
-  // Smooth camera follow
   m_cameraPos.x += (m_playerPos.x - m_cameraPos.x) * m_cameraSmooth;
   m_cameraPos.y += (m_playerPos.y - m_cameraPos.y) * m_cameraSmooth;
 
-  // Camera shake decay
   if (m_cameraShakeDuration > 0.0f) {
     m_cameraShakeTimer += deltaTime;
     float progress = std::min(m_cameraShakeTimer / m_cameraShakeDuration, 1.0f);
     m_cameraShakeIntensity *= (1.0f - progress);
-
     if (progress >= 1.0f) {
       m_cameraShakeDuration = 0.0f;
       m_cameraShakeIntensity = 0.0f;
@@ -301,99 +380,103 @@ void Application::render() {
   m_renderer->beginFrame();
   m_renderer->setCameraPosition(m_cameraPos, shakeOffset);
 
-  // Floor background colors (darker for lower floors)
   const float floorColors[3][3] = {
-      {0.15f, 0.10f, 0.25f}, // B1: Dark purple
-      {0.20f, 0.25f, 0.15f}, // G:  Greenish
-      {0.25f, 0.15f, 0.15f}  // F1: Reddish
-  };
+      {0.15f, 0.10f, 0.25f}, {0.20f, 0.25f, 0.15f}, {0.25f, 0.15f, 0.15f}};
 
-  // Draw current floor background
-  m_renderer->drawQuad(
-      {1000, 1000}, {2000, 2000}, floorColors[m_currentFloor][0],
-      floorColors[m_currentFloor][1], floorColors[m_currentFloor][2]);
+  // Фон этажа
+  // Draw floor background using the configured world size
+  m_renderer->drawQuad({m_worldSize / 2.0f, m_worldSize / 2.0f}, {m_worldSize,
+                                                           m_worldSize},
+                        floorColors[mCurrentFloor][0],
+                        floorColors[mCurrentFloor][1],
+                        floorColors[mCurrentFloor][2], 0.0f);
 
-  // Draw rooms on current floor
-  for (const auto &room : m_rooms) {
-    if (room.floorLevel == m_currentFloor) {
-      float r = 0.4f + (static_cast<int>(room.position.x) % 2) * 0.15f;
-      float g = 0.3f + (static_cast<int>(room.position.y) % 2) * 0.15f;
-      float b = 0.5f - (room.floorLevel * 0.1f);
-      m_renderer->drawQuad(room.position, room.size, r, g, b);
-    }
-  }
-
-  // Draw elevators on current floor
-  const float elevatorSize = 80.0f;
-  for (const auto &elevator : m_elevators) {
-    if (elevator.floorLevel == m_currentFloor) {
-      float dx = m_playerPos.x - elevator.position.x;
-      float dy = m_playerPos.y - elevator.position.y;
-      bool nearby = (dx * dx + dy * dy < 150.0f * 150.0f);
-
-      float r = nearby ? 0.9f : 0.5f;
-      float g = nearby ? 0.3f : 0.3f;
-      float b = nearby ? 0.4f : 0.7f;
-
-      m_renderer->drawQuad(elevator.position, {elevatorSize, elevatorSize}, r,
-                           g, b);
-
-      // "E" indicator when nearby
-      if (nearby) {
-        // Horizontal bar of "E"
-        m_renderer->drawQuad(
-            {elevator.position.x - 15.0f, elevator.position.y + 25.0f}, {30, 8},
-            1.0f, 1.0f, 1.0f);
-        // Vertical bar of "E"
-        m_renderer->drawQuad(
-            {elevator.position.x - 25.0f, elevator.position.y + 5.0f}, {8, 40},
-            1.0f, 1.0f, 1.0f);
-        // Middle bar of "E"
-        m_renderer->drawQuad(
-            {elevator.position.x - 15.0f, elevator.position.y + 5.0f}, {20, 8},
-            1.0f, 1.0f, 1.0f);
+  // Объекты (стены и комнаты)
+  for (const auto &obj : m_gameObjects) {
+    if (obj.floorLevel == mCurrentFloor) {
+      if (obj.texture) {
+        m_renderer->drawQuad(obj.position, obj.size, obj.texture.get(), 0.0f);
+      } else {
+        m_renderer->drawQuad(obj.position, obj.size, obj.r, obj.g, obj.b, 0.0f);
       }
     }
   }
 
-  // Draw player (with fallback if texture loading failed)
+  // Лифты
+  for (const auto &elevator : m_elevators) {
+    if (elevator.floorLevel == mCurrentFloor) {
+      float dx = m_playerPos.x - elevator.position.x;
+      float dy = m_playerPos.y - elevator.position.y;
+      bool nearby = (dx * dx + dy * dy < 150.0f * 150.0f);
+      m_renderer->drawQuad(elevator.position, {80, 80}, nearby ? 0.9f : 0.5f,
+                           nearby ? 0.3f : 0.3f, nearby ? 0.4f : 0.7f, 0.0f);
+    }
+  }
+
+  // Лестницы
+  for (const auto &stair : m_stairs) {
+    if (stair.floorLevel == mCurrentFloor) {
+      float dx = m_playerPos.x - stair.position.x;
+      float dy = m_playerPos.y - stair.position.y;
+      bool nearby = (dx * dx + dy * dy < 150.0f * 150.0f);
+      // Рисуем ступеньки (3 полосы)
+      for (int i = 0; i < 3; ++i) {
+        m_renderer->drawQuad(
+            {stair.position.x, stair.position.y - 20.0f + i * 15.0f}, {100, 8},
+            nearby ? 0.8f : 0.6f, nearby ? 0.6f : 0.4f, nearby ? 0.2f : 0.3f,
+            0.0f);
+      }
+    }
+  }
+
+  // Игрок
   if (m_playerTexture) {
     m_renderer->drawQuad(m_playerPos, {64, 64}, m_playerTexture.get(),
                          m_playerRotation);
   } else {
-    // Fallback colored quad
     m_renderer->drawQuad(m_playerPos, {64, 64}, 0.9f, 0.2f, 0.8f,
                          m_playerRotation);
   }
 
-  // Floor indicator UI (top-left)
+  // UI: Панель лифта (если рядом)
+  if (mNearElevator) {
+    float uiX = m_playerPos.x - m_cameraPos.x + mWindowWidth * 0.5f;
+    float uiY = m_playerPos.y - m_cameraPos.y + mWindowHeight * 0.5f + 80.0f;
+
+    // Фон панели
+    m_renderer->drawQuad({uiX, uiY}, {200, 120}, 0.1f, 0.1f, 0.15f, 0.0f);
+    m_renderer->drawQuad({uiX, uiY}, {196, 116}, 0.2f, 0.2f, 0.25f, 0.0f);
+
+    // Кнопки этажей
+    for (int i = 0; i < 3; ++i) {
+      float btnY = uiY - 30.0f + i * 35.0f;
+      bool selected = (mSelectedFloor == i);
+      m_renderer->drawQuad({uiX, btnY}, {150, 25}, selected ? 0.9f : 0.3f,
+                           selected ? 0.3f : 0.3f, selected ? 0.4f : 0.3f,
+                           0.0f);
+      // Номер этажа (полоска)
+      m_renderer->drawQuad({uiX - 50.0f, btnY}, {30, 15}, 1.0f, 1.0f, 1.0f,
+                           0.0f);
+    }
+
+    // Подсказка
+    m_renderer->drawQuad({uiX, uiY + 50.0f}, {180, 15}, 0.7f, 0.7f, 0.7f, 0.0f);
+  }
+
+  // UI: Индикатор этажа (левый верхний угол)
   {
     float uiX = 50.0f;
-    float uiY = m_windowHeight - 50.0f;
-    const char *floorNames[3] = {"B1", "G", "F1"};
-
-    // Background bar
-    m_renderer->drawQuad({uiX, uiY}, {220, 40}, 0.05f, 0.05f, 0.1f);
-
-    // Floor labels
+    float uiY = mWindowHeight - 50.0f;
+    m_renderer->drawQuad({uiX, uiY}, {220, 40}, 0.05f, 0.05f, 0.1f, 0.0f);
     for (int i = 0; i < 3; ++i) {
       float labelX = uiX + i * 70.0f + 20.0f;
-      float labelY = uiY;
-
-      // Highlight current floor
-      if (i == m_currentFloor) {
-        m_renderer->drawQuad({labelX, labelY}, {50, 30},
-                             floorColors[i][0] * 1.8f, floorColors[i][1] * 1.8f,
-                             floorColors[i][2] * 1.8f);
+      if (i == mCurrentFloor) {
+        m_renderer->drawQuad({labelX, uiY}, {50, 30}, floorColors[i][0] * 1.8f,
+                             floorColors[i][1] * 1.8f, floorColors[i][2] * 1.8f,
+                             0.0f);
       }
-
-      // Floor name text (simplified as colored bars)
-      m_renderer->drawQuad({labelX - 15.0f, labelY + 5.0f}, {30, 8}, 1.0f, 1.0f,
-                           1.0f); // Top bar
-      m_renderer->drawQuad({labelX - 15.0f, labelY - 5.0f}, {30, 8}, 1.0f, 1.0f,
-                           1.0f); // Bottom bar
-      m_renderer->drawQuad({labelX - 15.0f, labelY}, {8, 18}, 1.0f, 1.0f,
-                           1.0f); // Vertical bar
+      m_renderer->drawQuad({labelX - 15.0f, uiY}, {30, 20}, 1.0f, 1.0f, 1.0f,
+                           0.0f);
     }
   }
 
@@ -402,8 +485,10 @@ void Application::render() {
 
 void Application::run() {
   std::cout << "\n🎮 XENOCIDE running!\n";
-  std::cout << "   WASD/Arrows — move | Mouse — aim | SPACE — shake camera\n";
-  std::cout << "   E — use elevator (when near corner) | ESC — exit\n\n";
+  std::cout << "   WASD — move | Mouse — aim | SPACE — shake\n";
+  std::cout
+      << "   1/2/3 — elevator floors (when near) | E/Q — stairs up/down\n";
+  std::cout << "   ESC — exit\n\n";
 
   while (!glfwWindowShouldClose(m_window) && m_running) {
     float currentTime = static_cast<float>(glfwGetTime());
@@ -417,7 +502,6 @@ void Application::run() {
     glfwSwapBuffers(m_window);
     glfwPollEvents();
   }
-
   std::cout << "\n👋 Exited cleanly\n";
 }
 
