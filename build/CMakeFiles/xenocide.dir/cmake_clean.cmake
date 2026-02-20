@@ -8,6 +8,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o.d"
   "CMakeFiles/xenocide.dir/src/main.cpp.o"
   "CMakeFiles/xenocide.dir/src/main.cpp.o.d"
+  "CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o"
+  "CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o.d"
   "xenocide"
   "xenocide.pdb"
 )

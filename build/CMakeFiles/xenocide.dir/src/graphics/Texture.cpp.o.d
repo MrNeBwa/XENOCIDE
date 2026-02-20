@@ -105,8 +105,6 @@ CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o: \
  /usr/include/c++/15.2.1/bits/uses_allocator.h \
  /usr/include/c++/15.2.1/bits/uses_allocator_args.h \
  /usr/include/c++/15.2.1/tuple \
- /home/NeBwa/Projects/XENOCIDE/third_party/stb/stb_image.h \
- /usr/include/c++/15.2.1/stdlib.h \
  /home/NeBwa/Projects/XENOCIDE/include/glad/glad.h \
  /home/NeBwa/Projects/XENOCIDE/third_party/glad/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdint.h \
@@ -153,7 +151,9 @@ CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o: \
  /usr/include/c++/15.2.1/bits/locale_facets.tcc \
  /usr/include/c++/15.2.1/bits/basic_ios.tcc \
  /usr/include/c++/15.2.1/bits/ostream.tcc /usr/include/c++/15.2.1/istream \
- /usr/include/c++/15.2.1/bits/istream.tcc /usr/include/string.h \
+ /usr/include/c++/15.2.1/bits/istream.tcc \
+ /home/NeBwa/Projects/XENOCIDE/third_party/stb/stb_image.h \
+ /usr/include/c++/15.2.1/stdlib.h /usr/include/string.h \
  /usr/include/strings.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/limits.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/syslimits.h \

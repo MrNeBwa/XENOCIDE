@@ -322,6 +322,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/scene/TileMap.o: src/scene/TileMap.cpp.o
+.PHONY : src/scene/TileMap.o
+
+# target to build an object file
+src/scene/TileMap.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o
+.PHONY : src/scene/TileMap.cpp.o
+
+src/scene/TileMap.i: src/scene/TileMap.cpp.i
+.PHONY : src/scene/TileMap.i
+
+# target to preprocess a source file
+src/scene/TileMap.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.i
+.PHONY : src/scene/TileMap.cpp.i
+
+src/scene/TileMap.s: src/scene/TileMap.cpp.s
+.PHONY : src/scene/TileMap.s
+
+# target to generate assembly for a file
+src/scene/TileMap.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.s
+.PHONY : src/scene/TileMap.cpp.s
+
 third_party/glad/src/glad.o: third_party/glad/src/glad.c.o
 .PHONY : third_party/glad/src/glad.o
 
@@ -375,6 +399,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/scene/TileMap.o"
+	@echo "... src/scene/TileMap.i"
+	@echo "... src/scene/TileMap.s"
 	@echo "... third_party/glad/src/glad.o"
 	@echo "... third_party/glad/src/glad.i"
 	@echo "... third_party/glad/src/glad.s"

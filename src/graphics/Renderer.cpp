@@ -213,4 +213,12 @@ void Renderer::setCameraPosition(const Vector2 &pos, const Vector2 &shake) {
                      GL_FALSE, glm::value_ptr(proj));
 }
 
+void Renderer::beginScreenSpace() {
+  glm::mat4 proj =
+      glm::ortho(0.0f, (float)m_width, 0.0f, (float)m_height, -1.0f, 1.0f);
+  glUseProgram(m_shaderProgram);
+  glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "projection"), 1,
+                     GL_FALSE, glm::value_ptr(proj));
+}
+
 } // namespace mine

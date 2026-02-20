@@ -25,6 +25,7 @@ set(SOURCES
     src/graphics/Renderer.cpp
     # src/graphics/Shader.cpp
     src/graphics/Texture.cpp
+    src/scene/TileMap.cpp
 )
 
 # Исполняемый файл

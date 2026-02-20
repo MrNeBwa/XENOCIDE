@@ -6,6 +6,7 @@ xenocide: \
   CMakeFiles/xenocide.dir/src/core/Application.cpp.o \
   CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o \
   CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o \
+  CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o \
   third_party/glfw/src/libglfw3.a \
   libglad.a \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libdl.a \
@@ -65,6 +66,8 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o:
 CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o:
 
 CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o:
+
+CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o:
 
 third_party/glfw/src/libglfw3.a:
 

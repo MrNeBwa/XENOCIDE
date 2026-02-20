@@ -18,6 +18,9 @@ public:
   void drawQuad(const Vector2 &pos, const Vector2 &size,
                 const class Texture *texture, float rotation = 0.0f);
 
+  // Switch projection to screen-space (pixel coords, origin bottom-left)
+  void beginScreenSpace();
+
 private:
   unsigned int m_shaderProgram = 0;
   unsigned int m_vao = 0;

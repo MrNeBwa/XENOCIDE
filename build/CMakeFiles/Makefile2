@@ -187,12 +187,12 @@ CMakeFiles/xenocide.dir/all: CMakeFiles/glad.dir/all
 CMakeFiles/xenocide.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=49,50,51,52,53 "Built target xenocide"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=49,50,51,52,53,54 "Built target xenocide"
 .PHONY : CMakeFiles/xenocide.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/xenocide.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/NeBwa/Projects/XENOCIDE/build/CMakeFiles 52
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/NeBwa/Projects/XENOCIDE/build/CMakeFiles 53
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/xenocide.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/NeBwa/Projects/XENOCIDE/build/CMakeFiles 0
 .PHONY : CMakeFiles/xenocide.dir/rule
@@ -204,7 +204,7 @@ xenocide: CMakeFiles/xenocide.dir/rule
 # codegen rule for target.
 CMakeFiles/xenocide.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=49,50,51,52,53 "Finished codegen for target xenocide"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=49,50,51,52,53,54 "Finished codegen for target xenocide"
 .PHONY : CMakeFiles/xenocide.dir/codegen
 
 # clean rule for target.

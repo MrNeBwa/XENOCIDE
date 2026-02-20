@@ -1,0 +1,33 @@
+# XENOCIDE — Floor G (Ground)
+tilesize 100
+bgcolor 0.20 0.25 0.15
+
+# symbol solid R G B [texture_file]
+tile W 1 0.50 0.50 0.55
+tile . 0 0.28 0.32 0.22
+tile R 0 0.38 0.38 0.28
+tile E 0 0.50 0.30 0.70
+tile S 0 0.60 0.40 0.30
+tile P 0 0.28 0.32 0.22
+
+grid
+WWWWWWWWWWWWWWWWWWWW
+WE................WW
+W..RRR.....RRRR..WW
+W..R.........R...WW
+W..R.........R...WW
+W..RRR.......R...WW
+W.........P......WW
+W................SWW
+W.................WW
+W.................WW
+W.....WWWWWWW.....WW
+W.....W...........WW
+W.....W...........WW
+W.....W...........WW
+W.................WW
+W..........RRRR..WW
+W..........R..R..WW
+W..........RRRR..WW
+W................EWWW
+WWWWWWWWWWWWWWWWWWWW

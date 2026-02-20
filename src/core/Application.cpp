@@ -7,6 +7,8 @@
 #include "mine/graphics/Renderer.hpp"
 #include "mine/graphics/Texture.hpp"
 #include "mine/math/Vector2.hpp"
+#include "mine/scene/TileMap.hpp"
+#include "mine/utils/TextureManager.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
@@ -18,7 +20,6 @@
 
 namespace mine {
 
-// Вспомогательная функция для расширения пути ~
 static std::string expandPath(const std::string &path) {
   if (!path.empty() && path[0] == '~') {
     const char *home = std::getenv("HOME");
@@ -29,6 +30,8 @@ static std::string expandPath(const std::string &path) {
   }
   return path;
 }
+
+// ─────────────────────── ctor / dtor ───────────────────────
 
 Application::Application(int width, int height, const char *title)
     : m_lastFrameTime(static_cast<float>(glfwGetTime())), m_running(true),
@@ -67,17 +70,14 @@ Application::Application(int width, int height, const char *title)
     std::exit(1);
   }
 
-  // Загрузка текстуры игрока
-  m_playerTexture = std::make_shared<Texture>(
-      expandPath("~/Projects/XENOCIDE/assets/textures/player.png").c_str());
-  if (!m_playerTexture)
-    std::cerr << "⚠️  Texture load failed, using fallback\n";
+  m_assetsDir = expandPath("~/Projects/XENOCIDE/assets");
 
-  m_playerPos = {static_cast<float>(width) / 2.0f,
-                 static_cast<float>(height) / 2.0f};
-  m_cameraPos = m_playerPos;
+  // Player texture
+  m_playerTexture =
+      m_texManager.load(m_assetsDir + "/textures/player.png");
 
-  generateFloors();
+  // Load tile maps
+  loadMaps();
 }
 
 Application::~Application() {
@@ -86,175 +86,48 @@ Application::~Application() {
   glfwTerminate();
 }
 
-void Application::generateFloors() {
-  // Clear any existing data and use consistent world size
-  m_gameObjects.clear();
-  m_elevators.clear();
-  m_stairs.clear();
+// ─────────────────────── map loading ───────────────────────
 
-  const float worldSize = m_worldSize;
-  const float padding = 40.0f;
-  const float elevatorSize = 80.0f;
-  const float stairSize = 100.0f;
+void Application::loadMaps() {
+  std::string mapDir = m_assetsDir + "/maps/";
 
-  // === УНИКАЛЬНЫЕ ДАННЫЕ ДЛЯ КАЖДОГО ЭТАЖА ===
-  // Формат: {x, y, width, height, isSolid, texturePath}
-  // isSolid=true = стена (коллизия), false = декор/комната
+  m_floors.resize(3);
+  const char *files[] = {"floor0.map", "floor1.map", "floor2.map"};
 
-  struct FloorLayout {
-    float bgColor[3];
-    std::vector<std::vector<float>> objects; // {x, y, w, h, isSolid}
-  };
-
-  std::vector<FloorLayout> floors = {
-      // ЭТАЖ 0: B1 (Basement) - Тёмный, много стен
-      {{0.15f, 0.10f, 0.25f},
-       {
-           // Стены по периметру
-           {100, 100, 1800, 50, 1.0f},
-           {100, 1850, 1800, 50, 1.0f},
-           {100, 100, 50, 1800, 1.0f},
-           {1850, 100, 50, 1800, 1.0f},
-           // Внутренние стены (лабиринт)
-           {400, 400, 600, 50, 1.0f},
-           {1000, 600, 50, 400, 1.0f},
-           {600, 1000, 500, 50, 1.0f},
-           {1400, 400, 50, 600, 1.0f},
-           // Комнаты (не сплошные)
-           {300, 300, 200, 200, 0.0f},
-           {1500, 1500, 200, 200, 0.0f},
-       }},
-      // ЭТАЖ 1: G (Ground) - Открытый, мало стен
-      {{0.20f, 0.25f, 0.15f},
-       {
-           {100, 100, 1800, 50, 1.0f},
-           {100, 1850, 1800, 50, 1.0f},
-           {100, 100, 50, 1800, 1.0f},
-           {1850, 100, 50, 1800, 1.0f},
-           // Немного внутренних стен
-           {500, 500, 400, 50, 1.0f},
-           {1100, 1000, 400, 50, 1.0f},
-           // Большие комнаты
-           {300, 300, 300, 300, 0.0f},
-           {1400, 300, 300, 300, 0.0f},
-           {300, 1400, 300, 300, 0.0f},
-           {1400, 1400, 300, 300, 0.0f},
-       }},
-      // ЭТАЖ 2: F1 (First) - Сложная структура
-      {{0.25f, 0.15f, 0.15f},
-       {
-           {100, 100, 1800, 50, 1.0f},
-           {100, 1850, 1800, 50, 1.0f},
-           {100, 100, 50, 1800, 1.0f},
-           {1850, 100, 50, 1800, 1.0f},
-           // Крестообразные стены
-           {900, 100, 200, 800, 1.0f},
-           {900, 1100, 200, 800, 1.0f},
-           {100, 900, 800, 200, 1.0f},
-           {1100, 900, 800, 200, 1.0f},
-           // Комнаты по секторам
-           {200, 200, 400, 400, 0.0f},
-           {1400, 200, 400, 400, 0.0f},
-           {200, 1400, 400, 400, 0.0f},
-           {1400, 1400, 400, 400, 0.0f},
-       }}};
-
-  // Генерация объектов для каждого этажа
-  for (int floor = 0; floor < 3; ++floor) {
-    for (const auto &obj : floors[floor].objects) {
-      GameObject go;
-      go.position = {obj[0] + obj[2] / 2, obj[1] + obj[3] / 2};
-      go.size = {obj[2], obj[3]};
-      go.floorLevel = floor;
-      go.isSolid = (obj[4] > 0.5f);
-      go.r = go.isSolid ? 0.5f : 0.4f + (floor * 0.1f);
-      go.g = go.isSolid ? 0.5f : 0.3f + (floor * 0.1f);
-      go.b = go.isSolid ? 0.6f : 0.5f - (floor * 0.1f);
-      go.texture = nullptr; // Можно добавить загрузку текстур здесь
-      m_gameObjects.push_back(go);
-    }
-
-    // Лифты (2 угла: левый-низ и правый-верх)
-    // Place elevators a bit inside the padding so they are reachable inside walls
-    m_elevators.push_back({{padding + elevatorSize, padding + elevatorSize},
-                 floor,
-                 true});
-    m_elevators.push_back({{worldSize - padding - elevatorSize,
-                worldSize - padding - elevatorSize},
-                 floor,
-                 false});
-
-    // Лестницы (2 угла: правый-низ и левый-верх)
-    m_stairs.push_back(
-      {{worldSize - padding - stairSize, padding + stairSize}, floor, false});
-    m_stairs.push_back(
-      {{padding + stairSize, worldSize - padding - stairSize}, floor, true});
-  }
-
-  std::cout << "✅ Generated 3 unique floors with " << m_gameObjects.size()
-            << " objects, " << m_elevators.size() << " elevators, "
-            << m_stairs.size() << " stairs\n";
-}
-
-bool Application::canUseElevator(const Vector2 &playerPos,
-                                 Elevator **outElevator) {
-  const float interactionRadius = 120.0f;
-  for (auto &elevator : m_elevators) {
-    if (elevator.floorLevel == mCurrentFloor) {
-      float dx = playerPos.x - elevator.position.x;
-      float dy = playerPos.y - elevator.position.y;
-      if (dx * dx + dy * dy < interactionRadius * interactionRadius) {
-        if (outElevator)
-          *outElevator = &elevator;
-        return true;
-      }
+  for (int i = 0; i < 3; ++i) {
+    if (!m_floors[i].load(mapDir + files[i], m_texManager, m_assetsDir)) {
+      std::cerr << "⚠️  Failed to load " << files[i] << "\n";
     }
   }
-  return false;
+
+  // Spawn on ground floor (floor index 1)
+  mCurrentFloor = 1;
+  if (mCurrentFloor < static_cast<int>(m_floors.size())) {
+    m_playerPos = m_floors[mCurrentFloor].findSpawn();
+  } else {
+    m_playerPos = {1000.0f, 1000.0f};
+  }
+  m_cameraPos = m_playerPos;
 }
 
-bool Application::canUseStair(const Vector2 &playerPos, Stair **outStair) {
-  const float interactionRadius = 120.0f;
-  for (auto &stair : m_stairs) {
-    if (stair.floorLevel == mCurrentFloor) {
-      float dx = playerPos.x - stair.position.x;
-      float dy = playerPos.y - stair.position.y;
-      if (dx * dx + dy * dy < interactionRadius * interactionRadius) {
-        if (outStair)
-          *outStair = &stair;
-        return true;
-      }
-    }
-  }
-  return false;
-}
+// ─────────────────────── collision ─────────────────────────
 
 bool Application::checkWallCollision(const Vector2 &newPos, float radius) {
-  for (const auto &obj : m_gameObjects) {
-    if (obj.isSolid && obj.floorLevel == mCurrentFloor) {
-      // AABB vs Circle collision
-      float closestX = std::clamp(newPos.x, obj.position.x - obj.size.x / 2,
-                                  obj.position.x + obj.size.x / 2);
-      float closestY = std::clamp(newPos.y, obj.position.y - obj.size.y / 2,
-                                  obj.position.y + obj.size.y / 2);
-      float dx = newPos.x - closestX;
-      float dy = newPos.y - closestY;
-      if (dx * dx + dy * dy < radius * radius)
-        return true; // Collision!
-    }
-  }
-  return false;
+  if (mCurrentFloor < 0 || mCurrentFloor >= static_cast<int>(m_floors.size()))
+    return false;
+  return m_floors[mCurrentFloor].checkCollision(newPos, radius);
 }
+
+// ─────────────────────── input ─────────────────────────────
 
 void Application::processInput(float deltaTime) {
   constexpr float speed = 300.0f;
   Vector2 desiredPos = m_playerPos;
 
-  // 1. Выход
   if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     m_running = false;
 
-  // 2. Тряска камеры
+  // Camera shake
   if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS) {
     if (!m_hasShaken) {
       shakeCamera(10.0f, 0.3f);
@@ -264,7 +137,7 @@ void Application::processInput(float deltaTime) {
     m_hasShaken = false;
   }
 
-  // 3. Движение (с коллизией)
+  // WASD movement
   if (glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS ||
       glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
     desiredPos.x -= speed * deltaTime;
@@ -278,66 +151,21 @@ void Application::processInput(float deltaTime) {
       glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
     desiredPos.y -= speed * deltaTime;
 
-  // Проверка коллизий по осям отдельно (для скольжения вдоль стен)
+  // Per-axis collision (slide along walls)
   if (!checkWallCollision({desiredPos.x, m_playerPos.y}, 30.0f))
     m_playerPos.x = desiredPos.x;
   if (!checkWallCollision({m_playerPos.x, desiredPos.y}, 30.0f))
     m_playerPos.y = desiredPos.y;
 
-  // Ограничение мира
-  m_playerPos.x = std::clamp(m_playerPos.x, 32.0f, 2000.0f - 32.0f);
-  m_playerPos.y = std::clamp(m_playerPos.y, 32.0f, 2000.0f - 32.0f);
-
-  // 4. Лифт - выбор этажа (клавиши 1, 2, 3)
-  Elevator *elevator = nullptr;
-  mNearElevator = canUseElevator(m_playerPos, &elevator);
-
-  if (mNearElevator && !mElevatorCooldown) {
-    if (glfwGetKey(m_window, GLFW_KEY_1) == GLFW_PRESS) {
-      mSelectedFloor = 0;
-      mElevatorCooldown = true;
-    } else if (glfwGetKey(m_window, GLFW_KEY_2) == GLFW_PRESS) {
-      mSelectedFloor = 1;
-      mElevatorCooldown = true;
-    } else if (glfwGetKey(m_window, GLFW_KEY_3) == GLFW_PRESS) {
-      mSelectedFloor = 2;
-      mElevatorCooldown = true;
-    }
-
-    if (mElevatorCooldown && mCurrentFloor != mSelectedFloor) {
-      mCurrentFloor = mSelectedFloor;
-      std::cout << "🛗 Teleported to floor " << (mCurrentFloor + 1) << "\n";
-    }
-  }
-  if (glfwGetKey(m_window, GLFW_KEY_1) == GLFW_RELEASE &&
-      glfwGetKey(m_window, GLFW_KEY_2) == GLFW_RELEASE &&
-      glfwGetKey(m_window, GLFW_KEY_3) == GLFW_RELEASE) {
-    mElevatorCooldown = false;
+  // Clamp to world bounds
+  if (mCurrentFloor >= 0 && mCurrentFloor < static_cast<int>(m_floors.size())) {
+    float ww = m_floors[mCurrentFloor].getWorldWidth();
+    float wh = m_floors[mCurrentFloor].getWorldHeight();
+    m_playerPos.x = std::clamp(m_playerPos.x, 32.0f, ww - 32.0f);
+    m_playerPos.y = std::clamp(m_playerPos.y, 32.0f, wh - 32.0f);
   }
 
-  // 5. Лестница - переход на 1 этаж вверх/вниз (E / Q)
-  Stair *stair = nullptr;
-  if (canUseStair(m_playerPos, &stair)) {
-    if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS && !mElevatorCooldown) {
-      if (mCurrentFloor < 2) {
-        mCurrentFloor++;
-        mElevatorCooldown = true;
-        std::cout << "🪜 Went UP\n";
-      }
-    }
-    if (glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_PRESS && !mElevatorCooldown) {
-      if (mCurrentFloor > 0) {
-        mCurrentFloor--;
-        mElevatorCooldown = true;
-        std::cout << "🪜 Went DOWN\n";
-      }
-    }
-    if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_RELEASE &&
-        glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_RELEASE)
-      mElevatorCooldown = false;
-  }
-
-  // 6. Вращение к мыши
+  // ── Mouse aim → rotation (FIXED: was + PI/2, now - PI/2) ──
   int winWidth, winHeight;
   glfwGetWindowSize(m_window, &winWidth, &winHeight);
   double mouseX, mouseY;
@@ -349,10 +177,156 @@ void Application::processInput(float deltaTime) {
   float screenPlayerY = (m_playerPos.y - m_cameraPos.y) + (winHeight * 0.5f);
   float angle =
       std::atan2(screenMouseY - screenPlayerY, screenMouseX - screenPlayerX);
-  // Sprite in art points upwards; rotate so it faces the mouse.
-  const float PI = 3.14159265358979323846f;
-  m_playerRotation = angle + (PI * 0.5f);
+  constexpr float PI = 3.14159265358979323846f;
+  m_playerRotation = angle - (PI * 0.5f);
+
+  // ── Elevator interaction (E tiles) ──
+  mNearElevator = false;
+  if (mCurrentFloor >= 0 && mCurrentFloor < static_cast<int>(m_floors.size())) {
+    auto elevPositions = m_floors[mCurrentFloor].findTiles('E');
+    for (const auto &ep : elevPositions) {
+      float dx = m_playerPos.x - ep.x;
+      float dy = m_playerPos.y - ep.y;
+      if (dx * dx + dy * dy < 120.0f * 120.0f) {
+        mNearElevator = true;
+        break;
+      }
+    }
+  }
+
+  if (!m_editorMode && mNearElevator && !mElevatorCooldown) {
+    if (glfwGetKey(m_window, GLFW_KEY_1) == GLFW_PRESS) {
+      mSelectedFloor = 0;
+      mElevatorCooldown = true;
+    } else if (glfwGetKey(m_window, GLFW_KEY_2) == GLFW_PRESS) {
+      mSelectedFloor = 1;
+      mElevatorCooldown = true;
+    } else if (glfwGetKey(m_window, GLFW_KEY_3) == GLFW_PRESS) {
+      mSelectedFloor = 2;
+      mElevatorCooldown = true;
+    }
+    if (mElevatorCooldown && mCurrentFloor != mSelectedFloor) {
+      mCurrentFloor = mSelectedFloor;
+      std::cout << "🛗 Floor " << (mCurrentFloor + 1) << "\n";
+    }
+  }
+  if (glfwGetKey(m_window, GLFW_KEY_1) == GLFW_RELEASE &&
+      glfwGetKey(m_window, GLFW_KEY_2) == GLFW_RELEASE &&
+      glfwGetKey(m_window, GLFW_KEY_3) == GLFW_RELEASE)
+    mElevatorCooldown = false;
+
+  // ── Stair interaction (S tiles) ──
+  bool nearStair = false;
+  if (mCurrentFloor >= 0 && mCurrentFloor < static_cast<int>(m_floors.size())) {
+    auto stairPositions = m_floors[mCurrentFloor].findTiles('S');
+    for (const auto &sp : stairPositions) {
+      float dx = m_playerPos.x - sp.x;
+      float dy = m_playerPos.y - sp.y;
+      if (dx * dx + dy * dy < 120.0f * 120.0f) {
+        nearStair = true;
+        break;
+      }
+    }
+  }
+
+  if (nearStair) {
+    if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS && !mElevatorCooldown) {
+      if (mCurrentFloor < 2) {
+        mCurrentFloor++;
+        mElevatorCooldown = true;
+        std::cout << "🪜 UP → floor " << (mCurrentFloor + 1) << "\n";
+      }
+    }
+    if (glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_PRESS && !mElevatorCooldown) {
+      if (mCurrentFloor > 0) {
+        mCurrentFloor--;
+        mElevatorCooldown = true;
+        std::cout << "🪜 DOWN → floor " << (mCurrentFloor + 1) << "\n";
+      }
+    }
+    if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_RELEASE &&
+        glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_RELEASE)
+      mElevatorCooldown = false;
+  }
+
+  // ── Editor toggle (F1) ──
+  if (glfwGetKey(m_window, GLFW_KEY_F1) == GLFW_PRESS) {
+    if (!m_f1Pressed) {
+      m_editorMode = !m_editorMode;
+      m_f1Pressed = true;
+      std::cout << (m_editorMode ? "📝 Editor ON  (LMB=place RMB=erase []=cycle F5=save)\n"
+                                 : "📝 Editor OFF\n");
+    }
+  } else {
+    m_f1Pressed = false;
+  }
+
+  // ── Editor input ──
+  if (m_editorMode && mCurrentFloor >= 0 &&
+      mCurrentFloor < static_cast<int>(m_floors.size())) {
+
+    auto &map = m_floors[mCurrentFloor];
+    const auto &defs = map.getTileDefs();
+    int numDefs = static_cast<int>(defs.size());
+
+    // Bracket keys cycle tile selection
+    if (glfwGetKey(m_window, GLFW_KEY_RIGHT_BRACKET) == GLFW_PRESS) {
+      if (!m_bracketPressed) {
+        m_editorTileIndex = (m_editorTileIndex + 1) % numDefs;
+        if (m_editorTileIndex == 0)
+          m_editorTileIndex = 1; // skip empty
+        m_bracketPressed = true;
+        std::cout << "🎨 Tile: '" << defs[m_editorTileIndex].symbol << "'\n";
+      }
+    } else if (glfwGetKey(m_window, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS) {
+      if (!m_bracketPressed) {
+        m_editorTileIndex--;
+        if (m_editorTileIndex <= 0)
+          m_editorTileIndex = numDefs - 1;
+        m_bracketPressed = true;
+        std::cout << "🎨 Tile: '" << defs[m_editorTileIndex].symbol << "'\n";
+      }
+    } else {
+      m_bracketPressed = false;
+    }
+
+    // Clamp tile index
+    if (m_editorTileIndex >= numDefs)
+      m_editorTileIndex = 1;
+
+    // Mouse world position
+    float worldMouseX =
+        m_cameraPos.x + (static_cast<float>(mouseX) - mWindowWidth / 2.0f);
+    float worldMouseY =
+        m_cameraPos.y + (mWindowHeight / 2.0f - static_cast<float>(mouseY));
+    auto [gx, gy] = map.worldToGrid({worldMouseX, worldMouseY});
+
+    // LMB → place tile
+    if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+      if (gx >= 0 && gx < map.getWidth() && gy >= 0 && gy < map.getHeight())
+        map.setTile(gx, gy, defs[m_editorTileIndex].symbol);
+    }
+    // RMB → erase (set to floor '.')
+    if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
+      if (gx >= 0 && gx < map.getWidth() && gy >= 0 && gy < map.getHeight())
+        map.setTile(gx, gy, '.');
+    }
+
+    // F5 → save current floor
+    if (glfwGetKey(m_window, GLFW_KEY_F5) == GLFW_PRESS) {
+      if (!m_f5Pressed) {
+        std::string mapDir = m_assetsDir + "/maps/";
+        const char *files[] = {"floor0.map", "floor1.map", "floor2.map"};
+        map.save(mapDir + files[mCurrentFloor]);
+        m_f5Pressed = true;
+      }
+    } else {
+      m_f5Pressed = false;
+    }
+  }
 }
+
+// ─────────────────────── update ────────────────────────────
 
 void Application::update(float deltaTime) {
   m_cameraPos.x += (m_playerPos.x - m_cameraPos.x) * m_cameraSmooth;
@@ -370,6 +344,115 @@ void Application::update(float deltaTime) {
   }
 }
 
+// ─────────────────────── editor overlay ────────────────────
+
+void Application::renderEditorOverlay() {
+  if (!m_editorMode)
+    return;
+  if (mCurrentFloor < 0 || mCurrentFloor >= static_cast<int>(m_floors.size()))
+    return;
+
+  const auto &map = m_floors[mCurrentFloor];
+  float ts = map.getTileSize();
+  float worldW = map.getWorldWidth();
+  float worldH = map.getWorldHeight();
+
+  // Grid lines (only visible area)
+  float lineW = 2.0f;
+  float viewL = m_cameraPos.x - mWindowWidth / 2.0f;
+  float viewR = m_cameraPos.x + mWindowWidth / 2.0f;
+  float viewB = m_cameraPos.y - mWindowHeight / 2.0f;
+  float viewT = m_cameraPos.y + mWindowHeight / 2.0f;
+
+  int colStart = std::max(0, static_cast<int>(viewL / ts));
+  int colEnd = std::min(map.getWidth(), static_cast<int>(viewR / ts) + 1);
+  for (int c = colStart; c <= colEnd; ++c) {
+    float x = c * ts;
+    m_renderer->drawQuad({x, worldH / 2.0f}, {lineW, worldH}, 0.35f, 0.35f,
+                         0.45f, 0.0f);
+  }
+
+  int rowStart = std::max(0, static_cast<int>((worldH - viewT) / ts));
+  int rowEnd =
+      std::min(map.getHeight(), static_cast<int>((worldH - viewB) / ts) + 1);
+  for (int r = rowStart; r <= rowEnd; ++r) {
+    float y = worldH - r * ts;
+    m_renderer->drawQuad({worldW / 2.0f, y}, {worldW, lineW}, 0.35f, 0.35f,
+                         0.45f, 0.0f);
+  }
+
+  // Cursor highlight (yellow outline)
+  double mx, my;
+  glfwGetCursorPos(m_window, &mx, &my);
+  float wmx = m_cameraPos.x + (static_cast<float>(mx) - mWindowWidth / 2.0f);
+  float wmy = m_cameraPos.y + (mWindowHeight / 2.0f - static_cast<float>(my));
+  auto [gx, gy] = map.worldToGrid({wmx, wmy});
+
+  if (gx >= 0 && gx < map.getWidth() && gy >= 0 && gy < map.getHeight()) {
+    Vector2 tp = map.gridToWorld(gx, gy);
+    float half = ts / 2.0f;
+    float bw = 3.0f;
+    // top
+    m_renderer->drawQuad({tp.x, tp.y + half - bw / 2.0f}, {ts, bw}, 1.0f,
+                         1.0f, 0.0f, 0.0f);
+    // bottom
+    m_renderer->drawQuad({tp.x, tp.y - half + bw / 2.0f}, {ts, bw}, 1.0f,
+                         1.0f, 0.0f, 0.0f);
+    // left
+    m_renderer->drawQuad({tp.x - half + bw / 2.0f, tp.y}, {bw, ts}, 1.0f,
+                         1.0f, 0.0f, 0.0f);
+    // right
+    m_renderer->drawQuad({tp.x + half - bw / 2.0f, tp.y}, {bw, ts}, 1.0f,
+                         1.0f, 0.0f, 0.0f);
+  }
+
+  // ── Palette HUD (screen space) ──
+  m_renderer->beginScreenSpace();
+
+  const auto &defs = map.getTileDefs();
+  float palX = 20.0f;
+  float palY = 20.0f;
+  float boxSize = 32.0f;
+  float gap = 6.0f;
+
+  // Background bar
+  float barW = defs.size() * (boxSize + gap) + gap;
+  m_renderer->drawQuad({palX + barW / 2.0f - gap / 2.0f, palY + boxSize / 2.0f},
+                       {barW, boxSize + 12.0f}, 0.08f, 0.08f, 0.12f, 0.0f);
+
+  for (int i = 0; i < static_cast<int>(defs.size()); ++i) {
+    float bx = palX + i * (boxSize + gap) + boxSize / 2.0f;
+    float by = palY + boxSize / 2.0f;
+
+    // Selection highlight
+    if (i == m_editorTileIndex) {
+      m_renderer->drawQuad({bx, by}, {boxSize + 6.0f, boxSize + 6.0f}, 1.0f,
+                           1.0f, 0.0f, 0.0f);
+    }
+
+    // Tile color swatch
+    if (defs[i].symbol == ' ') {
+      m_renderer->drawQuad({bx, by}, {boxSize, boxSize}, 0.15f, 0.15f, 0.2f,
+                           0.0f);
+    } else {
+      m_renderer->drawQuad({bx, by}, {boxSize, boxSize}, defs[i].r, defs[i].g,
+                           defs[i].b, 0.0f);
+    }
+  }
+
+  // "EDITOR" indicator in top-right
+  m_renderer->drawQuad(
+      {static_cast<float>(mWindowWidth) - 60.0f,
+       static_cast<float>(mWindowHeight) - 20.0f},
+      {100, 28}, 0.9f, 0.2f, 0.2f, 0.0f);
+
+  // Restore camera projection
+  Vector2 shake{0.0f, 0.0f};
+  m_renderer->setCameraPosition(m_cameraPos, shake);
+}
+
+// ─────────────────────── render ────────────────────────────
+
 void Application::render() {
   Vector2 shakeOffset{0.0f, 0.0f};
   if (m_cameraShakeIntensity > 0.0f) {
@@ -380,56 +463,35 @@ void Application::render() {
   m_renderer->beginFrame();
   m_renderer->setCameraPosition(m_cameraPos, shakeOffset);
 
-  const float floorColors[3][3] = {
-      {0.15f, 0.10f, 0.25f}, {0.20f, 0.25f, 0.15f}, {0.25f, 0.15f, 0.15f}};
+  // Draw current floor tile map
+  if (mCurrentFloor >= 0 && mCurrentFloor < static_cast<int>(m_floors.size())) {
+    m_floors[mCurrentFloor].render(*m_renderer);
 
-  // Фон этажа
-  // Draw floor background using the configured world size
-  m_renderer->drawQuad({m_worldSize / 2.0f, m_worldSize / 2.0f}, {m_worldSize,
-                                                           m_worldSize},
-                        floorColors[mCurrentFloor][0],
-                        floorColors[mCurrentFloor][1],
-                        floorColors[mCurrentFloor][2], 0.0f);
-
-  // Объекты (стены и комнаты)
-  for (const auto &obj : m_gameObjects) {
-    if (obj.floorLevel == mCurrentFloor) {
-      if (obj.texture) {
-        m_renderer->drawQuad(obj.position, obj.size, obj.texture.get(), 0.0f);
-      } else {
-        m_renderer->drawQuad(obj.position, obj.size, obj.r, obj.g, obj.b, 0.0f);
-      }
-    }
-  }
-
-  // Лифты
-  for (const auto &elevator : m_elevators) {
-    if (elevator.floorLevel == mCurrentFloor) {
-      float dx = m_playerPos.x - elevator.position.x;
-      float dy = m_playerPos.y - elevator.position.y;
+    // Highlight elevator tiles (E)
+    auto elevPositions = m_floors[mCurrentFloor].findTiles('E');
+    for (const auto &ep : elevPositions) {
+      float dx = m_playerPos.x - ep.x;
+      float dy = m_playerPos.y - ep.y;
       bool nearby = (dx * dx + dy * dy < 150.0f * 150.0f);
-      m_renderer->drawQuad(elevator.position, {80, 80}, nearby ? 0.9f : 0.5f,
+      m_renderer->drawQuad(ep, {80, 80}, nearby ? 0.9f : 0.5f,
                            nearby ? 0.3f : 0.3f, nearby ? 0.4f : 0.7f, 0.0f);
     }
-  }
 
-  // Лестницы
-  for (const auto &stair : m_stairs) {
-    if (stair.floorLevel == mCurrentFloor) {
-      float dx = m_playerPos.x - stair.position.x;
-      float dy = m_playerPos.y - stair.position.y;
+    // Highlight stair tiles (S) — draw 3 step lines
+    auto stairPositions = m_floors[mCurrentFloor].findTiles('S');
+    for (const auto &sp : stairPositions) {
+      float dx = m_playerPos.x - sp.x;
+      float dy = m_playerPos.y - sp.y;
       bool nearby = (dx * dx + dy * dy < 150.0f * 150.0f);
-      // Рисуем ступеньки (3 полосы)
       for (int i = 0; i < 3; ++i) {
-        m_renderer->drawQuad(
-            {stair.position.x, stair.position.y - 20.0f + i * 15.0f}, {100, 8},
-            nearby ? 0.8f : 0.6f, nearby ? 0.6f : 0.4f, nearby ? 0.2f : 0.3f,
-            0.0f);
+        m_renderer->drawQuad({sp.x, sp.y - 20.0f + i * 15.0f}, {100, 8},
+                             nearby ? 0.8f : 0.6f, nearby ? 0.6f : 0.4f,
+                             nearby ? 0.2f : 0.3f, 0.0f);
       }
     }
   }
 
-  // Игрок
+  // Player
   if (m_playerTexture) {
     m_renderer->drawQuad(m_playerPos, {64, 64}, m_playerTexture.get(),
                          m_playerRotation);
@@ -438,57 +500,73 @@ void Application::render() {
                          m_playerRotation);
   }
 
-  // UI: Панель лифта (если рядом)
+  // Editor overlay (grid + palette)
+  renderEditorOverlay();
+
+  // ── UI: elevator panel (when nearby) ──
   if (mNearElevator) {
-    float uiX = m_playerPos.x - m_cameraPos.x + mWindowWidth * 0.5f;
-    float uiY = m_playerPos.y - m_cameraPos.y + mWindowHeight * 0.5f + 80.0f;
+    // Compute world position that maps to player's screen position
+    float uiWX = m_playerPos.x;
+    float uiWY = m_playerPos.y + 120.0f;
 
-    // Фон панели
-    m_renderer->drawQuad({uiX, uiY}, {200, 120}, 0.1f, 0.1f, 0.15f, 0.0f);
-    m_renderer->drawQuad({uiX, uiY}, {196, 116}, 0.2f, 0.2f, 0.25f, 0.0f);
+    m_renderer->drawQuad({uiWX, uiWY}, {200, 120}, 0.1f, 0.1f, 0.15f, 0.0f);
+    m_renderer->drawQuad({uiWX, uiWY}, {196, 116}, 0.2f, 0.2f, 0.25f, 0.0f);
 
-    // Кнопки этажей
     for (int i = 0; i < 3; ++i) {
-      float btnY = uiY - 30.0f + i * 35.0f;
+      float btnY = uiWY - 30.0f + i * 35.0f;
       bool selected = (mSelectedFloor == i);
-      m_renderer->drawQuad({uiX, btnY}, {150, 25}, selected ? 0.9f : 0.3f,
+      m_renderer->drawQuad({uiWX, btnY}, {150, 25}, selected ? 0.9f : 0.3f,
                            selected ? 0.3f : 0.3f, selected ? 0.4f : 0.3f,
                            0.0f);
-      // Номер этажа (полоска)
-      m_renderer->drawQuad({uiX - 50.0f, btnY}, {30, 15}, 1.0f, 1.0f, 1.0f,
+      m_renderer->drawQuad({uiWX - 50.0f, btnY}, {30, 15}, 1.0f, 1.0f, 1.0f,
                            0.0f);
     }
-
-    // Подсказка
-    m_renderer->drawQuad({uiX, uiY + 50.0f}, {180, 15}, 0.7f, 0.7f, 0.7f, 0.0f);
+    m_renderer->drawQuad({uiWX, uiWY + 50.0f}, {180, 15}, 0.7f, 0.7f, 0.7f,
+                         0.0f);
   }
 
-  // UI: Индикатор этажа (левый верхний угол)
+  // ── UI: floor indicator (screen space) ──
   {
+    m_renderer->beginScreenSpace();
+
     float uiX = 50.0f;
-    float uiY = mWindowHeight - 50.0f;
+    float uiY = static_cast<float>(mWindowHeight) - 50.0f;
     m_renderer->drawQuad({uiX, uiY}, {220, 40}, 0.05f, 0.05f, 0.1f, 0.0f);
+
+    const float floorColors[3][3] = {
+        {0.15f, 0.10f, 0.25f}, {0.20f, 0.25f, 0.15f}, {0.25f, 0.15f, 0.15f}};
+
     for (int i = 0; i < 3; ++i) {
       float labelX = uiX + i * 70.0f + 20.0f;
       if (i == mCurrentFloor) {
-        m_renderer->drawQuad({labelX, uiY}, {50, 30}, floorColors[i][0] * 1.8f,
-                             floorColors[i][1] * 1.8f, floorColors[i][2] * 1.8f,
-                             0.0f);
+        m_renderer->drawQuad({labelX, uiY}, {50, 30},
+                             floorColors[i][0] * 1.8f,
+                             floorColors[i][1] * 1.8f,
+                             floorColors[i][2] * 1.8f, 0.0f);
       }
       m_renderer->drawQuad({labelX - 15.0f, uiY}, {30, 20}, 1.0f, 1.0f, 1.0f,
                            0.0f);
     }
+
+    // Restore camera
+    m_renderer->setCameraPosition(m_cameraPos, shakeOffset);
   }
 
   m_renderer->endFrame();
 }
 
+// ─────────────────────── run ───────────────────────────────
+
 void Application::run() {
   std::cout << "\n🎮 XENOCIDE running!\n";
-  std::cout << "   WASD — move | Mouse — aim | SPACE — shake\n";
-  std::cout
-      << "   1/2/3 — elevator floors (when near) | E/Q — stairs up/down\n";
-  std::cout << "   ESC — exit\n\n";
+  std::cout << "   WASD/Arrows — move | Mouse — aim | SPACE — shake\n";
+  std::cout << "   1/2/3 — elevator floors | E/Q — stairs up/down\n";
+  std::cout << "   F1 — toggle map editor | ESC — exit\n";
+  std::cout << "   [Editor] LMB — place | RMB — erase | [] — cycle tiles | "
+               "F5 — save\n\n";
+  std::cout << "   To add textures: put images in assets/textures/\n";
+  std::cout << "   then reference them in .map files:\n";
+  std::cout << "     tile T 1 0.5 0.5 0.5 mytexture.png\n\n";
 
   while (!glfwWindowShouldClose(m_window) && m_running) {
     float currentTime = static_cast<float>(glfwGetTime());
