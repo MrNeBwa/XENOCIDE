@@ -48,14 +48,14 @@ static unsigned int createShaderProgram() {
         #version 330 core
         in vec2 TexCoord;
         out vec4 FragColor;
-        uniform vec3 color;
+        uniform vec4 color;
         uniform bool useTexture;
         uniform sampler2D texture0;
         void main() {
             if (useTexture) {
                 FragColor = texture(texture0, TexCoord);
             } else {
-                FragColor = vec4(color, 1.0);
+                FragColor = color;
             }
         }
     )";
@@ -152,7 +152,7 @@ void Renderer::endFrame() {}
 void Renderer::drawQuad(const Vector2 &pos, const Vector2 &size, float r,
                         float g, float b, float rotation) {
   glUseProgram(m_shaderProgram);
-  glUniform3f(glGetUniformLocation(m_shaderProgram, "color"), r, g, b);
+  glUniform4f(glGetUniformLocation(m_shaderProgram, "color"), r, g, b, 1.0f);
   glUniform1i(glGetUniformLocation(m_shaderProgram, "useTexture"), 0);
 
   // CORRECT ORDER: Translate -> Rotate -> Scale
@@ -162,6 +162,24 @@ void Renderer::drawQuad(const Vector2 &pos, const Vector2 &size, float r,
   model = glm::rotate(model, rotation,
                       glm::vec3(0.0f, 0.0f, 1.0f)); // Rotate around Z-axis
   model = glm::scale(model, glm::vec3(size.x, size.y, 1.0f)); // Scale to size
+
+  glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "model"), 1,
+                     GL_FALSE, glm::value_ptr(model));
+
+  glBindVertexArray(m_vao);
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
+void Renderer::drawQuadAlpha(const Vector2 &pos, const Vector2 &size, float r,
+                             float g, float b, float a, float rotation) {
+  glUseProgram(m_shaderProgram);
+  glUniform4f(glGetUniformLocation(m_shaderProgram, "color"), r, g, b, a);
+  glUniform1i(glGetUniformLocation(m_shaderProgram, "useTexture"), 0);
+
+  glm::mat4 model = glm::mat4(1.0f);
+  model = glm::translate(model, glm::vec3(pos.x, pos.y, 0.0f));
+  model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+  model = glm::scale(model, glm::vec3(size.x, size.y, 1.0f));
 
   glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "model"), 1,
                      GL_FALSE, glm::value_ptr(model));

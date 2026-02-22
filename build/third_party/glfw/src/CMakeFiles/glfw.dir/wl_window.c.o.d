@@ -1,8 +1,8 @@
 third_party/glfw/src/CMakeFiles/glfw.dir/wl_window.c.o: \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/wl_window.c \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/wl_window.c \
  /usr/include/stdc-predef.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/internal.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/../include/GLFW/glfw3.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/internal.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/../include/GLFW/glfw3.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stddef.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/libc-header-start.h \
@@ -15,9 +15,9 @@ third_party/glfw/src/CMakeFiles/glfw.dir/wl_window.c.o: \
  /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
  /usr/include/bits/stdint-least.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdbool.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/platform.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/null_platform.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/wl_platform.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/platform.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/null_platform.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/wl_platform.h \
  /usr/include/wayland-client-core.h /usr/include/wayland-util.h \
  /usr/include/math.h /usr/include/bits/math-vector.h \
  /usr/include/bits/libm-simd-decl-stubs.h /usr/include/bits/floatn.h \
@@ -38,12 +38,12 @@ third_party/glfw/src/CMakeFiles/glfw.dir/wl_window.c.o: \
  /usr/include/xkbcommon/xkbcommon-keysyms.h \
  /usr/include/xkbcommon/xkbcommon-compat.h \
  /usr/include/xkbcommon/xkbcommon-compose.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/posix_poll.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/posix_poll.h \
  /usr/include/poll.h /usr/include/sys/poll.h /usr/include/bits/poll.h \
  /usr/include/bits/types/__sigset_t.h \
  /usr/include/bits/types/struct_timespec.h /usr/include/bits/endian.h \
  /usr/include/bits/endianness.h /usr/include/bits/types/time_t.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/x11_platform.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/x11_platform.h \
  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
  /usr/include/bits/environments.h /usr/include/bits/confname.h \
  /usr/include/bits/getopt_posix.h /usr/include/bits/getopt_core.h \
@@ -84,9 +84,9 @@ third_party/glfw/src/CMakeFiles/glfw.dir/wl_window.c.o: \
  /usr/include/X11/extensions/xfixeswire.h \
  /usr/include/X11/extensions/shape.h \
  /usr/include/X11/extensions/shapeconst.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/xkb_unicode.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/null_joystick.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/linux_joystick.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/xkb_unicode.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/null_joystick.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/linux_joystick.h \
  /usr/include/linux/input.h /usr/include/sys/time.h \
  /usr/include/sys/ioctl.h /usr/include/bits/ioctls.h \
  /usr/include/asm/ioctls.h /usr/include/asm-generic/ioctls.h \
@@ -102,7 +102,7 @@ third_party/glfw/src/CMakeFiles/glfw.dir/wl_window.c.o: \
  /usr/include/asm-generic/posix_types.h \
  /usr/include/linux/input-event-codes.h /usr/include/linux/limits.h \
  /usr/include/regex.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/posix_thread.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/posix_thread.h \
  /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
  /usr/include/linux/sched/types.h \
  /usr/include/bits/types/struct_sched_param.h /usr/include/bits/cpu-set.h \
@@ -113,31 +113,33 @@ third_party/glfw/src/CMakeFiles/glfw.dir/wl_window.c.o: \
  /usr/include/bits/setjmp.h \
  /usr/include/bits/types/struct___jmp_buf_tag.h \
  /usr/include/bits/pthread_stack_min-dynamic.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/posix_time.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/../include/GLFW/glfw3native.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/posix_time.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glfw/src/../include/GLFW/glfw3native.h \
  /usr/include/stdlib.h /usr/include/bits/waitflags.h \
  /usr/include/bits/waitstatus.h /usr/include/alloca.h \
- /usr/include/bits/stdlib-float.h /usr/include/errno.h \
- /usr/include/bits/errno.h /usr/include/linux/errno.h \
- /usr/include/asm/errno.h /usr/include/asm-generic/errno.h \
- /usr/include/asm-generic/errno-base.h /usr/include/bits/types/error_t.h \
- /usr/include/assert.h /usr/include/string.h /usr/include/strings.h \
- /usr/include/fcntl.h /usr/include/bits/fcntl.h \
- /usr/include/bits/fcntl-linux.h /usr/include/bits/types/struct_iovec.h \
- /usr/include/linux/falloc.h /usr/include/bits/stat.h \
- /usr/include/bits/struct_stat.h /usr/include/sys/mman.h \
- /usr/include/bits/mman.h /usr/include/bits/mman-map-flags-generic.h \
+ /usr/include/bits/types/once_flag.h /usr/include/bits/stdlib-float.h \
+ /usr/include/errno.h /usr/include/bits/errno.h \
+ /usr/include/linux/errno.h /usr/include/asm/errno.h \
+ /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
+ /usr/include/bits/types/error_t.h /usr/include/assert.h \
+ /usr/include/string.h /usr/include/strings.h /usr/include/fcntl.h \
+ /usr/include/bits/fcntl.h /usr/include/bits/fcntl-linux.h \
+ /usr/include/bits/types/struct_iovec.h /usr/include/linux/falloc.h \
+ /usr/include/linux/openat2.h /usr/include/bits/openat2.h \
+ /usr/include/bits/stat.h /usr/include/bits/struct_stat.h \
+ /usr/include/sys/mman.h /usr/include/bits/mman.h \
+ /usr/include/bits/mman-map-flags-generic.h \
  /usr/include/bits/mman-linux.h /usr/include/bits/mman-shared.h \
  /usr/include/bits/mman_ext.h /usr/include/sys/timerfd.h \
  /usr/include/bits/timerfd.h /usr/include/linux/input-event-codes.h \
- /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/wayland-client-protocol.h \
+ /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/src/wayland-client-protocol.h \
  /usr/include/wayland-client.h /usr/include/wayland-client-core.h \
  /usr/include/wayland-client-protocol.h \
- /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/xdg-shell-client-protocol.h \
- /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/xdg-decoration-unstable-v1-client-protocol.h \
- /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/viewporter-client-protocol.h \
- /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/relative-pointer-unstable-v1-client-protocol.h \
- /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/pointer-constraints-unstable-v1-client-protocol.h \
- /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/xdg-activation-v1-client-protocol.h \
- /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/idle-inhibit-unstable-v1-client-protocol.h \
- /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/fractional-scale-v1-client-protocol.h
+ /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/src/xdg-shell-client-protocol.h \
+ /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/src/xdg-decoration-unstable-v1-client-protocol.h \
+ /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/src/viewporter-client-protocol.h \
+ /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/src/relative-pointer-unstable-v1-client-protocol.h \
+ /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/src/pointer-constraints-unstable-v1-client-protocol.h \
+ /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/src/xdg-activation-v1-client-protocol.h \
+ /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/src/idle-inhibit-unstable-v1-client-protocol.h \
+ /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/src/fractional-scale-v1-client-protocol.h

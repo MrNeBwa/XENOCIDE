@@ -1,33 +1,45 @@
-# XENOCIDE — Floor B1 (Basement)
+# XENOCIDE — Floor 1 (Ground Floor / Exit)
+# Has the EXIT (X) tile where player escapes with rabbit
 tilesize 100
-bgcolor 0.15 0.10 0.25
+bgcolor 0.12 0.08 0.20
 
-# symbol solid R G B [texture_file]
 tile W 1 0.45 0.42 0.55
+tile H 1 0.55 0.50 0.60
+tile G 1 0.35 0.32 0.45
 tile . 0 0.22 0.18 0.32
 tile R 0 0.30 0.25 0.40
 tile E 0 0.50 0.30 0.70
 tile S 0 0.60 0.40 0.30
 tile P 0 0.22 0.18 0.32
+tile A 0 0.22 0.18 0.32
+tile X 0 0.15 0.45 0.20
+tile D 0 0.22 0.18 0.32
+tile L 0 0.22 0.18 0.32
+tile T 0 0.22 0.18 0.32
+tile F 0 0.22 0.18 0.32
+tile V 0 0.22 0.18 0.32
+tile C 0 0.22 0.18 0.32
+tile K 0 0.22 0.18 0.32
+tile N 0 0.22 0.18 0.32
 
 grid
-WWWWWWWWWWWWWWWWWWWW
-WE................WW
-W.....WWWWWW......WW
-W.....W...........WW
-W.....W...........WW
-W.....W....W......WW
-W..........W......WW
-W..........W......WW
-W......WWWWW......WW
-W.................WW
-W.RR..............WW
-W.RR......P......SWW
-W.................WW
-W......WWWWWWWW...WW
-W......W..........WW
-W......W..........WW
-W......W..........WW
-W.................WW
-W................EWWW
-WWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWW
+WX..L..........L.......WW
+W....C......HHHH.......WW
+W..D........H..........WW
+W..V........H....D.....WW
+W..GGGG.....H.........EWW
+W..G........HHHH..K....WW
+W..G......F............WW
+W..GGGG....A.....T.....WW
+W......................WW
+W..........WWWWWWWW....WW
+WL..N......W......W....WW
+W..........W..A...W.L..WW
+W..........W......W....WW
+W..D.......WWWWWWWW....WW
+W.....C................WW
+W......A.......V.......WW
+W..T.........D....K....WW
+W..................P..SWWW
+WWWWWWWWWWWWWWWWWWWWWWWWW

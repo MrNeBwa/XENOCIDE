@@ -7,11 +7,18 @@ xenocide: \
   CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o \
   CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o \
   CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o \
+  CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o \
   third_party/glfw/src/libglfw3.a \
   libglad.a \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libdl.a \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libGL.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libpthread.a \
   /usr/lib/librt.a \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so \
+  /usr/lib/libm.so.6 \
+  /usr/lib/libmvec.so.1 \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libdl.a \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libstdc++.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so \
@@ -69,6 +76,8 @@ CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o:
 
 CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o:
 
+CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o:
+
 third_party/glfw/src/libglfw3.a:
 
 libglad.a:
@@ -77,7 +86,19 @@ libglad.a:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libGL.so:
 
+/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libpthread.a:
+
 /usr/lib/librt.a:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so:
+
+/usr/lib/libm.so.6:
+
+/usr/lib/libmvec.so.1:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libdl.a:
 

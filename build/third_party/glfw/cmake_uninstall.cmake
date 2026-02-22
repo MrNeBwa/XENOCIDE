@@ -1,9 +1,9 @@
 
-if (NOT EXISTS "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/install_manifest.txt")
-    message(FATAL_ERROR "Cannot find install manifest: \"/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/install_manifest.txt\"")
+if (NOT EXISTS "/home/nebwa/Projects/XENOCIDE/build/third_party/glfw/install_manifest.txt")
+    message(FATAL_ERROR "Cannot find install manifest: \"/home/nebwa/Projects/XENOCIDE/build/third_party/glfw/install_manifest.txt\"")
 endif()
 
-file(READ "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/install_manifest.txt" files)
+file(READ "/home/nebwa/Projects/XENOCIDE/build/third_party/glfw/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 
 foreach (file ${files})

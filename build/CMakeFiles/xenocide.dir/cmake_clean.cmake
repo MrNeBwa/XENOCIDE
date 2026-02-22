@@ -1,5 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/xenocide.dir/link.d"
+  "CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o"
+  "CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o.d"
   "CMakeFiles/xenocide.dir/src/core/Application.cpp.o"
   "CMakeFiles/xenocide.dir/src/core/Application.cpp.o.d"
   "CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o"

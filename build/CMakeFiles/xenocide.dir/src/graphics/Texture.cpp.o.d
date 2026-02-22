@@ -1,7 +1,7 @@
 CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o: \
- /home/NeBwa/Projects/XENOCIDE/src/graphics/Texture.cpp \
+ /home/nebwa/Projects/XENOCIDE/src/graphics/Texture.cpp \
  /usr/include/stdc-predef.h \
- /home/NeBwa/Projects/XENOCIDE/include/mine/graphics/Texture.hpp \
+ /home/nebwa/Projects/XENOCIDE/include/mine/graphics/Texture.hpp \
  /usr/include/c++/15.2.1/string \
  /usr/include/c++/15.2.1/bits/requires_hosted.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -105,8 +105,8 @@ CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o: \
  /usr/include/c++/15.2.1/bits/uses_allocator.h \
  /usr/include/c++/15.2.1/bits/uses_allocator_args.h \
  /usr/include/c++/15.2.1/tuple \
- /home/NeBwa/Projects/XENOCIDE/include/glad/glad.h \
- /home/NeBwa/Projects/XENOCIDE/third_party/glad/include/KHR/khrplatform.h \
+ /home/nebwa/Projects/XENOCIDE/include/glad/glad.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/glad/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/stdint-uintn.h \
  /usr/include/bits/stdint-least.h /usr/include/c++/15.2.1/iostream \
@@ -152,7 +152,7 @@ CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o: \
  /usr/include/c++/15.2.1/bits/basic_ios.tcc \
  /usr/include/c++/15.2.1/bits/ostream.tcc /usr/include/c++/15.2.1/istream \
  /usr/include/c++/15.2.1/bits/istream.tcc \
- /home/NeBwa/Projects/XENOCIDE/third_party/stb/stb_image.h \
+ /home/nebwa/Projects/XENOCIDE/third_party/stb/stb_image.h \
  /usr/include/c++/15.2.1/stdlib.h /usr/include/string.h \
  /usr/include/strings.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/limits.h \

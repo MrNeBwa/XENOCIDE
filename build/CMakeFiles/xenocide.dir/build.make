@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/NeBwa/Projects/XENOCIDE
+CMAKE_SOURCE_DIR = /home/nebwa/Projects/XENOCIDE
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/NeBwa/Projects/XENOCIDE/build
+CMAKE_BINARY_DIR = /home/nebwa/Projects/XENOCIDE/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/xenocide.dir/depend.make
@@ -73,74 +73,88 @@ CMakeFiles/xenocide.dir/codegen:
 .PHONY : CMakeFiles/xenocide.dir/codegen
 
 CMakeFiles/xenocide.dir/src/main.cpp.o: CMakeFiles/xenocide.dir/flags.make
-CMakeFiles/xenocide.dir/src/main.cpp.o: /home/NeBwa/Projects/XENOCIDE/src/main.cpp
+CMakeFiles/xenocide.dir/src/main.cpp.o: /home/nebwa/Projects/XENOCIDE/src/main.cpp
 CMakeFiles/xenocide.dir/src/main.cpp.o: CMakeFiles/xenocide.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/xenocide.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/xenocide.dir/src/main.cpp.o -MF CMakeFiles/xenocide.dir/src/main.cpp.o.d -o CMakeFiles/xenocide.dir/src/main.cpp.o -c /home/NeBwa/Projects/XENOCIDE/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nebwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/xenocide.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/xenocide.dir/src/main.cpp.o -MF CMakeFiles/xenocide.dir/src/main.cpp.o.d -o CMakeFiles/xenocide.dir/src/main.cpp.o -c /home/nebwa/Projects/XENOCIDE/src/main.cpp
 
 CMakeFiles/xenocide.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/xenocide.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/NeBwa/Projects/XENOCIDE/src/main.cpp > CMakeFiles/xenocide.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nebwa/Projects/XENOCIDE/src/main.cpp > CMakeFiles/xenocide.dir/src/main.cpp.i
 
 CMakeFiles/xenocide.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/xenocide.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/NeBwa/Projects/XENOCIDE/src/main.cpp -o CMakeFiles/xenocide.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nebwa/Projects/XENOCIDE/src/main.cpp -o CMakeFiles/xenocide.dir/src/main.cpp.s
 
 CMakeFiles/xenocide.dir/src/core/Application.cpp.o: CMakeFiles/xenocide.dir/flags.make
-CMakeFiles/xenocide.dir/src/core/Application.cpp.o: /home/NeBwa/Projects/XENOCIDE/src/core/Application.cpp
+CMakeFiles/xenocide.dir/src/core/Application.cpp.o: /home/nebwa/Projects/XENOCIDE/src/core/Application.cpp
 CMakeFiles/xenocide.dir/src/core/Application.cpp.o: CMakeFiles/xenocide.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/xenocide.dir/src/core/Application.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/xenocide.dir/src/core/Application.cpp.o -MF CMakeFiles/xenocide.dir/src/core/Application.cpp.o.d -o CMakeFiles/xenocide.dir/src/core/Application.cpp.o -c /home/NeBwa/Projects/XENOCIDE/src/core/Application.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nebwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/xenocide.dir/src/core/Application.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/xenocide.dir/src/core/Application.cpp.o -MF CMakeFiles/xenocide.dir/src/core/Application.cpp.o.d -o CMakeFiles/xenocide.dir/src/core/Application.cpp.o -c /home/nebwa/Projects/XENOCIDE/src/core/Application.cpp
 
 CMakeFiles/xenocide.dir/src/core/Application.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/xenocide.dir/src/core/Application.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/NeBwa/Projects/XENOCIDE/src/core/Application.cpp > CMakeFiles/xenocide.dir/src/core/Application.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nebwa/Projects/XENOCIDE/src/core/Application.cpp > CMakeFiles/xenocide.dir/src/core/Application.cpp.i
 
 CMakeFiles/xenocide.dir/src/core/Application.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/xenocide.dir/src/core/Application.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/NeBwa/Projects/XENOCIDE/src/core/Application.cpp -o CMakeFiles/xenocide.dir/src/core/Application.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nebwa/Projects/XENOCIDE/src/core/Application.cpp -o CMakeFiles/xenocide.dir/src/core/Application.cpp.s
 
 CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o: CMakeFiles/xenocide.dir/flags.make
-CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o: /home/NeBwa/Projects/XENOCIDE/src/graphics/Renderer.cpp
+CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o: /home/nebwa/Projects/XENOCIDE/src/graphics/Renderer.cpp
 CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o: CMakeFiles/xenocide.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o -MF CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o.d -o CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o -c /home/NeBwa/Projects/XENOCIDE/src/graphics/Renderer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nebwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o -MF CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o.d -o CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o -c /home/nebwa/Projects/XENOCIDE/src/graphics/Renderer.cpp
 
 CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/NeBwa/Projects/XENOCIDE/src/graphics/Renderer.cpp > CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nebwa/Projects/XENOCIDE/src/graphics/Renderer.cpp > CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.i
 
 CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/NeBwa/Projects/XENOCIDE/src/graphics/Renderer.cpp -o CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nebwa/Projects/XENOCIDE/src/graphics/Renderer.cpp -o CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.s
 
 CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o: CMakeFiles/xenocide.dir/flags.make
-CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o: /home/NeBwa/Projects/XENOCIDE/src/graphics/Texture.cpp
+CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o: /home/nebwa/Projects/XENOCIDE/src/graphics/Texture.cpp
 CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o: CMakeFiles/xenocide.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o -MF CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o.d -o CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o -c /home/NeBwa/Projects/XENOCIDE/src/graphics/Texture.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nebwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o -MF CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o.d -o CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o -c /home/nebwa/Projects/XENOCIDE/src/graphics/Texture.cpp
 
 CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/NeBwa/Projects/XENOCIDE/src/graphics/Texture.cpp > CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nebwa/Projects/XENOCIDE/src/graphics/Texture.cpp > CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.i
 
 CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/NeBwa/Projects/XENOCIDE/src/graphics/Texture.cpp -o CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nebwa/Projects/XENOCIDE/src/graphics/Texture.cpp -o CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.s
 
 CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o: CMakeFiles/xenocide.dir/flags.make
-CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o: /home/NeBwa/Projects/XENOCIDE/src/scene/TileMap.cpp
+CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o: /home/nebwa/Projects/XENOCIDE/src/scene/TileMap.cpp
 CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o: CMakeFiles/xenocide.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o -MF CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o.d -o CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o -c /home/NeBwa/Projects/XENOCIDE/src/scene/TileMap.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nebwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o -MF CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o.d -o CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o -c /home/nebwa/Projects/XENOCIDE/src/scene/TileMap.cpp
 
 CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/NeBwa/Projects/XENOCIDE/src/scene/TileMap.cpp > CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nebwa/Projects/XENOCIDE/src/scene/TileMap.cpp > CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.i
 
 CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/NeBwa/Projects/XENOCIDE/src/scene/TileMap.cpp -o CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nebwa/Projects/XENOCIDE/src/scene/TileMap.cpp -o CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.s
+
+CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o: CMakeFiles/xenocide.dir/flags.make
+CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o: /home/nebwa/Projects/XENOCIDE/src/audio/miniaudio_impl.cpp
+CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o: CMakeFiles/xenocide.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nebwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o -MF CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o.d -o CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o -c /home/nebwa/Projects/XENOCIDE/src/audio/miniaudio_impl.cpp
+
+CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nebwa/Projects/XENOCIDE/src/audio/miniaudio_impl.cpp > CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.i
+
+CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nebwa/Projects/XENOCIDE/src/audio/miniaudio_impl.cpp -o CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.s
 
 # Object files for target xenocide
 xenocide_OBJECTS = \
@@ -148,7 +162,8 @@ xenocide_OBJECTS = \
 "CMakeFiles/xenocide.dir/src/core/Application.cpp.o" \
 "CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o" \
 "CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o" \
-"CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o"
+"CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o" \
+"CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o"
 
 # External object files for target xenocide
 xenocide_EXTERNAL_OBJECTS =
@@ -158,6 +173,7 @@ xenocide: CMakeFiles/xenocide.dir/src/core/Application.cpp.o
 xenocide: CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o
 xenocide: CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o
 xenocide: CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o
+xenocide: CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o
 xenocide: CMakeFiles/xenocide.dir/build.make
 xenocide: CMakeFiles/xenocide.dir/compiler_depend.ts
 xenocide: third_party/glfw/src/libglfw3.a
@@ -165,7 +181,7 @@ xenocide: libglad.a
 xenocide: /usr/lib/librt.a
 xenocide: /usr/lib/libm.so
 xenocide: CMakeFiles/xenocide.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable xenocide"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/nebwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable xenocide"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/xenocide.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -177,6 +193,6 @@ CMakeFiles/xenocide.dir/clean:
 .PHONY : CMakeFiles/xenocide.dir/clean
 
 CMakeFiles/xenocide.dir/depend:
-	cd /home/NeBwa/Projects/XENOCIDE/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/NeBwa/Projects/XENOCIDE /home/NeBwa/Projects/XENOCIDE /home/NeBwa/Projects/XENOCIDE/build /home/NeBwa/Projects/XENOCIDE/build /home/NeBwa/Projects/XENOCIDE/build/CMakeFiles/xenocide.dir/DependInfo.cmake "--color=$(COLOR)" xenocide
+	cd /home/nebwa/Projects/XENOCIDE/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nebwa/Projects/XENOCIDE /home/nebwa/Projects/XENOCIDE /home/nebwa/Projects/XENOCIDE/build /home/nebwa/Projects/XENOCIDE/build /home/nebwa/Projects/XENOCIDE/build/CMakeFiles/xenocide.dir/DependInfo.cmake "--color=$(COLOR)" xenocide
 .PHONY : CMakeFiles/xenocide.dir/depend
 

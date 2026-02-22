@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/NeBwa/Projects/XENOCIDE
+CMAKE_SOURCE_DIR = /home/nebwa/Projects/XENOCIDE
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/NeBwa/Projects/XENOCIDE/build
+CMAKE_BINARY_DIR = /home/nebwa/Projects/XENOCIDE/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -132,9 +132,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/NeBwa/Projects/XENOCIDE/build/CMakeFiles /home/NeBwa/Projects/XENOCIDE/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nebwa/Projects/XENOCIDE/build/CMakeFiles /home/nebwa/Projects/XENOCIDE/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/NeBwa/Projects/XENOCIDE/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nebwa/Projects/XENOCIDE/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -225,6 +225,30 @@ update_mappings: cmake_check_build_system
 update_mappings/fast:
 	$(MAKE) $(MAKESILENT) -f third_party/glfw/src/CMakeFiles/update_mappings.dir/build.make third_party/glfw/src/CMakeFiles/update_mappings.dir/build
 .PHONY : update_mappings/fast
+
+src/audio/miniaudio_impl.o: src/audio/miniaudio_impl.cpp.o
+.PHONY : src/audio/miniaudio_impl.o
+
+# target to build an object file
+src/audio/miniaudio_impl.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o
+.PHONY : src/audio/miniaudio_impl.cpp.o
+
+src/audio/miniaudio_impl.i: src/audio/miniaudio_impl.cpp.i
+.PHONY : src/audio/miniaudio_impl.i
+
+# target to preprocess a source file
+src/audio/miniaudio_impl.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.i
+.PHONY : src/audio/miniaudio_impl.cpp.i
+
+src/audio/miniaudio_impl.s: src/audio/miniaudio_impl.cpp.s
+.PHONY : src/audio/miniaudio_impl.s
+
+# target to generate assembly for a file
+src/audio/miniaudio_impl.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/xenocide.dir/build.make CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.s
+.PHONY : src/audio/miniaudio_impl.cpp.s
 
 src/core/Application.o: src/core/Application.cpp.o
 .PHONY : src/core/Application.o
@@ -387,6 +411,9 @@ help:
 	@echo "... glad"
 	@echo "... glfw"
 	@echo "... xenocide"
+	@echo "... src/audio/miniaudio_impl.o"
+	@echo "... src/audio/miniaudio_impl.i"
+	@echo "... src/audio/miniaudio_impl.s"
 	@echo "... src/core/Application.o"
 	@echo "... src/core/Application.i"
 	@echo "... src/core/Application.s"

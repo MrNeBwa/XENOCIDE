@@ -13,6 +13,8 @@ public:
   void endFrame();
   void drawQuad(const Vector2 &pos, const Vector2 &size, float r, float g,
                 float b, float rotation = 0.0f);
+  void drawQuadAlpha(const Vector2 &pos, const Vector2 &size, float r, float g,
+                     float b, float a, float rotation = 0.0f);
   void setCameraPosition(const Vector2 &pos,
                          const Vector2 &shake); // Новая функция
   void drawQuad(const Vector2 &pos, const Vector2 &size,

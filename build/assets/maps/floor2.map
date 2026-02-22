@@ -1,33 +1,45 @@
-# XENOCIDE — Floor F1 (First)
+# XENOCIDE — Floor 3 (Top Floor / Rabbit Location)
+# The rabbit (B tile) is here — rescue it!
 tilesize 100
-bgcolor 0.25 0.15 0.15
+bgcolor 0.20 0.12 0.12
 
-# symbol solid R G B [texture_file]
 tile W 1 0.50 0.45 0.45
+tile H 1 0.55 0.40 0.40
+tile G 1 0.40 0.35 0.35
 tile . 0 0.32 0.22 0.22
 tile R 0 0.40 0.30 0.30
 tile E 0 0.50 0.30 0.70
 tile S 0 0.60 0.40 0.30
 tile P 0 0.32 0.22 0.22
+tile A 0 0.32 0.22 0.22
+tile B 0 0.90 0.90 0.90
+tile D 0 0.32 0.22 0.22
+tile L 0 0.32 0.22 0.22
+tile T 0 0.32 0.22 0.22
+tile F 0 0.32 0.22 0.22
+tile V 0 0.32 0.22 0.22
+tile C 0 0.32 0.22 0.22
+tile K 0 0.32 0.22 0.22
+tile N 0 0.32 0.22 0.22
 
 grid
-WWWWWWWWWWWWWWWWWWWW
-WE................WW
-W..RRRR....RRRR..WW
-W..R..R....R..R..WW
-W..R..R....R..R..WW
-W..RRRR....RRRR..WW
-W.................WW
-W.........P......SWW
-W.................WW
-W...WWWWWWWWWWWW..WW
-W...W..........W..WW
-W...W..........W..WW
-W...W..........W..WW
-W...WWWWWWWWWWWW..WW
-W.................WW
-W..RRRR....RRRR..WW
-W..R..R....R..R..WW
-W..RRRR....RRRR..WW
-W................EWWW
-WWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWW
+WE..L.........L........WW
+W...........HHHHHH.....WW
+W...C.......H....H.....WW
+W..GGGGG....H.B..H.....WW
+W..G........H....H.....WW
+W..G..A.....HHHHHH.....WW
+W..G.......K...........WW
+W..GGGGG.......A.......WW
+W......................WW
+W..T..F......WWWWWW....WW
+W............W..N.W....WW
+WL...A.......W..D.W..L.WW
+W............W....W....WW
+W............WWWWWW....WW
+W.....C................WW
+W..D.......V...A...T...WW
+W......................WW
+W..................P..SWWW
+WWWWWWWWWWWWWWWWWWWWWWWWW

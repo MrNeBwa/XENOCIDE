@@ -8,11 +8,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/NeBwa/Projects/XENOCIDE/src/core/Application.cpp" "CMakeFiles/xenocide.dir/src/core/Application.cpp.o" "gcc" "CMakeFiles/xenocide.dir/src/core/Application.cpp.o.d"
-  "/home/NeBwa/Projects/XENOCIDE/src/graphics/Renderer.cpp" "CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o" "gcc" "CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o.d"
-  "/home/NeBwa/Projects/XENOCIDE/src/graphics/Texture.cpp" "CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o" "gcc" "CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o.d"
-  "/home/NeBwa/Projects/XENOCIDE/src/main.cpp" "CMakeFiles/xenocide.dir/src/main.cpp.o" "gcc" "CMakeFiles/xenocide.dir/src/main.cpp.o.d"
-  "/home/NeBwa/Projects/XENOCIDE/src/scene/TileMap.cpp" "CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o" "gcc" "CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o.d"
+  "/home/nebwa/Projects/XENOCIDE/src/audio/miniaudio_impl.cpp" "CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o" "gcc" "CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o.d"
+  "/home/nebwa/Projects/XENOCIDE/src/core/Application.cpp" "CMakeFiles/xenocide.dir/src/core/Application.cpp.o" "gcc" "CMakeFiles/xenocide.dir/src/core/Application.cpp.o.d"
+  "/home/nebwa/Projects/XENOCIDE/src/graphics/Renderer.cpp" "CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o" "gcc" "CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o.d"
+  "/home/nebwa/Projects/XENOCIDE/src/graphics/Texture.cpp" "CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o" "gcc" "CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o.d"
+  "/home/nebwa/Projects/XENOCIDE/src/main.cpp" "CMakeFiles/xenocide.dir/src/main.cpp.o" "gcc" "CMakeFiles/xenocide.dir/src/main.cpp.o.d"
+  "/home/nebwa/Projects/XENOCIDE/src/scene/TileMap.cpp" "CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o" "gcc" "CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o.d"
   "" "xenocide" "gcc" "CMakeFiles/xenocide.dir/link.d"
   )
 

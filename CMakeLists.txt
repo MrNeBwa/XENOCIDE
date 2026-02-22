@@ -26,6 +26,7 @@ set(SOURCES
     # src/graphics/Shader.cpp
     src/graphics/Texture.cpp
     src/scene/TileMap.cpp
+    src/audio/miniaudio_impl.cpp
 )
 
 # Исполняемый файл
@@ -38,7 +39,7 @@ target_link_libraries(xenocide PRIVATE
 )
 
 if(UNIX AND NOT APPLE)
-    target_link_libraries(xenocide PRIVATE GL)
+    target_link_libraries(xenocide PRIVATE GL pthread m)
 elseif(APPLE)
     target_link_libraries(xenocide PRIVATE "-framework OpenGL")
 endif()
