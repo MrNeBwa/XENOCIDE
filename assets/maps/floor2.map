@@ -4,7 +4,7 @@ bgcolor 0.2 0.12 0.12
 
 tile W 1 0.5 0.45 0.45 floor_green.png
 tile H 1 0.55 0.4 0.4 panel.png
-tile G 1 0.4 0.35 0.35
+tile G 1 0.4 0.35 0.35 smth.png
 tile . 0 0.32 0.22 0.22
 tile R 0 0.4 0.3 0.3
 tile E 0 0.5 0.3 0.7

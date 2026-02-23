@@ -1,18 +1,17 @@
-# XENOCIDE — Floor 3 (Top Floor / Rabbit Location)
-# The rabbit (B tile) is here — rescue it!
+# XENOCIDE Map (auto-saved)
 tilesize 100
-bgcolor 0.20 0.12 0.12
+bgcolor 0.2 0.12 0.12 
 
-tile W 1 0.50 0.45 0.45
-tile H 1 0.55 0.40 0.40
-tile G 1 0.40 0.35 0.35
+tile W 1 0.5 0.45 0.45 floor_green.png
+tile H 1 0.55 0.4 0.4 panel.png
+tile G 1 0.4 0.35 0.35 smth.png
 tile . 0 0.32 0.22 0.22
-tile R 0 0.40 0.30 0.30
-tile E 0 0.50 0.30 0.70
-tile S 0 0.60 0.40 0.30
+tile R 0 0.4 0.3 0.3
+tile E 0 0.5 0.3 0.7
+tile S 0 0.6 0.4 0.3
 tile P 0 0.32 0.22 0.22
 tile A 0 0.32 0.22 0.22
-tile B 0 0.90 0.90 0.90
+tile B 0 0.9 0.9 0.9
 tile D 0 0.32 0.22 0.22
 tile L 0 0.32 0.22 0.22
 tile T 0 0.32 0.22 0.22
@@ -23,23 +22,23 @@ tile K 0 0.32 0.22 0.22
 tile N 0 0.32 0.22 0.22
 
 grid
-WWWWWWWWWWWWWWWWWWWWWWWWW
-WE..L.........L........WW
-W...........HHHHHH.....WW
-W...C.......H....H.....WW
-W..GGGGG....H.B..H.....WW
-W..G........H....H.....WW
-W..G..A.....HHHHHH.....WW
-W..G.......K...........WW
-W..GGGGG.......A.......WW
-W......................WW
-W..T..F......WWWWWW....WW
-W............W..N.W....WW
-WL...A.......W..D.W..L.WW
-W............W....W....WW
-W............WWWWWW....WW
-W.....C................WW
-W..D.......V...A...T...WW
-W......................WW
+WWWWWWWWWWWWWWWWWWWWWWWWW 
+WE..L.........L........WW 
+W...........HHHHHH.....WW 
+W...C.......H....H.....WW 
+W..GGGGG....H.B..P.....WW 
+W..G........H....P.....WW 
+W..G..A.....HHHHHP.....WW 
+W..G.......K...........WW 
+W..GGGGG.......A.......WW 
+W......................WW 
+W..T..F......WWWWWW....WW 
+W............W..N.W....WW 
+WL...A.......W..D.P..L.WW 
+W............W....W....WW 
+W............WWWWWW....WW 
+W.....C................WW 
+W..D.......V...A...T...WW 
+W......................WW 
 W..................P..SWWW
-WWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWW 

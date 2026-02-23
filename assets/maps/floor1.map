@@ -1,11 +1,11 @@
 # XENOCIDE Map (auto-saved)
 tilesize 100
-bgcolor 0.15 0.2 0.12
+bgcolor 0.15 0.2 0.12 
 
 tile W 1 0.5 0.5 0.55
 tile H 1 0.6 0.55 0.5 panel.png
-tile G 1 0.4 0.45 0.35
-tile . 0 0.28 0.32 0.22
+tile G 1 0.4 0.45 0.35 smth.png
+tile . 0 0.28 0.32 0.22 
 tile R 0 0.38 0.38 0.28
 tile E 0 0.5 0.3 0.7
 tile S 0 0.6 0.4 0.3
