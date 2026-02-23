@@ -1,6 +1,6 @@
 # XENOCIDE Map (auto-saved)
 tilesize 100
-bgcolor 0.2 0.12 0.12 
+bgcolor 0.2 0.12 0.12
 
 tile W 1 0.5 0.45 0.45 floor_green.png
 tile H 1 0.55 0.4 0.4 panel.png
@@ -20,25 +20,36 @@ tile V 0 0.32 0.22 0.22
 tile C 0 0.32 0.22 0.22
 tile K 0 0.32 0.22 0.22
 tile N 0 0.32 0.22 0.22
+tile h 0 0.32 0.22 0.22
 
 grid
-WWWWWWWWWWWWWWWWWWWWWWWWW 
-WE..L.........L........WW 
-W...........HHHHHH.....WW 
-W...C.......H....H.....WW 
-W..GGGGG....H.B..P.....WW 
-W..G........H....P.....WW 
-W..G..A.....HHHHHP.....WW 
-W..G.......K...........WW 
-W..GGGGG.......A.......WW 
-W......................WW 
-W..T..F......WWWWWW....WW 
-W............W..N.W....WW 
-WL...A.......W..D.P..L.WW 
-W............W....W....WW 
-W............WWWWWW....WW 
-W.....C................WW 
-W..D.......V...A...T...WW 
-W......................WW 
-W..................P..SWWW
-WWWWWWWWWWWWWWWWWWWWWWWWW 
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WE..L.............L................S.W   
+W...........HHHHHH..A......C.........WW  
+W...C.......H....H...................WW  
+W..GGGGG....H.B..P.......WWWWWWWW...WW   
+W..G.A.G....H....P.......W......W...WW   
+W..G.LA.....HHHHHP.......W..A.N.W...WW   
+W..G.T.G...K..............W..D..W...WW   
+W..GGGGG.......A..........W.....W...WW   
+W..A.....A................WWW.WWW...WW   
+W..T..F......WWWWWW....................WW
+W............W..N.W.........A........WW  
+WL...A.......W..D.P..L.....V........WW   
+W............W....W.A................WW  
+W............WWWWWW..................WW  
+W.....C..........A......GGGGGG......WW   
+W..D.......V...A...T....G....G......WW   
+W..h........................G..A.G..WW   
+W......WWWWWWWWWW...........GGGGGG..WW   
+W......W........W........T..........WW   
+W..A...W..K..F..W.......h...........WW   
+W......W........W....................WW  
+W......W....D...W......V.......L.....WW  
+W.h....WWWWWWWWWW..........A.........WW  
+W..D...........A............K........WW  
+W......A.......V..........D..........WW  
+W..T..............D..........K.......WW  
+W......................................WW
+WS.................P...............EWWW  
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW

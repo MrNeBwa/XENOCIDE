@@ -82,6 +82,8 @@ Application::Application(int width, int height, const char *title)
 
   spawnHealthPickups();
 
+  spawnGunPickups();
+
   initAudio();
 }
 
@@ -176,6 +178,17 @@ void Application::loadMaps() {
       m_exitPos = {150.0f, 150.0f};
     }
   }
+
+  
+  if (m_floors.size() > 1) {
+    auto keycardTiles = m_floors[1].findTiles('Z');
+    if (!keycardTiles.empty()) {
+      m_keycardPos = keycardTiles[0];
+    } else {
+      m_keycardPos = {m_floors[1].getWorldWidth() / 2.0f,
+                      m_floors[1].getWorldHeight() / 2.0f};
+    }
+  }
 }
 
 // ─────────────────────── alien spawning ────────────────────
@@ -196,11 +209,73 @@ void Application::spawnAliens() {
       alien.animTimer = m_randomDist(m_randomEngine) * 6.28f;
       alien.hp = 35.0f + std::abs(m_randomDist(m_randomEngine)) * 25.0f;
       alien.maxHp = alien.hp;
+
+      
+      if (std::abs(m_randomDist(m_randomEngine)) > 0.75f) {
+        alien.elite = true;
+        alien.hp *= 2.5f;
+        alien.maxHp = alien.hp;
+        alien.speed *= 0.7f;
+        alien.damage = 15.0f;
+        alien.attackRange = 75.0f;
+        alien.sightRange *= 1.3f;
+      }
+
       m_aliens.push_back(alien);
     }
   }
 
   std::cout << "👾 Spawned " << m_aliens.size() << " aliens across all floors\n";
+  int eliteCount = 0;
+  for (const auto &a : m_aliens) if (a.elite) eliteCount++;
+  if (eliteCount > 0)
+    std::cout << "👾  (" << eliteCount << " elites!)\n";
+}
+
+void Application::spawnAlienReinforcements() {
+  int spawned = 0;
+  for (int f = 0; f < static_cast<int>(m_floors.size()); ++f) {
+    
+    std::vector<Vector2> spots;
+    for (int gy = 2; gy < m_floors[f].getHeight() - 2; ++gy) {
+      for (int gx = 2; gx < m_floors[f].getWidth() - 2; ++gx) {
+        char c = m_floors[f].getTile(gx, gy);
+        if (c == '.' || c == 'R') {
+          spots.push_back(m_floors[f].gridToWorld(gx, gy));
+        }
+      }
+    }
+    if (spots.empty()) continue;
+
+    std::shuffle(spots.begin(), spots.end(), m_randomEngine);
+    int count = std::min(4, static_cast<int>(spots.size()));
+    for (int i = 0; i < count; ++i) {
+      Alien alien;
+      alien.pos = spots[i];
+      alien.floor = f;
+      alien.patrolTarget = spots[i];
+      alien.idleTimer = 0.5f;
+      alien.speed = 100.0f + m_randomDist(m_randomEngine) * 40.0f;
+      alien.sightRange = 500.0f;
+      alien.sightAngle = PI;
+      alien.animTimer = m_randomDist(m_randomEngine) * 6.28f;
+      alien.hp = 40.0f + std::abs(m_randomDist(m_randomEngine)) * 20.0f;
+      alien.maxHp = alien.hp;
+      alien.damage = 12.0f;
+
+      if (std::abs(m_randomDist(m_randomEngine)) > 0.6f) {
+        alien.elite = true;
+        alien.hp *= 2.0f;
+        alien.maxHp = alien.hp;
+        alien.speed *= 0.75f;
+        alien.damage = 18.0f;
+      }
+
+      m_aliens.push_back(alien);
+      spawned++;
+    }
+  }
+  std::cout << "👾 Reinforcements! " << spawned << " more aliens appeared!\n";
 }
 
 // ─────────────────────── health pickups ────────────────────
@@ -209,7 +284,7 @@ void Application::spawnHealthPickups() {
   m_healthPickups.clear();
 
   for (int f = 0; f < static_cast<int>(m_floors.size()); ++f) {
-    auto hTiles = m_floors[f].findTiles('H');
+    auto hTiles = m_floors[f].findTiles('h');
     for (const auto &pos : hTiles) {
       HealthPickup hp;
       hp.pos = pos;
@@ -240,9 +315,54 @@ void Application::spawnHealthPickups() {
       if (!checkWallCollisionOnFloor(f, hp.pos, 20.0f))
         m_healthPickups.push_back(hp);
     }
+
+    
+    std::vector<Vector2> hiddenSpots;
+    for (int gy = 1; gy < m_floors[f].getHeight() - 1; ++gy) {
+      for (int gx = 1; gx < m_floors[f].getWidth() - 1; ++gx) {
+        char c = m_floors[f].getTile(gx, gy);
+        if (c != '.' && c != 'R') continue;
+
+        
+        int wallCount = 0;
+        if (m_floors[f].getTile(gx - 1, gy) != ' ') {
+          const TileDef *ld = m_floors[f].getDefForSymbol(m_floors[f].getTile(gx - 1, gy));
+          if (ld && ld->solid) wallCount++;
+        }
+        if (m_floors[f].getTile(gx + 1, gy) != ' ') {
+          const TileDef *rd = m_floors[f].getDefForSymbol(m_floors[f].getTile(gx + 1, gy));
+          if (rd && rd->solid) wallCount++;
+        }
+        if (m_floors[f].getTile(gx, gy - 1) != ' ') {
+          const TileDef *ud = m_floors[f].getDefForSymbol(m_floors[f].getTile(gx, gy - 1));
+          if (ud && ud->solid) wallCount++;
+        }
+        if (m_floors[f].getTile(gx, gy + 1) != ' ') {
+          const TileDef *dd = m_floors[f].getDefForSymbol(m_floors[f].getTile(gx, gy + 1));
+          if (dd && dd->solid) wallCount++;
+        }
+
+        
+        if (wallCount >= 2) {
+          hiddenSpots.push_back(m_floors[f].gridToWorld(gx, gy));
+        }
+      }
+    }
+
+    
+    std::shuffle(hiddenSpots.begin(), hiddenSpots.end(), m_randomEngine);
+    int hiddenCount = std::min(2, static_cast<int>(hiddenSpots.size()));
+    for (int i = 0; i < hiddenCount; ++i) {
+      HealthPickup hp;
+      hp.pos = hiddenSpots[i];
+      hp.floor = f;
+      hp.healAmount = 20.0f;
+      hp.bobTimer = m_randomDist(m_randomEngine) * 6.28f;
+      m_healthPickups.push_back(hp);
+    }
   }
 
-  std::cout << "💚 Spawned " << m_healthPickups.size() << " health pickups\n";
+  std::cout << "💚 Spawned " << m_healthPickups.size() << " health pickups (some hidden!)\n";
 }
 
 void Application::updateHealthPickups(float deltaTime) {
@@ -305,6 +425,186 @@ void Application::renderHealthPickups() {
 }
 
 // ─────────────────────── collision helpers ─────────────────
+
+// ─────────────────────── gun pickups ───────────────────────
+
+void Application::spawnGunPickups() {
+  m_gunPickups.clear();
+
+  for (int f = 0; f < static_cast<int>(m_floors.size()); ++f) {
+    
+    std::vector<Vector2> walkable;
+    for (int gy = 1; gy < m_floors[f].getHeight() - 1; ++gy) {
+      for (int gx = 1; gx < m_floors[f].getWidth() - 1; ++gx) {
+        char c = m_floors[f].getTile(gx, gy);
+        if (c == '.' || c == 'R') {
+          walkable.push_back(m_floors[f].gridToWorld(gx, gy));
+        }
+      }
+    }
+
+    if (walkable.empty()) continue;
+
+    
+    std::shuffle(walkable.begin(), walkable.end(), m_randomEngine);
+    int gunCount = std::min(2, static_cast<int>(walkable.size()));
+    for (int i = 0; i < gunCount; ++i) {
+      GunPickup gp;
+      gp.pos = walkable[i];
+      gp.floor = f;
+      gp.bobTimer = m_randomDist(m_randomEngine) * 6.28f;
+      m_gunPickups.push_back(gp);
+    }
+  }
+
+  std::cout << "🔫 Spawned " << m_gunPickups.size() << " gun pickups (3 shots each)\n";
+}
+
+void Application::updateGunPickups(float deltaTime) {
+  for (auto &gp : m_gunPickups) {
+    gp.bobTimer += deltaTime * 3.0f;
+
+    if (!gp.active) continue;
+    if (gp.floor != mCurrentFloor) continue;
+
+    float dist = Vector2::distanceSq(m_playerPos, gp.pos);
+    if (dist < 60.0f * 60.0f) {
+      m_hasGun = true;
+      m_gunAmmo += 3;
+      gp.active = false;
+
+      spawnParticles(gp.pos, 15, 1.0f, 0.8f, 0.2f);
+      shakeCamera(3.0f, 0.1f);
+      showHint("Gun picked up! 3 shots! LMB to shoot!", 3.0f, 1.0f, 0.8f, 0.2f, 1);
+      std::cout << "🔫 Gun picked up! Ammo: " << m_gunAmmo << "\n";
+    }
+  }
+}
+
+void Application::renderGunPickups() {
+  for (const auto &gp : m_gunPickups) {
+    if (!gp.active) continue;
+    if (gp.floor != mCurrentFloor) continue;
+
+    float bob = std::sin(gp.bobTimer) * 6.0f;
+    float glow = (std::sin(gp.bobTimer * 1.3f) + 1.0f) * 0.5f;
+
+    
+    m_renderer->drawQuadAlpha({gp.pos.x, gp.pos.y + bob}, {50, 50},
+                              1.0f, 0.8f, 0.2f, 0.12f + glow * 0.08f, 0.0f);
+
+    
+    m_renderer->drawQuad({gp.pos.x, gp.pos.y + bob}, {30, 12},
+                         0.3f, 0.3f, 0.35f, 0.0f);
+    
+    m_renderer->drawQuad({gp.pos.x - 6.0f, gp.pos.y + bob - 8.0f}, {8, 14},
+                         0.25f, 0.2f, 0.15f, 0.0f);
+    
+    m_renderer->drawQuad({gp.pos.x + 16.0f, gp.pos.y + bob}, {6, 6},
+                         0.4f, 0.4f, 0.45f, 0.0f);
+
+    
+    float sparkle = std::sin(gp.bobTimer * 5.0f);
+    if (sparkle > 0.8f) {
+      m_renderer->drawQuadAlpha(
+          {gp.pos.x + 15.0f, gp.pos.y + bob + 15.0f}, {4, 4},
+          1.0f, 1.0f, 0.5f, sparkle - 0.8f, 0.78f);
+    }
+  }
+}
+
+// ─────────────────────── shooting / projectiles ────────────
+
+void Application::shootGun() {
+  if (!m_hasGun || m_gunAmmo <= 0) return;
+
+  m_gunAmmo--;
+  if (m_gunAmmo <= 0) {
+    m_hasGun = false;
+  }
+
+  float facingAngle = m_playerRotation + PI * 0.5f;
+  Vector2 dir{std::cos(facingAngle), std::sin(facingAngle)};
+
+  Projectile p;
+  p.pos = m_playerPos + dir * 40.0f;
+  p.vel = dir * 900.0f;
+  p.floor = mCurrentFloor;
+  p.damage = 40.0f;
+  p.life = 2.0f;
+  p.rotation = facingAngle;
+  m_projectiles.push_back(p);
+
+  shakeCamera(4.0f, 0.1f);
+  spawnParticlesEx(m_playerPos + dir * 40.0f, 6,
+                   1.0f, 0.9f, 0.3f, 2.0f, 5.0f, 50.0f, 150.0f,
+                   0.1f, 0.3f, 0.0f);
+
+  m_combatTimer = m_outOfCombatDelay;
+  std::cout << "💥 Shot fired! Ammo left: " << m_gunAmmo << "\n";
+}
+
+void Application::updateProjectiles(float deltaTime) {
+  for (auto &p : m_projectiles) {
+    p.life -= deltaTime;
+    p.pos += p.vel * deltaTime;
+
+    
+    if (p.floor >= 0 && p.floor < static_cast<int>(m_floors.size())) {
+      if (m_floors[p.floor].checkCollision(p.pos, 5.0f)) {
+        p.life = 0.0f;
+        spawnParticles(p.pos, 5, 1.0f, 0.7f, 0.2f);
+        continue;
+      }
+    }
+
+    
+    if (p.life > 0.0f) {
+      for (auto &alien : m_aliens) {
+        if (!alien.alive || alien.floor != p.floor)
+          continue;
+        if (alien.state == Alien::State::Dying)
+          continue;
+
+        float dist = Vector2::distanceSq(p.pos, alien.pos);
+        if (dist < 35.0f * 35.0f) {
+          alien.hp -= p.damage;
+          p.life = 0.0f;
+
+          shakeCamera(6.0f, 0.15f);
+          spawnBlood(alien.pos, 15);
+
+          if (alien.hp <= 0.0f) {
+            alien.state = Alien::State::Dying;
+            alien.deathTimer = 0.0f;
+            alien.squash = 1.0f;
+            m_killCount++;
+            spawnBlood(alien.pos, 40);
+            shakeCamera(12.0f, 0.25f);
+            std::cout << "💀 Alien shot dead! (" << m_killCount << " total)\n";
+          }
+          break;
+        }
+      }
+    }
+  }
+
+  m_projectiles.erase(
+      std::remove_if(m_projectiles.begin(), m_projectiles.end(),
+                     [](const Projectile &p) { return p.life <= 0.0f; }),
+      m_projectiles.end());
+}
+
+void Application::renderProjectiles() {
+  for (const auto &p : m_projectiles) {
+    
+    m_renderer->drawQuadAlpha(p.pos, {16, 4}, 1.0f, 0.9f, 0.3f, 0.9f,
+                              p.rotation);
+    
+    m_renderer->drawQuadAlpha(p.pos, {24, 12}, 1.0f, 0.7f, 0.1f, 0.3f,
+                              p.rotation);
+  }
+}
 
 bool Application::checkWallCollision(const Vector2 &newPos, float radius) {
   if (mCurrentFloor < 0 || mCurrentFloor >= static_cast<int>(m_floors.size()))
@@ -431,6 +731,13 @@ void Application::processInput(float deltaTime) {
       m_playerStamina = m_playerMaxStamina;
       m_hasRabbit = false;
       m_rabbitPickedUp = false;
+      m_hasKeycard = false;
+      m_shownKeycardHint = false;
+      m_keycardBob = 0.0f;
+      m_isDashing = false;
+      m_dashTimer = 0.0f;
+      m_dashCooldown = 0.0f;
+      m_rmbPressed = false;
       m_gameTime = 0.0f;
       m_winTimer = 0.0f;
       m_damageFlashTimer = 0.0f;
@@ -441,6 +748,11 @@ void Application::processInput(float deltaTime) {
       m_particles.clear();
       m_hints.clear();
       m_healthPickups.clear();
+      m_gunPickups.clear();
+      m_projectiles.clear();
+      m_hasGun = false;
+      m_gunAmmo = 0;
+      m_lmbPressed = false;
       m_combatTimer = 0.0f;
       m_shownStartHint = false;
       m_shownRabbitHint = false;
@@ -451,6 +763,7 @@ void Application::processInput(float deltaTime) {
       loadMaps();
       spawnAliens();
       spawnHealthPickups();
+      spawnGunPickups();
       if (m_musicSound) {
         ma_sound_seek_to_pcm_frame(m_musicSound, 0);
         ma_sound_start(m_musicSound);
@@ -459,7 +772,7 @@ void Application::processInput(float deltaTime) {
     return;
   }
 
-  // ── Sprint detection ──
+  
   bool shiftHeld = glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ||
                    glfwGetKey(m_window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS;
   bool wantsSprint = shiftHeld && m_playerStamina > 0.0f;
@@ -474,7 +787,7 @@ void Application::processInput(float deltaTime) {
   if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     m_running = false;
 
-  // ── Player attack on Space ──
+  
   if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS) {
     if (!m_spacePressed && m_playerAttackCooldown <= 0.0f && !m_isLunging) {
       m_spacePressed = true;
@@ -485,7 +798,7 @@ void Application::processInput(float deltaTime) {
   }
   m_playerAttackCooldown -= deltaTime;
 
-  // ── Lunge animation update ──
+  
   if (m_isLunging) {
     m_lungeTimer += deltaTime;
     float t = m_lungeTimer / m_lungeDuration;
@@ -538,7 +851,7 @@ void Application::processInput(float deltaTime) {
     m_playerPos.y = std::clamp(m_playerPos.y, 32.0f, wh - 32.0f);
   }
 
-  // ── Sprint stamina management ──
+  
   m_isSprinting = wantsSprint && isMoving;
   if (m_isSprinting) {
     m_playerStamina -= m_staminaDrainRate * deltaTime;
@@ -552,7 +865,7 @@ void Application::processInput(float deltaTime) {
     }
   }
 
-  // ── Footstep particles while moving ──
+  
   if (isMoving) {
     m_footstepTimer += deltaTime;
     float interval = m_isSprinting ? 0.08f : 0.15f;
@@ -563,7 +876,7 @@ void Application::processInput(float deltaTime) {
     }
   }
 
-  // ── Mouse aim → rotation ──
+  
   {
     double mouseX, mouseY;
     glfwGetCursorPos(m_window, &mouseX, &mouseY);
@@ -596,30 +909,55 @@ void Application::processInput(float deltaTime) {
     }
   }
 
-  // ── Rabbit pickup (floor 2, tile 'B') ──
+  
+  if (!m_hasKeycard && mCurrentFloor == m_keycardFloor) {
+    float keycardDist = Vector2::distanceSq(m_playerPos, m_keycardPos);
+    if (keycardDist < 80.0f * 80.0f) {
+      if (glfwGetKey(m_window, GLFW_KEY_F) == GLFW_PRESS) {
+        m_hasKeycard = true;
+        shakeCamera(5.0f, 0.2f);
+        spawnParticles(m_keycardPos, 20, 0.2f, 0.5f, 1.0f);
+        showHint("Keycard acquired! Now find the rabbit on Floor 3!", 4.0f, 0.3f, 0.6f, 1.0f, 2);
+        std::cout << "🔑 Keycard picked up! Now go find the rabbit on Floor 3!\n";
+      }
+    }
+  }
+
+  
   if (!m_hasRabbit && mCurrentFloor == m_rabbitFloor) {
     float rabbitDist = Vector2::distanceSq(m_playerPos, m_rabbitPos);
     if (rabbitDist < 80.0f * 80.0f) {
       if (glfwGetKey(m_window, GLFW_KEY_F) == GLFW_PRESS) {
-        m_hasRabbit = true;
-        m_rabbitPickedUp = true;
-        shakeCamera(5.0f, 0.2f);
-        spawnParticles(m_rabbitPos, 20, 1.0f, 1.0f, 1.0f);
-        std::cout << "🐇 Rabbit rescued! Now escape through the DOOR on floor 1!\n";
-        std::cout << "   ⚠️  The aliens don't look happy about this...\n";
-        showHint("Rabbit rescued! Escape to Floor 1!", 4.0f, 1.0f, 0.4f, 0.2f, 1);
+        if (!m_hasKeycard) {
+          if (!m_shownKeycardHint) {
+            m_shownKeycardHint = true;
+            showHint("Cage is locked! Find the KEYCARD on Floor 2!", 4.0f, 1.0f, 0.4f, 0.2f, 1);
+            std::cout << "🔒 The rabbit cage is locked! Find the keycard on Floor 2!\n";
+          }
+        } else {
+          m_hasRabbit = true;
+          m_rabbitPickedUp = true;
+          shakeCamera(5.0f, 0.2f);
+          spawnParticles(m_rabbitPos, 20, 1.0f, 1.0f, 1.0f);
+          std::cout << "🐇 Rabbit rescued! Now escape through the DOOR on floor 1!\n";
+          std::cout << "   ⚠️  The aliens don't look happy about this...\n";
+          showHint("Rabbit rescued! Escape to Floor 1!", 4.0f, 1.0f, 0.4f, 0.2f, 1);
 
-        for (auto &alien : m_aliens) {
-          alien.sightRange *= 1.8f;
-          alien.speed *= 1.4f;
-          alien.damage *= 1.5f;
-          alien.sightAngle = PI; 
+          for (auto &alien : m_aliens) {
+            alien.sightRange *= 1.8f;
+            alien.speed *= 1.4f;
+            alien.damage *= 1.5f;
+            alien.sightAngle = PI;
+          }
+
+          
+          spawnAlienReinforcements();
         }
       }
     }
   }
 
-  // ── Exit check (floor 0, tile 'X') ──
+  
   if (m_hasRabbit && mCurrentFloor == m_exitFloor) {
     float exitDist = Vector2::distanceSq(m_playerPos, m_exitPos);
     if (exitDist < 100.0f * 100.0f) {
@@ -635,7 +973,7 @@ void Application::processInput(float deltaTime) {
     }
   }
 
-  // ── Elevator interaction (E tiles) ──
+  
   mNearElevator = false;
   if (mCurrentFloor >= 0 &&
       mCurrentFloor < static_cast<int>(m_floors.size())) {
@@ -669,7 +1007,7 @@ void Application::processInput(float deltaTime) {
       glfwGetKey(m_window, GLFW_KEY_3) == GLFW_RELEASE)
     mElevatorCooldown = false;
 
-  // ── Stair interaction (S tiles) ──
+  
   bool nearStair = false;
   if (mCurrentFloor >= 0 &&
       mCurrentFloor < static_cast<int>(m_floors.size())) {
@@ -683,26 +1021,73 @@ void Application::processInput(float deltaTime) {
   }
 
   if (nearStair) {
-    if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS && !mElevatorCooldown) {
+    if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS && !mStairCooldown) {
       if (mCurrentFloor < 2) {
         mCurrentFloor++;
-        mElevatorCooldown = true;
+        mStairCooldown = true;
         std::cout << "🪜 UP → floor " << (mCurrentFloor + 1) << "\n";
       }
     }
-    if (glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_PRESS && !mElevatorCooldown) {
+    if (glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_PRESS && !mStairCooldown) {
       if (mCurrentFloor > 0) {
         mCurrentFloor--;
-        mElevatorCooldown = true;
+        mStairCooldown = true;
         std::cout << "🪜 DOWN → floor " << (mCurrentFloor + 1) << "\n";
       }
     }
-    if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_RELEASE &&
-        glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_RELEASE)
-      mElevatorCooldown = false;
+  }
+  if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_RELEASE &&
+      glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_RELEASE)
+    mStairCooldown = false;
+
+  
+  if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !m_editorMode) {
+    if (!m_lmbPressed && m_hasGun && m_gunAmmo > 0) {
+      m_lmbPressed = true;
+      shootGun();
+    }
+  } else {
+    m_lmbPressed = false;
   }
 
-  // ── Editor toggle (F1) ──
+  
+  m_dashCooldown -= deltaTime;
+  if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS && !m_editorMode) {
+    if (!m_rmbPressed && !m_isDashing && m_dashCooldown <= 0.0f &&
+        m_playerStamina >= m_dashStaminaCost) {
+      m_rmbPressed = true;
+      m_isDashing = true;
+      m_dashTimer = 0.0f;
+      float facingAngle = m_playerRotation + PI * 0.5f;
+      m_dashDir = {std::cos(facingAngle), std::sin(facingAngle)};
+      m_playerStamina -= m_dashStaminaCost;
+      m_dashCooldown = m_dashCooldownMax;
+      m_staminaRegenTimer = m_staminaRegenDelay;
+      spawnParticlesEx(m_playerPos, 8, 0.4f, 0.6f, 1.0f,
+                       3.0f, 6.0f, 40.0f, 100.0f, 0.2f, 0.5f, 0.0f);
+    }
+  } else {
+    m_rmbPressed = false;
+  }
+
+  if (m_isDashing) {
+    m_dashTimer += deltaTime;
+    if (m_dashTimer >= m_dashDuration) {
+      m_isDashing = false;
+      m_dashTimer = 0.0f;
+    } else {
+      Vector2 dashPos = m_playerPos + m_dashDir * m_dashSpeed * deltaTime;
+      if (!checkWallCollision({dashPos.x, m_playerPos.y}, 30.0f))
+        m_playerPos.x = dashPos.x;
+      if (!checkWallCollision({m_playerPos.x, dashPos.y}, 30.0f))
+        m_playerPos.y = dashPos.y;
+      
+      spawnParticlesEx(m_playerPos, 1, 0.3f, 0.5f, 0.9f,
+                       2.0f, 4.0f, 10.0f, 30.0f, 0.1f, 0.3f, 0.0f);
+    }
+  }
+
+  
   if (glfwGetKey(m_window, GLFW_KEY_F1) == GLFW_PRESS) {
     if (!m_f1Pressed) {
       m_editorMode = !m_editorMode;
@@ -716,7 +1101,7 @@ void Application::processInput(float deltaTime) {
     m_f1Pressed = false;
   }
 
-  // ── Editor input ──
+  
   if (m_editorMode && mCurrentFloor >= 0 &&
       mCurrentFloor < static_cast<int>(m_floors.size())) {
 
@@ -1016,6 +1401,7 @@ void Application::update(float deltaTime) {
     m_damageFlashTimer -= deltaTime;
 
   m_rabbitBob += deltaTime * 3.0f;
+  m_keycardBob += deltaTime * 3.0f;
 
   if (m_playerHP < 30.0f && m_playerHP > 0.0f) {
     m_heartbeatTimer += deltaTime;
@@ -1035,17 +1421,18 @@ void Application::update(float deltaTime) {
   updateAliens(deltaTime);
   updateParticles(deltaTime);
   updateHealthPickups(deltaTime);
+  updateGunPickups(deltaTime);
+  updateProjectiles(deltaTime);
   updateHints(deltaTime);
 
-  // ── Contextual hints / tips ──
+  
   m_hintCooldown -= deltaTime;
 
   if (!m_shownStartHint && m_gameTime > 1.0f) {
     m_shownStartHint = true;
-    showHint("Find the rabbit on Floor 3!", 5.0f, 0.3f, 0.9f, 1.0f, 0); 
-    std::cout << "💡 TIP: Find the rabbit on Floor 3 and bring it to the door "
-                 "on Floor 1!\n";
-    std::cout << "    Use WASD to move, Mouse to aim, SPACE to attack!\n";
+    showHint("Find the KEYCARD on Floor 2 first!", 5.0f, 0.3f, 0.6f, 1.0f, 0); 
+    std::cout << "💡 TIP: Find the keycard on Floor 2, then rescue the rabbit on Floor 3!\n";
+    std::cout << "    Use WASD to move, Mouse to aim, SPACE to attack, RMB to dash!\n";
   }
 
   if (mCurrentFloor != m_lastHintFloor && m_hintCooldown <= 0.0f) {
@@ -1232,16 +1619,38 @@ void Application::renderAliens() {
     float wobble = std::sin(alien.animTimer * 4.0f) * 2.0f;
 
     float bodyR = 0.15f, bodyG = 0.75f, bodyB = 0.15f;
+    float bodySize = 48.0f;
+    float headSize = 24.0f;
+
+    if (alien.elite) {
+      bodyR = 0.6f; bodyG = 0.15f; bodyB = 0.6f;
+      bodySize = 64.0f;
+      headSize = 30.0f;
+    }
 
     if (alien.state == Alien::State::Chase ||
         alien.state == Alien::State::Attack) {
       float pulse = (std::sin(alien.animTimer * 8.0f) + 1.0f) * 0.5f;
-      bodyR = 0.4f + pulse * 0.4f;
-      bodyG = 0.3f + pulse * 0.2f;
-      bodyB = 0.1f;
+      if (alien.elite) {
+        bodyR = 0.7f + pulse * 0.3f;
+        bodyG = 0.1f;
+        bodyB = 0.4f + pulse * 0.3f;
+      } else {
+        bodyR = 0.4f + pulse * 0.4f;
+        bodyG = 0.3f + pulse * 0.2f;
+        bodyB = 0.1f;
+      }
     }
 
-    m_renderer->drawQuad({alien.pos.x, alien.pos.y + wobble}, {48, 48}, bodyR,
+    
+    if (alien.elite) {
+      float glow = (std::sin(alien.animTimer * 3.0f) + 1.0f) * 0.5f;
+      m_renderer->drawQuadAlpha({alien.pos.x, alien.pos.y + wobble},
+                                {bodySize + 20.0f, bodySize + 20.0f},
+                                0.6f, 0.1f, 0.6f, 0.1f + glow * 0.08f, 0.0f);
+    }
+
+    m_renderer->drawQuad({alien.pos.x, alien.pos.y + wobble}, {bodySize, bodySize}, bodyR,
                          bodyG, bodyB, alien.rotation);
 
     float headAngle = alien.rotation + PI * 0.5f;
@@ -1249,16 +1658,17 @@ void Application::renderAliens() {
                        std::sin(headAngle) * 20.0f};
     m_renderer->drawQuad(
         {alien.pos.x + headOffset.x, alien.pos.y + headOffset.y + wobble},
-        {24, 24}, bodyR * 0.8f, bodyG * 1.2f, bodyB * 0.8f, alien.rotation);
+        {headSize, headSize}, bodyR * 0.8f, bodyG * 1.2f, bodyB * 0.8f, alien.rotation);
 
-    float eyeSpread = 8.0f;
+    float eyeSpread = alien.elite ? 10.0f : 8.0f;
+    float eyeSize = alien.elite ? 8.0f : 6.0f;
     float perpAngle = headAngle + PI * 0.5f;
     Vector2 eyeBase = alien.pos + headOffset;
     for (int e = -1; e <= 1; e += 2) {
       Vector2 eyePos = {
           eyeBase.x + std::cos(perpAngle) * eyeSpread * e,
           eyeBase.y + std::sin(perpAngle) * eyeSpread * e + wobble};
-      m_renderer->drawQuad(eyePos, {6, 6}, 1.0f, 0.0f, 0.0f, 0.0f);
+      m_renderer->drawQuad(eyePos, {eyeSize, eyeSize}, 1.0f, 0.0f, 0.0f, 0.0f);
     }
 
     if (alien.state == Alien::State::Chase ||
@@ -1296,7 +1706,7 @@ void Application::renderHUD() {
   float hudX = 20.0f;
   float hudY = static_cast<float>(mWindowHeight) - 30.0f;
 
-  // ── HP Bar ──
+  
   float hpBarW = 200.0f;
   float hpBarH = 18.0f;
   float hpFrac = m_playerHP / m_playerMaxHP;
@@ -1319,7 +1729,7 @@ void Application::renderHUD() {
                 static_cast<int>(m_playerHP), static_cast<int>(m_playerMaxHP));
   m_renderer->drawText({hudX + hpBarW + 8.0f, hudY - 3.0f}, hpBuf, 1.5f, 1.0f, 1.0f, 1.0f);
 
-  // ── Stamina Bar ──
+  
   float stamY = hudY - 25.0f;
   float stamBarW = 160.0f;
   float stamBarH = 12.0f;
@@ -1346,7 +1756,29 @@ void Application::renderHUD() {
     m_renderer->drawText({hudX + stamBarW + 8.0f, stamY - 3.0f}, "SPRINT", 1.2f, 0.3f, 0.8f, 1.0f);
   }
 
-  // ── Floor indicator ──
+  
+  if (m_hasGun && m_gunAmmo > 0) {
+    float ammoY = stamY - 25.0f;
+    m_renderer->drawQuadAlpha({hudX + 50.0f, ammoY}, {110, 20}, 0.0f, 0.0f,
+                              0.0f, 0.7f);
+    
+    m_renderer->drawQuad({hudX + 10.0f, ammoY}, {18, 8}, 0.5f, 0.5f, 0.55f,
+                         0.0f);
+    m_renderer->drawQuad({hudX + 5.0f, ammoY - 5.0f}, {6, 10}, 0.4f, 0.35f,
+                         0.3f, 0.0f);
+
+    
+    for (int i = 0; i < m_gunAmmo && i < 3; ++i) {
+      float dotX = hudX + 30.0f + i * 20.0f;
+      m_renderer->drawQuad({dotX, ammoY}, {12, 12}, 1.0f, 0.85f, 0.2f, 0.0f);
+    }
+    char ammoBuf[16];
+    std::snprintf(ammoBuf, sizeof(ammoBuf), "x%d", m_gunAmmo);
+    m_renderer->drawText({hudX + 90.0f, ammoY - 3.0f}, ammoBuf, 1.5f, 1.0f,
+                         0.9f, 0.3f);
+  }
+
+  
   float floorX = static_cast<float>(mWindowWidth) - 120.0f;
   float floorY = static_cast<float>(mWindowHeight) - 30.0f;
   m_renderer->drawQuadAlpha({floorX, floorY}, {100, 30}, 0.05f, 0.05f, 0.1f,
@@ -1370,15 +1802,20 @@ void Application::renderHUD() {
   std::snprintf(floorBuf, sizeof(floorBuf), "F%d", mCurrentFloor + 1);
   m_renderer->drawText({floorX + 30.0f, floorY - 4.0f}, floorBuf, 1.5f, 1.0f, 1.0f, 1.0f);
 
-  // ── Objective status ──
+  
   float objX = static_cast<float>(mWindowWidth) / 2.0f;
   float objY = static_cast<float>(mWindowHeight) - 25.0f;
 
   if (!m_hasRabbit) {
-    m_renderer->drawQuadAlpha({objX, objY}, {280, 24}, 0.0f, 0.0f, 0.0f,
+    m_renderer->drawQuadAlpha({objX, objY}, {320, 24}, 0.0f, 0.0f, 0.0f,
                               0.6f);
-    m_renderer->drawTextCentered({objX, objY}, "Find the rabbit on Floor 3",
-                                 1.5f, 1.0f, 1.0f, 0.8f);
+    if (!m_hasKeycard) {
+      m_renderer->drawTextCentered({objX, objY}, "Find the KEYCARD on Floor 2",
+                                   1.5f, 0.3f, 0.6f, 1.0f);
+    } else {
+      m_renderer->drawTextCentered({objX, objY}, "Rescue the rabbit on Floor 3",
+                                   1.5f, 1.0f, 1.0f, 0.8f);
+    }
   } else {
     float pulse = (std::sin(m_gameTime * 4.0f) + 1.0f) * 0.5f;
     m_renderer->drawQuadAlpha({objX, objY}, {280, 24}, 0.1f * pulse, 0.3f,
@@ -1387,7 +1824,7 @@ void Application::renderHUD() {
                                  1.5f, 0.3f + pulse * 0.7f, 1.0f, 0.4f);
   }
 
-  // ── Timer & Kill count ──
+  
   float timerY = static_cast<float>(mWindowHeight) - 55.0f;
   m_renderer->drawQuadAlpha({objX, timerY}, {100, 18}, 0.0f, 0.0f, 0.0f,
                             0.5f);
@@ -1406,7 +1843,7 @@ void Application::renderHUD() {
     m_renderer->drawTextCentered({objX, killY}, killBuf, 1.5f, 0.9f, 0.3f, 0.3f);
   }
 
-  // ── Damage flash overlay ──
+  
   if (m_damageFlashTimer > 0.0f) {
     float alpha = m_damageFlashTimer / 0.3f * 0.4f;
     m_renderer->drawQuadAlpha(
@@ -1416,7 +1853,7 @@ void Application::renderHUD() {
         0.8f, 0.0f, 0.0f, alpha);
   }
 
-  // ── Low HP vignette ──
+  
   if (m_playerHP < 30.0f && m_playerHP > 0.0f) {
     float intensity = (30.0f - m_playerHP) / 30.0f;
     float pulse = (std::sin(m_heartbeatTimer * 4.0f) + 1.0f) * 0.5f;
@@ -1661,36 +2098,38 @@ void Application::renderWaypoint() {
   bool showWaypoint = false;
 
   if (!m_hasRabbit) {
-    if (mCurrentFloor == m_rabbitFloor) {
-      target = m_rabbitPos;
-      targetR = 1.0f;
-      targetG = 1.0f;
-      targetB = 0.8f;
+    
+    int targetFloor;
+    Vector2 objectivePos;
+    if (!m_hasKeycard) {
+      targetFloor = m_keycardFloor;
+      objectivePos = m_keycardPos;
+      targetR = 0.3f; targetG = 0.6f; targetB = 1.0f;
+    } else {
+      targetFloor = m_rabbitFloor;
+      objectivePos = m_rabbitPos;
+      targetR = 1.0f; targetG = 1.0f; targetB = 0.8f;
+    }
+
+    if (mCurrentFloor == targetFloor) {
+      target = objectivePos;
       showWaypoint = true;
     } else {
-      if (mCurrentFloor < m_rabbitFloor &&
-          mCurrentFloor < static_cast<int>(m_floors.size())) {
+      
+      if (mCurrentFloor < static_cast<int>(m_floors.size())) {
         auto stairs = m_floors[mCurrentFloor].findTiles('S');
         auto elevs = m_floors[mCurrentFloor].findTiles('E');
         float bestDist = 999999.0f;
         for (const auto &s : stairs) {
           float d = Vector2::distanceSq(m_playerPos, s);
-          if (d < bestDist) {
-            bestDist = d;
-            target = s;
-          }
+          if (d < bestDist) { bestDist = d; target = s; }
         }
         for (const auto &e : elevs) {
           float d = Vector2::distanceSq(m_playerPos, e);
-          if (d < bestDist) {
-            bestDist = d;
-            target = e;
-          }
+          if (d < bestDist) { bestDist = d; target = e; }
         }
         if (bestDist < 999999.0f) {
-          targetR = 0.5f;
-          targetG = 0.8f;
-          targetB = 1.0f;
+          targetR = 0.5f; targetG = 0.8f; targetB = 1.0f;
           showWaypoint = true;
         }
       }
@@ -1781,7 +2220,7 @@ void Application::render() {
       mCurrentFloor < static_cast<int>(m_floors.size())) {
     m_floors[mCurrentFloor].render(*m_renderer);
 
-    // ── Elevator tiles (E) ──
+    
     auto elevPositions = m_floors[mCurrentFloor].findTiles('E');
     for (const auto &ep : elevPositions) {
       bool nearby = Vector2::distanceSq(m_playerPos, ep) < 150.0f * 150.0f;
@@ -1789,7 +2228,7 @@ void Application::render() {
                            nearby ? 0.3f : 0.3f, nearby ? 0.4f : 0.7f, 0.0f);
     }
 
-    // ── Stair tiles (S) ──
+    
     auto stairPositions = m_floors[mCurrentFloor].findTiles('S');
     for (const auto &sp : stairPositions) {
       bool nearby = Vector2::distanceSq(m_playerPos, sp) < 150.0f * 150.0f;
@@ -1800,7 +2239,7 @@ void Application::render() {
       }
     }
 
-    // ── Exit Door (X) — proper door on floor 0 ──
+    
     if (mCurrentFloor == m_exitFloor) {
       auto exitTiles = m_floors[mCurrentFloor].findTiles('X');
       for (const auto &xp : exitTiles) {
@@ -1834,7 +2273,7 @@ void Application::render() {
       }
     }
 
-    // ── Rabbit (white block on floor 2) ──
+    
     if (!m_hasRabbit && mCurrentFloor == m_rabbitFloor) {
       float bob = std::sin(m_rabbitBob) * 8.0f;
       float glow = (std::sin(m_rabbitBob * 1.5f) + 1.0f) * 0.5f;
@@ -1863,13 +2302,49 @@ void Application::render() {
         m_renderer->drawQuadAlpha(
             {m_rabbitPos.x, m_rabbitPos.y + 55.0f + promptBob}, {80, 20},
             0.0f, 0.0f, 0.0f, 0.7f, 0.0f);
-        m_renderer->drawTextCentered(
-            {m_rabbitPos.x, m_rabbitPos.y + 55.0f + promptBob},
-            "Press F", 2.0f, 1.0f, 1.0f, 0.3f);
+        if (m_hasKeycard) {
+          m_renderer->drawTextCentered(
+              {m_rabbitPos.x, m_rabbitPos.y + 55.0f + promptBob},
+              "Press F", 2.0f, 1.0f, 1.0f, 0.3f);
+        } else {
+          m_renderer->drawTextCentered(
+              {m_rabbitPos.x, m_rabbitPos.y + 55.0f + promptBob},
+              "LOCKED - Need Keycard", 1.5f, 1.0f, 0.3f, 0.3f);
+        }
       }
     }
 
-    // ── Environment decorations ──
+    
+    if (!m_hasKeycard && mCurrentFloor == m_keycardFloor) {
+      float bob = std::sin(m_keycardBob) * 6.0f;
+      float glow = (std::sin(m_keycardBob * 1.5f) + 1.0f) * 0.5f;
+
+      
+      m_renderer->drawQuadAlpha({m_keycardPos.x, m_keycardPos.y + bob}, {60, 60},
+                                0.2f, 0.5f, 1.0f, 0.15f + glow * 0.1f, 0.0f);
+      
+      m_renderer->drawQuad({m_keycardPos.x, m_keycardPos.y + bob}, {28, 20},
+                           0.15f, 0.4f, 0.9f, 0.0f);
+      
+      m_renderer->drawQuad({m_keycardPos.x, m_keycardPos.y + bob + 4.0f}, {22, 4},
+                           0.8f, 0.8f, 0.2f, 0.0f);
+      
+      m_renderer->drawQuad({m_keycardPos.x - 6.0f, m_keycardPos.y + bob - 3.0f}, {8, 6},
+                           0.9f, 0.8f, 0.3f, 0.0f);
+
+      float distToCard = Vector2::distance(m_playerPos, m_keycardPos);
+      if (distToCard < 120.0f) {
+        float promptBob = std::sin(m_gameTime * 3.0f) * 5.0f;
+        m_renderer->drawQuadAlpha(
+            {m_keycardPos.x, m_keycardPos.y + 45.0f + promptBob}, {100, 20},
+            0.0f, 0.0f, 0.0f, 0.7f, 0.0f);
+        m_renderer->drawTextCentered(
+            {m_keycardPos.x, m_keycardPos.y + 45.0f + promptBob},
+            "Press F - Keycard", 1.8f, 0.3f, 0.6f, 1.0f);
+      }
+    }
+
+    
     auto decors = m_floors[mCurrentFloor].findTiles('D');
     for (const auto &dp : decors) {
       m_renderer->drawQuad(dp, {60, 60}, 0.55f, 0.35f, 0.15f, 0.0f);
@@ -1966,16 +2441,22 @@ void Application::render() {
     }
   }
 
-  // ── Render health pickups ──
+  
   renderHealthPickups();
 
-  // ── Render aliens ──
+  
+  renderGunPickups();
+
+  
   renderAliens();
 
-  // ── Render particles ──
+  
+  renderProjectiles();
+
+  
   renderParticles();
 
-  // ── Player ──
+  
   {
     Vector2 drawPos = {m_playerPos.x, m_playerPos.y + m_lungeHeight};
     float playerSize = 64.0f;
@@ -2005,7 +2486,7 @@ void Application::render() {
 
   renderEditorOverlay();
 
-  // ── UI: elevator panel ──
+  
   if (mNearElevator) {
     float uiWX = m_playerPos.x;
     float uiWY = m_playerPos.y + 120.0f;
@@ -2028,7 +2509,7 @@ void Application::render() {
                          0.0f);
   }
 
-  // ── Stair prompt ──
+  
   if (mCurrentFloor >= 0 &&
       mCurrentFloor < static_cast<int>(m_floors.size())) {
     auto stairPos = m_floors[mCurrentFloor].findTiles('S');
@@ -2046,21 +2527,21 @@ void Application::render() {
     }
   }
 
-  // ── HUD ──
+  
   renderHUD();
 
-  // ── Minimap ──
+  
   renderMinimap();
 
-  // ── Waypoint arrow ──
+  
   if (m_gameState == GameState::Playing) {
     renderWaypoint();
   }
 
-  // ── Hint messages ──
+  
   renderHints();
 
-  // ── Game over / win ──
+  
   if (m_gameState != GameState::Playing) {
     renderGameOver();
   }
@@ -2074,18 +2555,20 @@ void Application::render() {
 
 void Application::run() {
   std::cout << "\n🎮 XENOCIDE running!\n";
-  std::cout << "   WASD/Arrows — move | Mouse — aim | Shift — sprint\n";
-  std::cout << "   SPACE — attack aliens | 1/2/3 — elevator floors\n";
-  std::cout << "   E/Q — stairs up/down | F — pick up rabbit\n";
+  std::cout << "   WASD/Arrows — move | Mouse — aim | Shift — sprint | RMB — dash\n";
+  std::cout << "   SPACE — attack aliens | LMB — shoot gun | 1/2/3 — elevator floors\n";
+  std::cout << "   E/Q — stairs up/down | F — pick up items\n";
   std::cout << "   ESC — exit | R — restart\n";
   std::cout << "   F1 — toggle map editor\n";
   std::cout << "   [Editor] LMB — place | RMB — erase | [] — cycle tiles | "
                "F5 — save\n\n";
-  std::cout << "   🎯 OBJECTIVE: Find the rabbit on floor 3,\n";
-  std::cout << "      bring it to the EXIT DOOR on floor 1!\n";
+  std::cout << "   🎯 OBJECTIVE: Find the KEYCARD on floor 2,\n";
+  std::cout << "      then rescue the rabbit on floor 3,\n";
+  std::cout << "      and bring it to the EXIT DOOR on floor 1!\n";
   std::cout << "      ⚠️  Beware of aliens — they get angry when you grab "
                "the rabbit!\n";
   std::cout << "      💀 Press SPACE to stomp on aliens!\n";
+  std::cout << "      🏃 Right-click to dash (uses stamina)!\n";
   std::cout << "      🧭 Follow the waypoint arrow to your objective!\n\n";
 
   while (!glfwWindowShouldClose(m_window) && m_running) {

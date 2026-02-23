@@ -47,6 +47,7 @@ struct Alien {
 
   float animTimer = 0.0f;
   bool alive = true;
+  bool elite = false;
 };
 
 // ─── Particle (for fun VFX) ──────────────────────────────
@@ -71,6 +72,24 @@ struct HealthPickup {
   float bobTimer = 0.0f;
 };
 
+// ─── Gun pickup ──────────────────────────────────────────
+struct GunPickup {
+  Vector2 pos;
+  int floor = 0;
+  bool active = true;
+  float bobTimer = 0.0f;
+};
+
+// ─── Projectile (bullet) ─────────────────────────────────
+struct Projectile {
+  Vector2 pos;
+  Vector2 vel;
+  int floor = 0;
+  float damage = 40.0f;
+  float life = 2.0f;
+  float rotation = 0.0f;
+};
+
 // ─── Game state enum ─────────────────────────────────────
 enum class GameState { Playing, Won, Dead };
 
@@ -89,6 +108,7 @@ private:
 
   int mCurrentFloor = 0;
   bool mElevatorCooldown = false;
+  bool mStairCooldown = false;
   bool mNearElevator = false;
   int mSelectedFloor = 0;
   int mWindowWidth = 0;
@@ -140,6 +160,17 @@ private:
   float m_lungeHeight = 0.0f;  
   int m_killCount = 0;
 
+  
+  bool m_isDashing = false;
+  float m_dashTimer = 0.0f;
+  float m_dashDuration = 0.15f;
+  float m_dashSpeed = 1200.0f;
+  float m_dashCooldown = 0.0f;
+  float m_dashCooldownMax = 0.8f;
+  float m_dashStaminaCost = 25.0f;
+  Vector2 m_dashDir;
+  bool m_rmbPressed = false;
+
   ma_engine* m_audioEngine = nullptr;
   ma_sound* m_musicSound = nullptr;
   bool m_musicPlaying = false;
@@ -164,11 +195,19 @@ private:
   int m_rabbitFloor = 2;  
   float m_rabbitBob = 0.0f; 
 
+  
+  bool m_hasKeycard = false;
+  Vector2 m_keycardPos;
+  int m_keycardFloor = 1;
+  float m_keycardBob = 0.0f;
+  bool m_shownKeycardHint = false;
+
   Vector2 m_exitPos;
   int m_exitFloor = 0;  
 
   std::vector<Alien> m_aliens;
   void spawnAliens();
+  void spawnAlienReinforcements();
   void updateAliens(float deltaTime);
   void renderAliens();
   bool hasLineOfSight(int floor, const Vector2 &from, const Vector2 &to);
@@ -214,6 +253,21 @@ private:
   void spawnHealthPickups();
   void updateHealthPickups(float deltaTime);
   void renderHealthPickups();
+
+  
+  std::vector<GunPickup> m_gunPickups;
+  bool m_hasGun = false;
+  int m_gunAmmo = 0;
+  bool m_lmbPressed = false;
+  void spawnGunPickups();
+  void updateGunPickups(float deltaTime);
+  void renderGunPickups();
+
+  
+  std::vector<Projectile> m_projectiles;
+  void shootGun();
+  void updateProjectiles(float deltaTime);
+  void renderProjectiles();
 
   float m_combatTimer = 0.0f;
   float m_outOfCombatDelay = 5.0f;

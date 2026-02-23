@@ -1,11 +1,11 @@
-# XENOCIDE Map (auto-saved)
+# XENOCIDE Floor 1 - Living Quarters (START + KEYCARD)
 tilesize 100
-bgcolor 0.15 0.2 0.12 
+bgcolor 0.15 0.2 0.12
 
 tile W 1 0.5 0.5 0.55
 tile H 1 0.6 0.55 0.5 panel.png
 tile G 1 0.4 0.45 0.35 smth.png
-tile . 0 0.28 0.32 0.22 
+tile . 0 0.28 0.32 0.22
 tile R 0 0.38 0.38 0.28
 tile E 0 0.5 0.3 0.7
 tile S 0 0.6 0.4 0.3
@@ -19,25 +19,37 @@ tile V 0 0.28 0.32 0.22
 tile C 0 0.28 0.32 0.22
 tile K 0 0.28 0.32 0.22
 tile N 0 0.28 0.32 0.22
+tile h 0 0.28 0.32 0.22
+tile Z 0 0.28 0.32 0.22
 
 grid
-WWWWWWWWWWWWWWWWWWWWWWWWW 
-WE..L..........C..L....WW 
-W....GGGGGG............WW 
-W....G.....A......K....WW 
-W....G.................WW 
-W....GGGGGG.....PPP....W  
-W..V............P.P....W  
-W..D............PPP....W  
-W......................WW 
-W..T.......P.......T...WW 
-W......................WW 
-W...WWWW........WWWW...WW 
-W...W.F........W.N.W...WW 
-W...W.A.W..L...W.D.W...WW 
-W...W...W......W...W...WW 
-W...WWWWWWW..WWWWWWW...WW 
-W.....C.W......W.......WW 
-W..A....W..D...W.V...L.WW 
-W.......WWWWWWWW...P..SWWW
-WWWWWWWWWWWWWWWWWWWWWWWWW 
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WE..L..............C..L..............SWW
+W....GGGGGG.........A.......V........WW
+W....G.....A......K..................WW
+W....G..........A....................WW
+W....GGGGGG......PPP.......C.........WW
+W..V.............P.P.................WW
+W..D.............PPP.................WW
+W...........A.......................WW
+W..T.......P.......T......WWWWWWWW..WW
+W.........A................W.....W..WW
+W...WWWWWW....WWWWWWWW.....W..N..W..WW
+W...W.FL.W....WPLN.W.......W..D..W..WW
+W...W.AC...L...PCD.W...A...W.....W..WW
+W...W....W....W..A.W.......WWWWWWW..WW
+W...WWWWWWW..WWWWWWW.....h..........WW
+W.....C.WNC...VW......................WW
+W..A....WVKDTLFW.V...L........A.....WW
+W.......WWWWWWWW.....................WW
+W............h.....WWWWWWWW..........WW
+W....C.............W......W..........WW
+W......V.......A...W..Z...W..........WW
+W..................W......W..K.......WW
+W..D............L..WWWGWWWW..........WW
+W......A..........A.......C..........WW
+W..T..........V.....D......T.....L...WW
+W....h...........A...................WW
+W.....................................WW
+WS.................P...............EWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW

@@ -1,11 +1,11 @@
-# XENOCIDE Map (auto-saved)
+# XENOCIDE Floor 0 - Command Deck (EXIT is here)
 tilesize 100
-bgcolor 0.12 0.08 0.2 
+bgcolor 0.12 0.08 0.2
 
 tile W 1 0.45 0.42 0.55
 tile H 1 0.55 0.5 0.6 panel.png
 tile G 1 0.35 0.32 0.45 smth.png
-tile . 0 0.22 0.18 0.32 
+tile . 0 0.22 0.18 0.32
 tile R 0 0.3 0.25 0.4
 tile E 0 0.5 0.3 0.7
 tile S 0 0.6 0.4 0.3
@@ -20,25 +20,36 @@ tile V 0 0.22 0.18 0.32
 tile C 0 0.22 0.18 0.32
 tile K 0 0.22 0.18 0.32
 tile N 0 0.22 0.18 0.32
+tile h 0 0.22 0.18 0.32
 
 grid
-WWWWWWWWWWWWWWWWWWWWWWWWW 
-WX..L..........L.......WW 
-W....C.................WW 
-W..D...................WW 
-W..V.............D.....WW 
-W..GGGG...............EWW 
-W..G..............K....WW 
-W..G......F............WW 
-W..GGGG....A.....T.....WW 
-W......................WW 
-W..........WWWWWWWW....WW 
-WL..N......W......W....WW 
-W..........W..A...W.L..WW 
-W..........W......W....WW 
-W..D.......WWWWWWWW....WW 
-W.....C................WW 
-W......A.......V.......WW 
-W..T.........D....K....WW 
-W..................P..SWWW
-WWWWWWWWWWWWWWWWWWWWWWWWW 
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WE..L..............C...........L....SWW
+W....C..............................AWW
+W..D............HHHHHH.......K.......WW
+W..V............H....H...............WW
+W..GGGG....A....H....H......D........WW
+W..G............HHHHHH...............WW
+W..G.......F........L....WWWWWWWW....WW
+W..GGGG....A.....T.......W......W....WW
+W..........h.............W..h.A.W....WW
+W.........WWWWWWWW.......W......W....WW
+WL..N.....W......W.......WWWWWWWW....WW
+W.........W..A...W..........C........WW
+W...A.....W......W...................WW
+W.........WWWWWGWW......GGGGGG.......WW
+W.....C.................G....G.......WW
+W............V......A.L.G..A.G......WW
+W..T............D.......GGGGGG.......WW
+W.........WWWWWWWWWW......T..........WW
+W.........W........W................WW
+W....A....W..K..N..W.......V....L....WW
+W.........W........W.........A......WW
+W.........W....D...W................WW
+W.....h...WWWWWWWWWW.....C..........WW
+W..D...........A............K........WW
+W......A.......V..........D..........WW
+W..T..h..........D.........K.........WW
+W......................................WW
+WS................P................EWWW
+WWWWWWWWWWWWWWWWWWXWWWWWWWWWWWWWWWWWWWWW

@@ -1,6 +1,6 @@
-// ⚠️ GLAD ДОЛЖЕН БЫТЬ АБСОЛЮТНО ПЕРВЫМ — НИЧЕГО ДО ЭТОГО!
+
 #include <glad/glad.h>
-// ⚠️ GLFW — СТРОГО ВТОРЫМ
+
 #include <GLFW/glfw3.h>
 
 #include "mine/core/Application.hpp"
@@ -72,11 +72,11 @@ Application::Application(int width, int height, const char *title)
 
   m_assetsDir = expandPath("~/Projects/XENOCIDE/assets");
 
-  // Player texture
+  
   m_playerTexture =
       m_texManager.load(m_assetsDir + "/textures/player.png");
 
-  // Load tile maps
+  
   loadMaps();
 }
 
@@ -100,7 +100,7 @@ void Application::loadMaps() {
     }
   }
 
-  // Spawn on ground floor (floor index 1)
+  
   mCurrentFloor = 1;
   if (mCurrentFloor < static_cast<int>(m_floors.size())) {
     m_playerPos = m_floors[mCurrentFloor].findSpawn();
@@ -127,7 +127,7 @@ void Application::processInput(float deltaTime) {
   if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     m_running = false;
 
-  // Camera shake
+  
   if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS) {
     if (!m_hasShaken) {
       shakeCamera(10.0f, 0.3f);
@@ -137,7 +137,7 @@ void Application::processInput(float deltaTime) {
     m_hasShaken = false;
   }
 
-  // WASD movement
+  
   if (glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS ||
       glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
     desiredPos.x -= speed * deltaTime;
@@ -151,13 +151,13 @@ void Application::processInput(float deltaTime) {
       glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
     desiredPos.y -= speed * deltaTime;
 
-  // Per-axis collision (slide along walls)
+  
   if (!checkWallCollision({desiredPos.x, m_playerPos.y}, 30.0f))
     m_playerPos.x = desiredPos.x;
   if (!checkWallCollision({m_playerPos.x, desiredPos.y}, 30.0f))
     m_playerPos.y = desiredPos.y;
 
-  // Clamp to world bounds
+  
   if (mCurrentFloor >= 0 && mCurrentFloor < static_cast<int>(m_floors.size())) {
     float ww = m_floors[mCurrentFloor].getWorldWidth();
     float wh = m_floors[mCurrentFloor].getWorldHeight();
@@ -165,7 +165,7 @@ void Application::processInput(float deltaTime) {
     m_playerPos.y = std::clamp(m_playerPos.y, 32.0f, wh - 32.0f);
   }
 
-  // ── Mouse aim → rotation (FIXED: was + PI/2, now - PI/2) ──
+  
   int winWidth, winHeight;
   glfwGetWindowSize(m_window, &winWidth, &winHeight);
   double mouseX, mouseY;
@@ -180,7 +180,7 @@ void Application::processInput(float deltaTime) {
   constexpr float PI = 3.14159265358979323846f;
   m_playerRotation = angle - (PI * 0.5f);
 
-  // ── Elevator interaction (E tiles) ──
+  
   mNearElevator = false;
   if (mCurrentFloor >= 0 && mCurrentFloor < static_cast<int>(m_floors.size())) {
     auto elevPositions = m_floors[mCurrentFloor].findTiles('E');
@@ -215,7 +215,7 @@ void Application::processInput(float deltaTime) {
       glfwGetKey(m_window, GLFW_KEY_3) == GLFW_RELEASE)
     mElevatorCooldown = false;
 
-  // ── Stair interaction (S tiles) ──
+  
   bool nearStair = false;
   if (mCurrentFloor >= 0 && mCurrentFloor < static_cast<int>(m_floors.size())) {
     auto stairPositions = m_floors[mCurrentFloor].findTiles('S');
@@ -249,7 +249,7 @@ void Application::processInput(float deltaTime) {
       mElevatorCooldown = false;
   }
 
-  // ── Editor toggle (F1) ──
+  
   if (glfwGetKey(m_window, GLFW_KEY_F1) == GLFW_PRESS) {
     if (!m_f1Pressed) {
       m_editorMode = !m_editorMode;
@@ -261,7 +261,7 @@ void Application::processInput(float deltaTime) {
     m_f1Pressed = false;
   }
 
-  // ── Editor input ──
+  
   if (m_editorMode && mCurrentFloor >= 0 &&
       mCurrentFloor < static_cast<int>(m_floors.size())) {
 
@@ -269,12 +269,12 @@ void Application::processInput(float deltaTime) {
     const auto &defs = map.getTileDefs();
     int numDefs = static_cast<int>(defs.size());
 
-    // Bracket keys cycle tile selection
+    
     if (glfwGetKey(m_window, GLFW_KEY_RIGHT_BRACKET) == GLFW_PRESS) {
       if (!m_bracketPressed) {
         m_editorTileIndex = (m_editorTileIndex + 1) % numDefs;
         if (m_editorTileIndex == 0)
-          m_editorTileIndex = 1; // skip empty
+          m_editorTileIndex = 1;
         m_bracketPressed = true;
         std::cout << "🎨 Tile: '" << defs[m_editorTileIndex].symbol << "'\n";
       }
@@ -290,29 +290,29 @@ void Application::processInput(float deltaTime) {
       m_bracketPressed = false;
     }
 
-    // Clamp tile index
+    
     if (m_editorTileIndex >= numDefs)
       m_editorTileIndex = 1;
 
-    // Mouse world position
+    
     float worldMouseX =
         m_cameraPos.x + (static_cast<float>(mouseX) - mWindowWidth / 2.0f);
     float worldMouseY =
         m_cameraPos.y + (mWindowHeight / 2.0f - static_cast<float>(mouseY));
     auto [gx, gy] = map.worldToGrid({worldMouseX, worldMouseY});
 
-    // LMB → place tile
+    
     if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
       if (gx >= 0 && gx < map.getWidth() && gy >= 0 && gy < map.getHeight())
         map.setTile(gx, gy, defs[m_editorTileIndex].symbol);
     }
-    // RMB → erase (set to floor '.')
+    
     if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
       if (gx >= 0 && gx < map.getWidth() && gy >= 0 && gy < map.getHeight())
         map.setTile(gx, gy, '.');
     }
 
-    // F5 → save current floor
+    
     if (glfwGetKey(m_window, GLFW_KEY_F5) == GLFW_PRESS) {
       if (!m_f5Pressed) {
         std::string mapDir = m_assetsDir + "/maps/";
@@ -357,7 +357,7 @@ void Application::renderEditorOverlay() {
   float worldW = map.getWorldWidth();
   float worldH = map.getWorldHeight();
 
-  // Grid lines (only visible area)
+  
   float lineW = 2.0f;
   float viewL = m_cameraPos.x - mWindowWidth / 2.0f;
   float viewR = m_cameraPos.x + mWindowWidth / 2.0f;
@@ -381,7 +381,7 @@ void Application::renderEditorOverlay() {
                          0.45f, 0.0f);
   }
 
-  // Cursor highlight (yellow outline)
+  
   double mx, my;
   glfwGetCursorPos(m_window, &mx, &my);
   float wmx = m_cameraPos.x + (static_cast<float>(mx) - mWindowWidth / 2.0f);
@@ -392,21 +392,21 @@ void Application::renderEditorOverlay() {
     Vector2 tp = map.gridToWorld(gx, gy);
     float half = ts / 2.0f;
     float bw = 3.0f;
-    // top
+    
     m_renderer->drawQuad({tp.x, tp.y + half - bw / 2.0f}, {ts, bw}, 1.0f,
                          1.0f, 0.0f, 0.0f);
-    // bottom
+    
     m_renderer->drawQuad({tp.x, tp.y - half + bw / 2.0f}, {ts, bw}, 1.0f,
                          1.0f, 0.0f, 0.0f);
-    // left
+    
     m_renderer->drawQuad({tp.x - half + bw / 2.0f, tp.y}, {bw, ts}, 1.0f,
                          1.0f, 0.0f, 0.0f);
-    // right
+    
     m_renderer->drawQuad({tp.x + half - bw / 2.0f, tp.y}, {bw, ts}, 1.0f,
                          1.0f, 0.0f, 0.0f);
   }
 
-  // ── Palette HUD (screen space) ──
+  
   m_renderer->beginScreenSpace();
 
   const auto &defs = map.getTileDefs();
@@ -415,7 +415,7 @@ void Application::renderEditorOverlay() {
   float boxSize = 32.0f;
   float gap = 6.0f;
 
-  // Background bar
+  
   float barW = defs.size() * (boxSize + gap) + gap;
   m_renderer->drawQuad({palX + barW / 2.0f - gap / 2.0f, palY + boxSize / 2.0f},
                        {barW, boxSize + 12.0f}, 0.08f, 0.08f, 0.12f, 0.0f);
@@ -424,13 +424,13 @@ void Application::renderEditorOverlay() {
     float bx = palX + i * (boxSize + gap) + boxSize / 2.0f;
     float by = palY + boxSize / 2.0f;
 
-    // Selection highlight
+    
     if (i == m_editorTileIndex) {
       m_renderer->drawQuad({bx, by}, {boxSize + 6.0f, boxSize + 6.0f}, 1.0f,
                            1.0f, 0.0f, 0.0f);
     }
 
-    // Tile color swatch
+    
     if (defs[i].symbol == ' ') {
       m_renderer->drawQuad({bx, by}, {boxSize, boxSize}, 0.15f, 0.15f, 0.2f,
                            0.0f);
@@ -440,13 +440,13 @@ void Application::renderEditorOverlay() {
     }
   }
 
-  // "EDITOR" indicator in top-right
+  
   m_renderer->drawQuad(
       {static_cast<float>(mWindowWidth) - 60.0f,
        static_cast<float>(mWindowHeight) - 20.0f},
       {100, 28}, 0.9f, 0.2f, 0.2f, 0.0f);
 
-  // Restore camera projection
+  
   Vector2 shake{0.0f, 0.0f};
   m_renderer->setCameraPosition(m_cameraPos, shake);
 }
@@ -463,11 +463,11 @@ void Application::render() {
   m_renderer->beginFrame();
   m_renderer->setCameraPosition(m_cameraPos, shakeOffset);
 
-  // Draw current floor tile map
+  
   if (mCurrentFloor >= 0 && mCurrentFloor < static_cast<int>(m_floors.size())) {
     m_floors[mCurrentFloor].render(*m_renderer);
 
-    // Highlight elevator tiles (E)
+    
     auto elevPositions = m_floors[mCurrentFloor].findTiles('E');
     for (const auto &ep : elevPositions) {
       float dx = m_playerPos.x - ep.x;
@@ -477,7 +477,7 @@ void Application::render() {
                            nearby ? 0.3f : 0.3f, nearby ? 0.4f : 0.7f, 0.0f);
     }
 
-    // Highlight stair tiles (S) — draw 3 step lines
+    
     auto stairPositions = m_floors[mCurrentFloor].findTiles('S');
     for (const auto &sp : stairPositions) {
       float dx = m_playerPos.x - sp.x;
@@ -491,7 +491,7 @@ void Application::render() {
     }
   }
 
-  // Player
+  
   if (m_playerTexture) {
     m_renderer->drawQuad(m_playerPos, {64, 64}, m_playerTexture.get(),
                          m_playerRotation);
@@ -500,12 +500,12 @@ void Application::render() {
                          m_playerRotation);
   }
 
-  // Editor overlay (grid + palette)
+  
   renderEditorOverlay();
 
-  // ── UI: elevator panel (when nearby) ──
+  
   if (mNearElevator) {
-    // Compute world position that maps to player's screen position
+    
     float uiWX = m_playerPos.x;
     float uiWY = m_playerPos.y + 120.0f;
 
@@ -525,7 +525,7 @@ void Application::render() {
                          0.0f);
   }
 
-  // ── UI: floor indicator (screen space) ──
+  
   {
     m_renderer->beginScreenSpace();
 
@@ -548,7 +548,7 @@ void Application::render() {
                            0.0f);
     }
 
-    // Restore camera
+    
     m_renderer->setCameraPosition(m_cameraPos, shakeOffset);
   }
 
@@ -589,4 +589,4 @@ void Application::shakeCamera(float intensity, float duration) {
   m_cameraShakeTimer = 0.0f;
 }
 
-} // namespace mine
+}
