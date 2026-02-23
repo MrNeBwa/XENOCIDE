@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/nebwa/Projects/XENOCIDE
+CMAKE_SOURCE_DIR = /home/NeBwa/Projects/XENOCIDE
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/nebwa/Projects/XENOCIDE/build
+CMAKE_BINARY_DIR = /home/NeBwa/Projects/XENOCIDE/build
 
 # Utility rule file for uninstall.
 
@@ -67,7 +67,7 @@ include third_party/glfw/CMakeFiles/uninstall.dir/compiler_depend.make
 include third_party/glfw/CMakeFiles/uninstall.dir/progress.make
 
 third_party/glfw/CMakeFiles/uninstall:
-	cd /home/nebwa/Projects/XENOCIDE/build/third_party/glfw && /usr/bin/cmake -P /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/cmake_uninstall.cmake
+	cd /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw && /usr/bin/cmake -P /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/cmake_uninstall.cmake
 
 third_party/glfw/CMakeFiles/uninstall.dir/codegen:
 .PHONY : third_party/glfw/CMakeFiles/uninstall.dir/codegen
@@ -81,10 +81,10 @@ third_party/glfw/CMakeFiles/uninstall.dir/build: uninstall
 .PHONY : third_party/glfw/CMakeFiles/uninstall.dir/build
 
 third_party/glfw/CMakeFiles/uninstall.dir/clean:
-	cd /home/nebwa/Projects/XENOCIDE/build/third_party/glfw && $(CMAKE_COMMAND) -P CMakeFiles/uninstall.dir/cmake_clean.cmake
+	cd /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw && $(CMAKE_COMMAND) -P CMakeFiles/uninstall.dir/cmake_clean.cmake
 .PHONY : third_party/glfw/CMakeFiles/uninstall.dir/clean
 
 third_party/glfw/CMakeFiles/uninstall.dir/depend:
-	cd /home/nebwa/Projects/XENOCIDE/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nebwa/Projects/XENOCIDE /home/nebwa/Projects/XENOCIDE/third_party/glfw /home/nebwa/Projects/XENOCIDE/build /home/nebwa/Projects/XENOCIDE/build/third_party/glfw /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/CMakeFiles/uninstall.dir/DependInfo.cmake "--color=$(COLOR)" uninstall
+	cd /home/NeBwa/Projects/XENOCIDE/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/NeBwa/Projects/XENOCIDE /home/NeBwa/Projects/XENOCIDE/third_party/glfw /home/NeBwa/Projects/XENOCIDE/build /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/CMakeFiles/uninstall.dir/DependInfo.cmake "--color=$(COLOR)" uninstall
 .PHONY : third_party/glfw/CMakeFiles/uninstall.dir/depend
 

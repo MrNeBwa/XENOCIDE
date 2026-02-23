@@ -13,4 +13,4 @@ public:
     void setMat4(const char*, const float*) const {}
 };
 
-} // namespace mine
+} 

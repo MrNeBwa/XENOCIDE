@@ -4,7 +4,7 @@ tilesize 100
 bgcolor 0.12 0.08 0.20
 
 tile W 1 0.45 0.42 0.55
-tile H 1 0.55 0.50 0.60
+tile H 1 0.55 0.50 0.60 panel.png
 tile G 1 0.35 0.32 0.45
 tile . 0 0.22 0.18 0.32
 tile R 0 0.30 0.25 0.40

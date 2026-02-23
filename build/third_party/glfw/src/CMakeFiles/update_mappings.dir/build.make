@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/nebwa/Projects/XENOCIDE
+CMAKE_SOURCE_DIR = /home/NeBwa/Projects/XENOCIDE
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/nebwa/Projects/XENOCIDE/build
+CMAKE_BINARY_DIR = /home/NeBwa/Projects/XENOCIDE/build
 
 # Utility rule file for update_mappings.
 
@@ -67,8 +67,8 @@ include third_party/glfw/src/CMakeFiles/update_mappings.dir/compiler_depend.make
 include third_party/glfw/src/CMakeFiles/update_mappings.dir/progress.make
 
 third_party/glfw/src/CMakeFiles/update_mappings:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/nebwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Updating gamepad mappings from upstream repository"
-	cd /home/nebwa/Projects/XENOCIDE/third_party/glfw/src && /usr/bin/cmake -P /home/nebwa/Projects/XENOCIDE/third_party/glfw/CMake/GenerateMappings.cmake mappings.h.in mappings.h
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Updating gamepad mappings from upstream repository"
+	cd /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src && /usr/bin/cmake -P /home/NeBwa/Projects/XENOCIDE/third_party/glfw/CMake/GenerateMappings.cmake mappings.h.in mappings.h
 
 third_party/glfw/src/CMakeFiles/update_mappings.dir/codegen:
 .PHONY : third_party/glfw/src/CMakeFiles/update_mappings.dir/codegen
@@ -82,10 +82,10 @@ third_party/glfw/src/CMakeFiles/update_mappings.dir/build: update_mappings
 .PHONY : third_party/glfw/src/CMakeFiles/update_mappings.dir/build
 
 third_party/glfw/src/CMakeFiles/update_mappings.dir/clean:
-	cd /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/src && $(CMAKE_COMMAND) -P CMakeFiles/update_mappings.dir/cmake_clean.cmake
+	cd /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src && $(CMAKE_COMMAND) -P CMakeFiles/update_mappings.dir/cmake_clean.cmake
 .PHONY : third_party/glfw/src/CMakeFiles/update_mappings.dir/clean
 
 third_party/glfw/src/CMakeFiles/update_mappings.dir/depend:
-	cd /home/nebwa/Projects/XENOCIDE/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nebwa/Projects/XENOCIDE /home/nebwa/Projects/XENOCIDE/third_party/glfw/src /home/nebwa/Projects/XENOCIDE/build /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/src /home/nebwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/update_mappings.dir/DependInfo.cmake "--color=$(COLOR)" update_mappings
+	cd /home/NeBwa/Projects/XENOCIDE/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/NeBwa/Projects/XENOCIDE /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src /home/NeBwa/Projects/XENOCIDE/build /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src /home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/update_mappings.dir/DependInfo.cmake "--color=$(COLOR)" update_mappings
 .PHONY : third_party/glfw/src/CMakeFiles/update_mappings.dir/depend
 

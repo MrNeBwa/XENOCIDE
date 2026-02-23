@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/home/nebwa/Projects/XENOCIDE/third_party/glad/include -I/home/nebwa/Projects/XENOCIDE/include -I/home/nebwa/Projects/XENOCIDE/third_party/glm -I/home/nebwa/Projects/XENOCIDE/third_party
+C_INCLUDES = -I/home/NeBwa/Projects/XENOCIDE/third_party/glad/include -I/home/NeBwa/Projects/XENOCIDE/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glm -I/home/NeBwa/Projects/XENOCIDE/third_party
 
 C_FLAGS = 
 

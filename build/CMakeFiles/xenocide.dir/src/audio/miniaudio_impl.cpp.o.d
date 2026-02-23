@@ -1,7 +1,7 @@
 CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o: \
- /home/nebwa/Projects/XENOCIDE/src/audio/miniaudio_impl.cpp \
+ /home/NeBwa/Projects/XENOCIDE/src/audio/miniaudio_impl.cpp \
  /usr/include/stdc-predef.h \
- /home/nebwa/Projects/XENOCIDE/third_party/miniaudio.h \
+ /home/NeBwa/Projects/XENOCIDE/third_party/miniaudio.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stddef.h \
  /usr/include/pthread.h /usr/include/features.h \
  /usr/include/features-time64.h /usr/include/bits/wordsize.h \

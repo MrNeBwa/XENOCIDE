@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/nebwa/Projects/XENOCIDE/include -I/home/nebwa/Projects/XENOCIDE/third_party/glm -I/home/nebwa/Projects/XENOCIDE/third_party -I/home/nebwa/Projects/XENOCIDE/third_party/glfw/include -I/home/nebwa/Projects/XENOCIDE/third_party/glad/include
+CXX_INCLUDES = -I/home/NeBwa/Projects/XENOCIDE/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glm -I/home/NeBwa/Projects/XENOCIDE/third_party -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glad/include
 
 CXX_FLAGS = -std=gnu++17
 

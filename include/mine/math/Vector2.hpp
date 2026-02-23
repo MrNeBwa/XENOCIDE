@@ -56,4 +56,4 @@ struct Vector2 {
     }
 };
 
-} // namespace mine
+} 

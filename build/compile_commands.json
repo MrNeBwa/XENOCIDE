@@ -1,0 +1,200 @@
+[
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -I/home/NeBwa/Projects/XENOCIDE/third_party/glad/include -I/home/NeBwa/Projects/XENOCIDE/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glm -I/home/NeBwa/Projects/XENOCIDE/third_party -g -o CMakeFiles/glad.dir/third_party/glad/src/glad.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glad/src/glad.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glad/src/glad.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles/glad.dir/third_party/glad/src/glad.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/g++ -I/home/NeBwa/Projects/XENOCIDE/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glm -I/home/NeBwa/Projects/XENOCIDE/third_party -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glad/include -g -std=gnu++17 -o CMakeFiles/xenocide.dir/src/main.cpp.o -c /home/NeBwa/Projects/XENOCIDE/src/main.cpp",
+  "file": "/home/NeBwa/Projects/XENOCIDE/src/main.cpp",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles/xenocide.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/g++ -I/home/NeBwa/Projects/XENOCIDE/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glm -I/home/NeBwa/Projects/XENOCIDE/third_party -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glad/include -g -std=gnu++17 -o CMakeFiles/xenocide.dir/src/core/Application.cpp.o -c /home/NeBwa/Projects/XENOCIDE/src/core/Application.cpp",
+  "file": "/home/NeBwa/Projects/XENOCIDE/src/core/Application.cpp",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles/xenocide.dir/src/core/Application.cpp.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/g++ -I/home/NeBwa/Projects/XENOCIDE/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glm -I/home/NeBwa/Projects/XENOCIDE/third_party -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glad/include -g -std=gnu++17 -o CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o -c /home/NeBwa/Projects/XENOCIDE/src/graphics/Renderer.cpp",
+  "file": "/home/NeBwa/Projects/XENOCIDE/src/graphics/Renderer.cpp",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles/xenocide.dir/src/graphics/Renderer.cpp.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/g++ -I/home/NeBwa/Projects/XENOCIDE/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glm -I/home/NeBwa/Projects/XENOCIDE/third_party -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glad/include -g -std=gnu++17 -o CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o -c /home/NeBwa/Projects/XENOCIDE/src/graphics/Texture.cpp",
+  "file": "/home/NeBwa/Projects/XENOCIDE/src/graphics/Texture.cpp",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles/xenocide.dir/src/graphics/Texture.cpp.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/g++ -I/home/NeBwa/Projects/XENOCIDE/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glm -I/home/NeBwa/Projects/XENOCIDE/third_party -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glad/include -g -std=gnu++17 -o CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o -c /home/NeBwa/Projects/XENOCIDE/src/scene/TileMap.cpp",
+  "file": "/home/NeBwa/Projects/XENOCIDE/src/scene/TileMap.cpp",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/g++ -I/home/NeBwa/Projects/XENOCIDE/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glm -I/home/NeBwa/Projects/XENOCIDE/third_party -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glad/include -g -std=gnu++17 -o CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o -c /home/NeBwa/Projects/XENOCIDE/src/audio/miniaudio_impl.cpp",
+  "file": "/home/NeBwa/Projects/XENOCIDE/src/audio/miniaudio_impl.cpp",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/CMakeFiles/xenocide.dir/src/audio/miniaudio_impl.cpp.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/context.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/context.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/context.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/context.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/init.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/init.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/init.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/init.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/input.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/input.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/input.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/input.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/monitor.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/monitor.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/monitor.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/monitor.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/platform.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/platform.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/platform.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/platform.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/vulkan.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/vulkan.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/vulkan.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/vulkan.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/window.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/window.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/window.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/window.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/egl_context.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/egl_context.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/egl_context.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/egl_context.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/osmesa_context.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/osmesa_context.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/null_init.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/null_init.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/null_init.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/null_init.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/null_monitor.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/null_monitor.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/null_monitor.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/null_monitor.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/null_window.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/null_window.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/null_window.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/null_window.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/null_joystick.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/null_joystick.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/null_joystick.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/null_joystick.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/posix_module.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/posix_module.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/posix_module.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/posix_module.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/posix_time.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/posix_time.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/posix_time.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/posix_time.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/posix_thread.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/posix_thread.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/posix_thread.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/posix_thread.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/x11_init.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/x11_init.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/x11_init.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/x11_init.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/x11_monitor.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/x11_monitor.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/x11_monitor.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/x11_monitor.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/x11_window.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/x11_window.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/x11_window.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/x11_window.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/xkb_unicode.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/xkb_unicode.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/glx_context.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/glx_context.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/glx_context.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/glx_context.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/wl_init.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/wl_init.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/wl_init.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/wl_init.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/wl_monitor.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/wl_monitor.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/wl_monitor.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/wl_monitor.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/wl_window.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/wl_window.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/wl_window.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/wl_window.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/linux_joystick.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/linux_joystick.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/linux_joystick.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/linux_joystick.c.o"
+},
+{
+  "directory": "/home/NeBwa/Projects/XENOCIDE/build",
+  "command": "/usr/bin/gcc -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11 -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/include -I/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src -I/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src -g -std=c99 -fPIC -Wall -o third_party/glfw/src/CMakeFiles/glfw.dir/posix_poll.c.o -c /home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/posix_poll.c",
+  "file": "/home/NeBwa/Projects/XENOCIDE/third_party/glfw/src/posix_poll.c",
+  "output": "/home/NeBwa/Projects/XENOCIDE/build/third_party/glfw/src/CMakeFiles/glfw.dir/posix_poll.c.o"
+}
+]

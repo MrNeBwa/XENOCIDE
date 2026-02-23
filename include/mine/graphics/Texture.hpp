@@ -20,4 +20,4 @@ private:
   int m_width, m_height, m_channels;
 };
 
-} // namespace mine
+} 

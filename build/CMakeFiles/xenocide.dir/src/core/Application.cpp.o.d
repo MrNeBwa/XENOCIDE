@@ -1,8 +1,8 @@
 CMakeFiles/xenocide.dir/src/core/Application.cpp.o: \
- /home/nebwa/Projects/XENOCIDE/src/core/Application.cpp \
+ /home/NeBwa/Projects/XENOCIDE/src/core/Application.cpp \
  /usr/include/stdc-predef.h \
- /home/nebwa/Projects/XENOCIDE/include/glad/glad.h \
- /home/nebwa/Projects/XENOCIDE/third_party/glad/include/KHR/khrplatform.h \
+ /home/NeBwa/Projects/XENOCIDE/include/glad/glad.h \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glad/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -13,10 +13,10 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o: \
  /usr/include/bits/time64.h /usr/include/bits/wchar.h \
  /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
  /usr/include/bits/stdint-least.h \
- /home/nebwa/Projects/XENOCIDE/third_party/glfw/include/GLFW/glfw3.h \
+ /home/NeBwa/Projects/XENOCIDE/third_party/glfw/include/GLFW/glfw3.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stddef.h \
- /home/nebwa/Projects/XENOCIDE/include/mine/core/Application.hpp \
- /home/nebwa/Projects/XENOCIDE/include/mine/math/Vector2.hpp \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/core/Application.hpp \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/math/Vector2.hpp \
  /usr/include/c++/15.2.1/cmath \
  /usr/include/c++/15.2.1/bits/requires_hosted.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -79,8 +79,8 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o: \
  /usr/include/c++/15.2.1/tr1/poly_hermite.tcc \
  /usr/include/c++/15.2.1/tr1/poly_laguerre.tcc \
  /usr/include/c++/15.2.1/tr1/riemann_zeta.tcc \
- /home/nebwa/Projects/XENOCIDE/include/mine/scene/TileMap.hpp \
- /home/nebwa/Projects/XENOCIDE/include/mine/graphics/Texture.hpp \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/scene/TileMap.hpp \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/graphics/Texture.hpp \
  /usr/include/c++/15.2.1/string /usr/include/c++/15.2.1/bits/stringfwd.h \
  /usr/include/c++/15.2.1/bits/memoryfwd.h \
  /usr/include/c++/15.2.1/bits/char_traits.h \
@@ -182,7 +182,7 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o: \
  /usr/include/c++/15.2.1/bits/stl_vector.h \
  /usr/include/c++/15.2.1/bits/stl_bvector.h \
  /usr/include/c++/15.2.1/bits/vector.tcc \
- /home/nebwa/Projects/XENOCIDE/include/mine/utils/TextureManager.hpp \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/utils/TextureManager.hpp \
  /usr/include/c++/15.2.1/random /usr/include/c++/15.2.1/cstdint \
  /usr/include/c++/15.2.1/bits/random.h \
  /usr/include/c++/15.2.1/bits/uniform_int_dist.h \
@@ -190,8 +190,8 @@ CMakeFiles/xenocide.dir/src/core/Application.cpp.o: \
  /usr/include/c++/15.2.1/bits/random.tcc /usr/include/c++/15.2.1/numeric \
  /usr/include/c++/15.2.1/bits/stl_numeric.h \
  /usr/include/c++/15.2.1/pstl/glue_numeric_defs.h \
- /home/nebwa/Projects/XENOCIDE/include/mine/graphics/Renderer.hpp \
- /home/nebwa/Projects/XENOCIDE/third_party/miniaudio.h \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/graphics/Renderer.hpp \
+ /home/NeBwa/Projects/XENOCIDE/third_party/miniaudio.h \
  /usr/include/c++/15.2.1/algorithm \
  /usr/include/c++/15.2.1/bits/stl_algo.h \
  /usr/include/c++/15.2.1/bits/algorithmfwd.h \

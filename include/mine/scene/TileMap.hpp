@@ -32,18 +32,14 @@ public:
 
     void render(Renderer &renderer) const;
 
-    // Grid operations
     char getTile(int gx, int gy) const;
     void setTile(int gx, int gy, char symbol);
 
-    // Coordinate conversion  (grid y=0 is top of world)
     std::pair<int, int> worldToGrid(const Vector2 &worldPos) const;
     Vector2 gridToWorld(int gx, int gy) const;
 
-    // Collision with solid tiles
     bool checkCollision(const Vector2 &pos, float radius) const;
 
-    // Find first tile of a given symbol → world position
     Vector2 findSpawn() const;
     std::vector<Vector2> findTiles(char symbol) const;
 
@@ -66,4 +62,4 @@ private:
     std::unordered_map<char, int> m_defIndex;
 };
 
-} // namespace mine
+} 

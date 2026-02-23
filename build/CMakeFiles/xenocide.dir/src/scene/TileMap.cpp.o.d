@@ -1,8 +1,8 @@
 CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o: \
- /home/nebwa/Projects/XENOCIDE/src/scene/TileMap.cpp \
+ /home/NeBwa/Projects/XENOCIDE/src/scene/TileMap.cpp \
  /usr/include/stdc-predef.h \
- /home/nebwa/Projects/XENOCIDE/include/mine/scene/TileMap.hpp \
- /home/nebwa/Projects/XENOCIDE/include/mine/math/Vector2.hpp \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/scene/TileMap.hpp \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/math/Vector2.hpp \
  /usr/include/c++/15.2.1/cmath \
  /usr/include/c++/15.2.1/bits/requires_hosted.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -73,7 +73,7 @@ CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o: \
  /usr/include/c++/15.2.1/tr1/poly_hermite.tcc \
  /usr/include/c++/15.2.1/tr1/poly_laguerre.tcc \
  /usr/include/c++/15.2.1/tr1/riemann_zeta.tcc \
- /home/nebwa/Projects/XENOCIDE/include/mine/graphics/Texture.hpp \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/graphics/Texture.hpp \
  /usr/include/c++/15.2.1/string /usr/include/c++/15.2.1/bits/stringfwd.h \
  /usr/include/c++/15.2.1/bits/memoryfwd.h \
  /usr/include/c++/15.2.1/bits/char_traits.h \
@@ -176,8 +176,8 @@ CMakeFiles/xenocide.dir/src/scene/TileMap.cpp.o: \
  /usr/include/c++/15.2.1/bits/stl_vector.h \
  /usr/include/c++/15.2.1/bits/stl_bvector.h \
  /usr/include/c++/15.2.1/bits/vector.tcc \
- /home/nebwa/Projects/XENOCIDE/include/mine/graphics/Renderer.hpp \
- /home/nebwa/Projects/XENOCIDE/include/mine/utils/TextureManager.hpp \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/graphics/Renderer.hpp \
+ /home/NeBwa/Projects/XENOCIDE/include/mine/utils/TextureManager.hpp \
  /usr/include/c++/15.2.1/algorithm \
  /usr/include/c++/15.2.1/bits/stl_algo.h \
  /usr/include/c++/15.2.1/bits/algorithmfwd.h \

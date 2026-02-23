@@ -21,7 +21,6 @@ Texture::Texture(const std::string &path)
   glGenTextures(1, &m_id);
   glBindTexture(GL_TEXTURE_2D, m_id);
 
-  // Always RGBA since we request 4 channels from stbi_load
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA,
                GL_UNSIGNED_BYTE, data);
   glGenerateMipmap(GL_TEXTURE_2D);
@@ -44,4 +43,4 @@ void Texture::bind(unsigned int slot) const {
 
 void Texture::unbind() const { glBindTexture(GL_TEXTURE_2D, 0); }
 
-} // namespace mine
+} 

@@ -1,15 +1,14 @@
-# XENOCIDE — Floor 2 (Middle Floor / Spawn)
-# Player spawns here (P tile)
+# XENOCIDE Map (auto-saved)
 tilesize 100
-bgcolor 0.15 0.20 0.12
+bgcolor 0.15 0.2 0.12
 
-tile W 1 0.50 0.50 0.55
-tile H 1 0.60 0.55 0.50
-tile G 1 0.40 0.45 0.35
+tile W 1 0.5 0.5 0.55
+tile H 1 0.6 0.55 0.5
+tile G 1 0.4 0.45 0.35
 tile . 0 0.28 0.32 0.22
 tile R 0 0.38 0.38 0.28
-tile E 0 0.50 0.30 0.70
-tile S 0 0.60 0.40 0.30
+tile E 0 0.5 0.3 0.7
+tile S 0 0.6 0.4 0.3
 tile P 0 0.28 0.32 0.22
 tile A 0 0.28 0.32 0.22
 tile D 0 0.28 0.32 0.22
@@ -22,23 +21,23 @@ tile K 0 0.28 0.32 0.22
 tile N 0 0.28 0.32 0.22
 
 grid
-WWWWWWWWWWWWWWWWWWWWWWWWW
-WE..L..........C..L....WW
-W....GGGGGG............WW
-W....G.....A......K....WW
-W....G.................WW
-W....GGGGGG.....HHH...WW
-W..V............H.H...WW
-W..D............HHH...WW
-W......................WW
-W..T.......P.......T...WW
-W......................WW
-W...WWWWW......WWWWW...WW
-W...W.F.W......W.N.W...WW
-W...W.A.W..L...W.D.W...WW
-W...W...W......W...W...WW
-W...WWWWW......WWWWW...WW
-W.....C................WW
-W..A.......D.....V...L.WW
-W..................P..SWWW
-WWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWW 
+WE..L..........C..L....WW 
+W....GGGGGG............WW 
+W....G.....A......K....WW 
+W....G.................WW 
+W....GGGGGG.....HHH....W  
+W..V............H.H....W  
+W..D............HHH....W  
+W......................WW 
+W..T.......P.......T...WW 
+W......................WW 
+W...WWWW........WWWW...WW 
+W...W.F........W.N.W...WW 
+W...W.A.W..L...W.D.W...WW 
+W...W...W......W...W...WW 
+W...WWWWWWW..WWWWWWW...WW 
+W.....C.W......W.......WW 
+W..A....W..D...W.V...L.WW 
+W.......WWWWWWWW...P..SWWW
+WWWWWWWWWWWWWWWWWWWWWWWWW 

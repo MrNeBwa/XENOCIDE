@@ -26,4 +26,4 @@ private:
     std::unordered_map<std::string, std::weak_ptr<Texture>> m_cache;
 };
 
-} // namespace mine
+} 

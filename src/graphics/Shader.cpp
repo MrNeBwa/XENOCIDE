@@ -32,7 +32,6 @@ static unsigned int compileShader(unsigned int type, const char* source) {
 }
 
 bool Shader::loadFromFile(const char* vertexPath, const char* fragmentPath) {
-    // Чтение файлов
     std::ifstream vFile(vertexPath);
     std::ifstream fFile(fragmentPath);
     if (!vFile.is_open() || !fFile.is_open()) {
@@ -53,12 +52,10 @@ bool Shader::loadFromFile(const char* vertexPath, const char* fragmentPath) {
     const char* vSource = vSourceStr.c_str();
     const char* fSource = fSourceStr.c_str();
 
-    // Компиляция
     unsigned int vs = compileShader(GL_VERTEX_SHADER, vSource);
     unsigned int fs = compileShader(GL_FRAGMENT_SHADER, fSource);
     if (!vs || !fs) return false;
 
-    // Линковка
     m_id = glCreateProgram();
     glAttachShader(m_id, vs);
     glAttachShader(m_id, fs);
@@ -92,4 +89,4 @@ void Shader::setMat4(const char* name, const float* matrix) const {
     glUniformMatrix4fv(glGetUniformLocation(m_id, name), 1, GL_FALSE, matrix);
 }
 
-} // namespace mine
+} 

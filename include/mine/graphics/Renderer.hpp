@@ -16,12 +16,17 @@ public:
   void drawQuadAlpha(const Vector2 &pos, const Vector2 &size, float r, float g,
                      float b, float a, float rotation = 0.0f);
   void setCameraPosition(const Vector2 &pos,
-                         const Vector2 &shake); // Новая функция
+                         const Vector2 &shake); 
   void drawQuad(const Vector2 &pos, const Vector2 &size,
                 const class Texture *texture, float rotation = 0.0f);
 
-  // Switch projection to screen-space (pixel coords, origin bottom-left)
   void beginScreenSpace();
+
+  void drawText(const Vector2 &pos, const char *text, float scale,
+                float r, float g, float b, float a = 1.0f);
+  void drawTextCentered(const Vector2 &pos, const char *text, float scale,
+                        float r, float g, float b, float a = 1.0f);
+  float textWidth(const char *text, float scale) const;
 
 private:
   unsigned int m_shaderProgram = 0;
@@ -31,4 +36,4 @@ private:
   int m_width, m_height;
 };
 
-} // namespace mine
+} 

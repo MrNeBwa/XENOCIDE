@@ -21,7 +21,6 @@ bool TileMap::load(const std::string &path, TextureManager &texMgr,
     m_grid.clear();
     m_defIndex.clear();
 
-    // Default empty tile (index 0)
     TileDef emptyDef;
     emptyDef.symbol = ' ';
     emptyDef.name = "empty";
@@ -32,7 +31,6 @@ bool TileMap::load(const std::string &path, TextureManager &texMgr,
     bool readingGrid = false;
 
     while (std::getline(file, line)) {
-        // Strip trailing \r
         if (!line.empty() && line.back() == '\r')
             line.pop_back();
         if (line.empty())
@@ -69,7 +67,6 @@ bool TileMap::load(const std::string &path, TextureManager &texMgr,
             } else if (keyword == "grid") {
                 readingGrid = true;
             } else {
-                // Might already be a grid row
                 bool looksLikeGrid = (line.size() > 3);
                 for (char c : line) {
                     if (m_defIndex.find(c) == m_defIndex.end()) {
@@ -92,7 +89,6 @@ bool TileMap::load(const std::string &path, TextureManager &texMgr,
     }
     file.close();
 
-    // Determine dimensions
     m_height = static_cast<int>(m_grid.size());
     m_width = 0;
     for (const auto &row : m_grid)
@@ -144,11 +140,9 @@ void TileMap::render(Renderer &renderer) const {
     float worldW = getWorldWidth();
     float worldH = getWorldHeight();
 
-    // Background
     renderer.drawQuad({worldW / 2.0f, worldH / 2.0f}, {worldW, worldH},
                       bgR, bgG, bgB, 0.0f);
 
-    // Tiles
     for (int gy = 0; gy < m_height; ++gy) {
         for (int gx = 0; gx < m_width; ++gx) {
             char c = m_grid[gy][gx];
@@ -253,4 +247,4 @@ const TileDef *TileMap::getDefForSymbol(char c) const {
     return &m_tileDefs[it->second];
 }
 
-} // namespace mine
+} 
