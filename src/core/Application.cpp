@@ -1,5 +1,5 @@
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 #include "mine/core/Application.hpp"
 #include "mine/graphics/Renderer.hpp"
@@ -118,7 +118,8 @@ void Application::initAudio() {
     m_musicPlaying = true;
     std::cout << "🎵 Background music playing (looped)\n";
   } else {
-    std::cerr << "⚠️  Could not load " << musicPath << " (code " << result << ")\n";
+    std::cerr << "⚠️  Could not load " << musicPath << " (code " << result
+              << ")\n";
     std::cerr << "   Place your MP3 file at assets/music/a.mp3\n";
     delete m_musicSound;
     m_musicSound = nullptr;
@@ -179,7 +180,6 @@ void Application::loadMaps() {
     }
   }
 
-  
   if (m_floors.size() > 1) {
     auto keycardTiles = m_floors[1].findTiles('Z');
     if (!keycardTiles.empty()) {
@@ -210,7 +210,6 @@ void Application::spawnAliens() {
       alien.hp = 35.0f + std::abs(m_randomDist(m_randomEngine)) * 25.0f;
       alien.maxHp = alien.hp;
 
-      
       if (std::abs(m_randomDist(m_randomEngine)) > 0.75f) {
         alien.elite = true;
         alien.hp *= 2.5f;
@@ -225,9 +224,12 @@ void Application::spawnAliens() {
     }
   }
 
-  std::cout << "👾 Spawned " << m_aliens.size() << " aliens across all floors\n";
+  std::cout << "👾 Spawned " << m_aliens.size()
+            << " aliens across all floors\n";
   int eliteCount = 0;
-  for (const auto &a : m_aliens) if (a.elite) eliteCount++;
+  for (const auto &a : m_aliens)
+    if (a.elite)
+      eliteCount++;
   if (eliteCount > 0)
     std::cout << "👾  (" << eliteCount << " elites!)\n";
 }
@@ -235,7 +237,7 @@ void Application::spawnAliens() {
 void Application::spawnAlienReinforcements() {
   int spawned = 0;
   for (int f = 0; f < static_cast<int>(m_floors.size()); ++f) {
-    
+
     std::vector<Vector2> spots;
     for (int gy = 2; gy < m_floors[f].getHeight() - 2; ++gy) {
       for (int gx = 2; gx < m_floors[f].getWidth() - 2; ++gx) {
@@ -245,7 +247,8 @@ void Application::spawnAlienReinforcements() {
         }
       }
     }
-    if (spots.empty()) continue;
+    if (spots.empty())
+      continue;
 
     std::shuffle(spots.begin(), spots.end(), m_randomEngine);
     int count = std::min(4, static_cast<int>(spots.size()));
@@ -316,40 +319,45 @@ void Application::spawnHealthPickups() {
         m_healthPickups.push_back(hp);
     }
 
-    
     std::vector<Vector2> hiddenSpots;
     for (int gy = 1; gy < m_floors[f].getHeight() - 1; ++gy) {
       for (int gx = 1; gx < m_floors[f].getWidth() - 1; ++gx) {
         char c = m_floors[f].getTile(gx, gy);
-        if (c != '.' && c != 'R') continue;
+        if (c != '.' && c != 'R')
+          continue;
 
-        
         int wallCount = 0;
         if (m_floors[f].getTile(gx - 1, gy) != ' ') {
-          const TileDef *ld = m_floors[f].getDefForSymbol(m_floors[f].getTile(gx - 1, gy));
-          if (ld && ld->solid) wallCount++;
+          const TileDef *ld =
+              m_floors[f].getDefForSymbol(m_floors[f].getTile(gx - 1, gy));
+          if (ld && ld->solid)
+            wallCount++;
         }
         if (m_floors[f].getTile(gx + 1, gy) != ' ') {
-          const TileDef *rd = m_floors[f].getDefForSymbol(m_floors[f].getTile(gx + 1, gy));
-          if (rd && rd->solid) wallCount++;
+          const TileDef *rd =
+              m_floors[f].getDefForSymbol(m_floors[f].getTile(gx + 1, gy));
+          if (rd && rd->solid)
+            wallCount++;
         }
         if (m_floors[f].getTile(gx, gy - 1) != ' ') {
-          const TileDef *ud = m_floors[f].getDefForSymbol(m_floors[f].getTile(gx, gy - 1));
-          if (ud && ud->solid) wallCount++;
+          const TileDef *ud =
+              m_floors[f].getDefForSymbol(m_floors[f].getTile(gx, gy - 1));
+          if (ud && ud->solid)
+            wallCount++;
         }
         if (m_floors[f].getTile(gx, gy + 1) != ' ') {
-          const TileDef *dd = m_floors[f].getDefForSymbol(m_floors[f].getTile(gx, gy + 1));
-          if (dd && dd->solid) wallCount++;
+          const TileDef *dd =
+              m_floors[f].getDefForSymbol(m_floors[f].getTile(gx, gy + 1));
+          if (dd && dd->solid)
+            wallCount++;
         }
 
-        
         if (wallCount >= 2) {
           hiddenSpots.push_back(m_floors[f].gridToWorld(gx, gy));
         }
       }
     }
 
-    
     std::shuffle(hiddenSpots.begin(), hiddenSpots.end(), m_randomEngine);
     int hiddenCount = std::min(2, static_cast<int>(hiddenSpots.size()));
     for (int i = 0; i < hiddenCount; ++i) {
@@ -362,7 +370,8 @@ void Application::spawnHealthPickups() {
     }
   }
 
-  std::cout << "💚 Spawned " << m_healthPickups.size() << " health pickups (some hidden!)\n";
+  std::cout << "💚 Spawned " << m_healthPickups.size()
+            << " health pickups (some hidden!)\n";
 }
 
 void Application::updateHealthPickups(float deltaTime) {
@@ -377,8 +386,10 @@ void Application::updateHealthPickups(float deltaTime) {
       continue;
     }
 
-    if (hp.floor != mCurrentFloor) continue;
-    if (m_playerHP >= m_playerMaxHP) continue;
+    if (hp.floor != mCurrentFloor)
+      continue;
+    if (m_playerHP >= m_playerMaxHP)
+      continue;
 
     float dist = Vector2::distanceSq(m_playerPos, hp.pos);
     if (dist < 60.0f * 60.0f) {
@@ -389,8 +400,8 @@ void Application::updateHealthPickups(float deltaTime) {
 
       spawnParticles(hp.pos, 15, 0.2f, 1.0f, 0.3f);
       shakeCamera(3.0f, 0.1f);
-      std::cout << "💚 Healed +" << static_cast<int>(healed)
-                << " HP! (" << static_cast<int>(m_playerHP) << "/"
+      std::cout << "💚 Healed +" << static_cast<int>(healed) << " HP! ("
+                << static_cast<int>(m_playerHP) << "/"
                 << static_cast<int>(m_playerMaxHP) << ")\n";
     }
   }
@@ -398,28 +409,30 @@ void Application::updateHealthPickups(float deltaTime) {
 
 void Application::renderHealthPickups() {
   for (const auto &hp : m_healthPickups) {
-    if (!hp.active) continue;
-    if (hp.floor != mCurrentFloor) continue;
+    if (!hp.active)
+      continue;
+    if (hp.floor != mCurrentFloor)
+      continue;
 
     float bob = std::sin(hp.bobTimer) * 6.0f;
     float glow = (std::sin(hp.bobTimer * 1.3f) + 1.0f) * 0.5f;
 
-    m_renderer->drawQuadAlpha({hp.pos.x, hp.pos.y + bob}, {50, 50},
-                              0.1f, 0.8f, 0.2f, 0.12f + glow * 0.08f, 0.0f);
+    m_renderer->drawQuadAlpha({hp.pos.x, hp.pos.y + bob}, {50, 50}, 0.1f, 0.8f,
+                              0.2f, 0.12f + glow * 0.08f, 0.0f);
 
-    m_renderer->drawQuadAlpha({hp.pos.x, hp.pos.y + bob}, {28, 28},
-                              0.1f, 0.6f, 0.1f, 0.8f, 0.0f);
+    m_renderer->drawQuadAlpha({hp.pos.x, hp.pos.y + bob}, {28, 28}, 0.1f, 0.6f,
+                              0.1f, 0.8f, 0.0f);
 
-    m_renderer->drawQuad({hp.pos.x, hp.pos.y + bob}, {8, 22},
-                         1.0f, 1.0f, 1.0f, 0.0f);
-    m_renderer->drawQuad({hp.pos.x, hp.pos.y + bob}, {22, 8},
-                         1.0f, 1.0f, 1.0f, 0.0f);
+    m_renderer->drawQuad({hp.pos.x, hp.pos.y + bob}, {8, 22}, 1.0f, 1.0f, 1.0f,
+                         0.0f);
+    m_renderer->drawQuad({hp.pos.x, hp.pos.y + bob}, {22, 8}, 1.0f, 1.0f, 1.0f,
+                         0.0f);
 
     float sparkle = std::sin(hp.bobTimer * 5.0f);
     if (sparkle > 0.8f) {
-      m_renderer->drawQuadAlpha(
-          {hp.pos.x + 15.0f, hp.pos.y + bob + 15.0f}, {4, 4},
-          1.0f, 1.0f, 1.0f, sparkle - 0.8f, 0.78f);
+      m_renderer->drawQuadAlpha({hp.pos.x + 15.0f, hp.pos.y + bob + 15.0f},
+                                {4, 4}, 1.0f, 1.0f, 1.0f, sparkle - 0.8f,
+                                0.78f);
     }
   }
 }
@@ -432,7 +445,7 @@ void Application::spawnGunPickups() {
   m_gunPickups.clear();
 
   for (int f = 0; f < static_cast<int>(m_floors.size()); ++f) {
-    
+
     std::vector<Vector2> walkable;
     for (int gy = 1; gy < m_floors[f].getHeight() - 1; ++gy) {
       for (int gx = 1; gx < m_floors[f].getWidth() - 1; ++gx) {
@@ -443,9 +456,9 @@ void Application::spawnGunPickups() {
       }
     }
 
-    if (walkable.empty()) continue;
+    if (walkable.empty())
+      continue;
 
-    
     std::shuffle(walkable.begin(), walkable.end(), m_randomEngine);
     int gunCount = std::min(2, static_cast<int>(walkable.size()));
     for (int i = 0; i < gunCount; ++i) {
@@ -457,15 +470,18 @@ void Application::spawnGunPickups() {
     }
   }
 
-  std::cout << "🔫 Spawned " << m_gunPickups.size() << " gun pickups (3 shots each)\n";
+  std::cout << "🔫 Spawned " << m_gunPickups.size()
+            << " gun pickups (3 shots each)\n";
 }
 
 void Application::updateGunPickups(float deltaTime) {
   for (auto &gp : m_gunPickups) {
     gp.bobTimer += deltaTime * 3.0f;
 
-    if (!gp.active) continue;
-    if (gp.floor != mCurrentFloor) continue;
+    if (!gp.active)
+      continue;
+    if (gp.floor != mCurrentFloor)
+      continue;
 
     float dist = Vector2::distanceSq(m_playerPos, gp.pos);
     if (dist < 60.0f * 60.0f) {
@@ -475,7 +491,8 @@ void Application::updateGunPickups(float deltaTime) {
 
       spawnParticles(gp.pos, 15, 1.0f, 0.8f, 0.2f);
       shakeCamera(3.0f, 0.1f);
-      showHint("Gun picked up! 3 shots! LMB to shoot!", 3.0f, 1.0f, 0.8f, 0.2f, 1);
+      showHint("Gun picked up! 3 shots! LMB to shoot!", 3.0f, 1.0f, 0.8f, 0.2f,
+               1);
       std::cout << "🔫 Gun picked up! Ammo: " << m_gunAmmo << "\n";
     }
   }
@@ -483,32 +500,31 @@ void Application::updateGunPickups(float deltaTime) {
 
 void Application::renderGunPickups() {
   for (const auto &gp : m_gunPickups) {
-    if (!gp.active) continue;
-    if (gp.floor != mCurrentFloor) continue;
+    if (!gp.active)
+      continue;
+    if (gp.floor != mCurrentFloor)
+      continue;
 
     float bob = std::sin(gp.bobTimer) * 6.0f;
     float glow = (std::sin(gp.bobTimer * 1.3f) + 1.0f) * 0.5f;
 
-    
-    m_renderer->drawQuadAlpha({gp.pos.x, gp.pos.y + bob}, {50, 50},
-                              1.0f, 0.8f, 0.2f, 0.12f + glow * 0.08f, 0.0f);
+    m_renderer->drawQuadAlpha({gp.pos.x, gp.pos.y + bob}, {50, 50}, 1.0f, 0.8f,
+                              0.2f, 0.12f + glow * 0.08f, 0.0f);
 
-    
-    m_renderer->drawQuad({gp.pos.x, gp.pos.y + bob}, {30, 12},
-                         0.3f, 0.3f, 0.35f, 0.0f);
-    
+    m_renderer->drawQuad({gp.pos.x, gp.pos.y + bob}, {30, 12}, 0.3f, 0.3f,
+                         0.35f, 0.0f);
+
     m_renderer->drawQuad({gp.pos.x - 6.0f, gp.pos.y + bob - 8.0f}, {8, 14},
                          0.25f, 0.2f, 0.15f, 0.0f);
-    
-    m_renderer->drawQuad({gp.pos.x + 16.0f, gp.pos.y + bob}, {6, 6},
-                         0.4f, 0.4f, 0.45f, 0.0f);
 
-    
+    m_renderer->drawQuad({gp.pos.x + 16.0f, gp.pos.y + bob}, {6, 6}, 0.4f, 0.4f,
+                         0.45f, 0.0f);
+
     float sparkle = std::sin(gp.bobTimer * 5.0f);
     if (sparkle > 0.8f) {
-      m_renderer->drawQuadAlpha(
-          {gp.pos.x + 15.0f, gp.pos.y + bob + 15.0f}, {4, 4},
-          1.0f, 1.0f, 0.5f, sparkle - 0.8f, 0.78f);
+      m_renderer->drawQuadAlpha({gp.pos.x + 15.0f, gp.pos.y + bob + 15.0f},
+                                {4, 4}, 1.0f, 1.0f, 0.5f, sparkle - 0.8f,
+                                0.78f);
     }
   }
 }
@@ -516,7 +532,8 @@ void Application::renderGunPickups() {
 // ─────────────────────── shooting / projectiles ────────────
 
 void Application::shootGun() {
-  if (!m_hasGun || m_gunAmmo <= 0) return;
+  if (!m_hasGun || m_gunAmmo <= 0)
+    return;
 
   m_gunAmmo--;
   if (m_gunAmmo <= 0) {
@@ -536,9 +553,8 @@ void Application::shootGun() {
   m_projectiles.push_back(p);
 
   shakeCamera(4.0f, 0.1f);
-  spawnParticlesEx(m_playerPos + dir * 40.0f, 6,
-                   1.0f, 0.9f, 0.3f, 2.0f, 5.0f, 50.0f, 150.0f,
-                   0.1f, 0.3f, 0.0f);
+  spawnParticlesEx(m_playerPos + dir * 40.0f, 6, 1.0f, 0.9f, 0.3f, 2.0f, 5.0f,
+                   50.0f, 150.0f, 0.1f, 0.3f, 0.0f);
 
   m_combatTimer = m_outOfCombatDelay;
   std::cout << "💥 Shot fired! Ammo left: " << m_gunAmmo << "\n";
@@ -549,7 +565,6 @@ void Application::updateProjectiles(float deltaTime) {
     p.life -= deltaTime;
     p.pos += p.vel * deltaTime;
 
-    
     if (p.floor >= 0 && p.floor < static_cast<int>(m_floors.size())) {
       if (m_floors[p.floor].checkCollision(p.pos, 5.0f)) {
         p.life = 0.0f;
@@ -558,7 +573,6 @@ void Application::updateProjectiles(float deltaTime) {
       }
     }
 
-    
     if (p.life > 0.0f) {
       for (auto &alien : m_aliens) {
         if (!alien.alive || alien.floor != p.floor)
@@ -597,10 +611,10 @@ void Application::updateProjectiles(float deltaTime) {
 
 void Application::renderProjectiles() {
   for (const auto &p : m_projectiles) {
-    
+
     m_renderer->drawQuadAlpha(p.pos, {16, 4}, 1.0f, 0.9f, 0.3f, 0.9f,
                               p.rotation);
-    
+
     m_renderer->drawQuadAlpha(p.pos, {24, 12}, 1.0f, 0.7f, 0.1f, 0.3f,
                               p.rotation);
   }
@@ -664,7 +678,7 @@ void Application::playerAttack() {
 
     Vector2 toAlien = (alien.pos - m_playerPos).normalized();
     float dot = Vector2::dot(facingDir, toAlien);
-    if (dot < 0.3f) 
+    if (dot < 0.3f)
       continue;
 
     if (dist < bestDist) {
@@ -704,19 +718,11 @@ void Application::playerAttack() {
 }
 
 void Application::spawnBlood(const Vector2 &pos, int count) {
-  spawnParticlesEx(pos, count,
-                   0.7f, 0.0f, 0.0f,         
-                   4.0f, 14.0f,               
-                   60.0f, 200.0f,             
-                   0.5f, 1.5f,                
-                   150.0f);                   
+  spawnParticlesEx(pos, count, 0.7f, 0.0f, 0.0f, 4.0f, 14.0f, 60.0f, 200.0f,
+                   0.5f, 1.5f, 150.0f);
 
-  spawnParticlesEx(pos, count / 2,
-                   1.0f, 0.15f, 0.1f,         
-                   2.0f, 6.0f,                
-                   100.0f, 300.0f,            
-                   0.3f, 0.8f,                
-                   200.0f);                   
+  spawnParticlesEx(pos, count / 2, 1.0f, 0.15f, 0.1f, 2.0f, 6.0f, 100.0f,
+                   300.0f, 0.3f, 0.8f, 200.0f);
 }
 
 // ─────────────────────── input ─────────────────────────────
@@ -772,7 +778,6 @@ void Application::processInput(float deltaTime) {
     return;
   }
 
-  
   bool shiftHeld = glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ||
                    glfwGetKey(m_window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS;
   bool wantsSprint = shiftHeld && m_playerStamina > 0.0f;
@@ -787,7 +792,6 @@ void Application::processInput(float deltaTime) {
   if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     m_running = false;
 
-  
   if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS) {
     if (!m_spacePressed && m_playerAttackCooldown <= 0.0f && !m_isLunging) {
       m_spacePressed = true;
@@ -798,7 +802,6 @@ void Application::processInput(float deltaTime) {
   }
   m_playerAttackCooldown -= deltaTime;
 
-  
   if (m_isLunging) {
     m_lungeTimer += deltaTime;
     float t = m_lungeTimer / m_lungeDuration;
@@ -843,15 +846,13 @@ void Application::processInput(float deltaTime) {
   if (!checkWallCollision({m_playerPos.x, desiredPos.y}, 30.0f))
     m_playerPos.y = desiredPos.y;
 
-  if (mCurrentFloor >= 0 &&
-      mCurrentFloor < static_cast<int>(m_floors.size())) {
+  if (mCurrentFloor >= 0 && mCurrentFloor < static_cast<int>(m_floors.size())) {
     float ww = m_floors[mCurrentFloor].getWorldWidth();
     float wh = m_floors[mCurrentFloor].getWorldHeight();
     m_playerPos.x = std::clamp(m_playerPos.x, 32.0f, ww - 32.0f);
     m_playerPos.y = std::clamp(m_playerPos.y, 32.0f, wh - 32.0f);
   }
 
-  
   m_isSprinting = wantsSprint && isMoving;
   if (m_isSprinting) {
     m_playerStamina -= m_staminaDrainRate * deltaTime;
@@ -865,7 +866,6 @@ void Application::processInput(float deltaTime) {
     }
   }
 
-  
   if (isMoving) {
     m_footstepTimer += deltaTime;
     float interval = m_isSprinting ? 0.08f : 0.15f;
@@ -876,7 +876,6 @@ void Application::processInput(float deltaTime) {
     }
   }
 
-  
   {
     double mouseX, mouseY;
     glfwGetCursorPos(m_window, &mouseX, &mouseY);
@@ -887,29 +886,34 @@ void Application::processInput(float deltaTime) {
     float screenX = static_cast<float>(mouseX);
     float screenY = static_cast<float>(winH) - static_cast<float>(mouseY);
 
-    float playerScreenX = (m_playerPos.x - m_cameraPos.x) + static_cast<float>(winW) * 0.5f;
-    float playerScreenY = (m_playerPos.y - m_cameraPos.y) + static_cast<float>(winH) * 0.5f;
+    float playerScreenX =
+        (m_playerPos.x - m_cameraPos.x) + static_cast<float>(winW) * 0.5f;
+    float playerScreenY =
+        (m_playerPos.y - m_cameraPos.y) + static_cast<float>(winH) * 0.5f;
 
     float dx = screenX - playerScreenX;
     float dy = screenY - playerScreenY;
     float distSq = dx * dx + dy * dy;
 
-    if (distSq > 100.0f) { 
+    if (distSq > 100.0f) {
       float targetAngle = std::atan2(dy, dx) - PI * 0.5f;
 
       float diff = targetAngle - m_playerRotation;
-      while (diff > PI) diff -= 2.0f * PI;
-      while (diff < -PI) diff += 2.0f * PI;
+      while (diff > PI)
+        diff -= 2.0f * PI;
+      while (diff < -PI)
+        diff += 2.0f * PI;
 
       float smoothing = std::min(25.0f * deltaTime, 1.0f);
       m_playerRotation += diff * smoothing;
 
-      while (m_playerRotation > PI) m_playerRotation -= 2.0f * PI;
-      while (m_playerRotation < -PI) m_playerRotation += 2.0f * PI;
+      while (m_playerRotation > PI)
+        m_playerRotation -= 2.0f * PI;
+      while (m_playerRotation < -PI)
+        m_playerRotation += 2.0f * PI;
     }
   }
 
-  
   if (!m_hasKeycard && mCurrentFloor == m_keycardFloor) {
     float keycardDist = Vector2::distanceSq(m_playerPos, m_keycardPos);
     if (keycardDist < 80.0f * 80.0f) {
@@ -917,13 +921,14 @@ void Application::processInput(float deltaTime) {
         m_hasKeycard = true;
         shakeCamera(5.0f, 0.2f);
         spawnParticles(m_keycardPos, 20, 0.2f, 0.5f, 1.0f);
-        showHint("Keycard acquired! Now find the rabbit on Floor 3!", 4.0f, 0.3f, 0.6f, 1.0f, 2);
-        std::cout << "🔑 Keycard picked up! Now go find the rabbit on Floor 3!\n";
+        showHint("Keycard acquired! Now find the rabbit on Floor 3!", 4.0f,
+                 0.3f, 0.6f, 1.0f, 2);
+        std::cout
+            << "🔑 Keycard picked up! Now go find the rabbit on Floor 3!\n";
       }
     }
   }
 
-  
   if (!m_hasRabbit && mCurrentFloor == m_rabbitFloor) {
     float rabbitDist = Vector2::distanceSq(m_playerPos, m_rabbitPos);
     if (rabbitDist < 80.0f * 80.0f) {
@@ -931,17 +936,21 @@ void Application::processInput(float deltaTime) {
         if (!m_hasKeycard) {
           if (!m_shownKeycardHint) {
             m_shownKeycardHint = true;
-            showHint("Cage is locked! Find the KEYCARD on Floor 2!", 4.0f, 1.0f, 0.4f, 0.2f, 1);
-            std::cout << "🔒 The rabbit cage is locked! Find the keycard on Floor 2!\n";
+            showHint("Cage is locked! Find the KEYCARD on Floor 2!", 4.0f, 1.0f,
+                     0.4f, 0.2f, 1);
+            std::cout << "🔒 The rabbit cage is locked! Find the keycard on "
+                         "Floor 2!\n";
           }
         } else {
           m_hasRabbit = true;
           m_rabbitPickedUp = true;
           shakeCamera(5.0f, 0.2f);
           spawnParticles(m_rabbitPos, 20, 1.0f, 1.0f, 1.0f);
-          std::cout << "🐇 Rabbit rescued! Now escape through the DOOR on floor 1!\n";
+          std::cout
+              << "🐇 Rabbit rescued! Now escape through the DOOR on floor 1!\n";
           std::cout << "   ⚠️  The aliens don't look happy about this...\n";
-          showHint("Rabbit rescued! Escape to Floor 1!", 4.0f, 1.0f, 0.4f, 0.2f, 1);
+          showHint("Rabbit rescued! Escape to Floor 1!", 4.0f, 1.0f, 0.4f, 0.2f,
+                   1);
 
           for (auto &alien : m_aliens) {
             alien.sightRange *= 1.8f;
@@ -950,14 +959,12 @@ void Application::processInput(float deltaTime) {
             alien.sightAngle = PI;
           }
 
-          
           spawnAlienReinforcements();
         }
       }
     }
   }
 
-  
   if (m_hasRabbit && mCurrentFloor == m_exitFloor) {
     float exitDist = Vector2::distanceSq(m_playerPos, m_exitPos);
     if (exitDist < 100.0f * 100.0f) {
@@ -973,10 +980,8 @@ void Application::processInput(float deltaTime) {
     }
   }
 
-  
   mNearElevator = false;
-  if (mCurrentFloor >= 0 &&
-      mCurrentFloor < static_cast<int>(m_floors.size())) {
+  if (mCurrentFloor >= 0 && mCurrentFloor < static_cast<int>(m_floors.size())) {
     auto elevPositions = m_floors[mCurrentFloor].findTiles('E');
     for (const auto &ep : elevPositions) {
       if (Vector2::distanceSq(m_playerPos, ep) < 120.0f * 120.0f) {
@@ -1007,10 +1012,8 @@ void Application::processInput(float deltaTime) {
       glfwGetKey(m_window, GLFW_KEY_3) == GLFW_RELEASE)
     mElevatorCooldown = false;
 
-  
   bool nearStair = false;
-  if (mCurrentFloor >= 0 &&
-      mCurrentFloor < static_cast<int>(m_floors.size())) {
+  if (mCurrentFloor >= 0 && mCurrentFloor < static_cast<int>(m_floors.size())) {
     auto stairPositions = m_floors[mCurrentFloor].findTiles('S');
     for (const auto &sp : stairPositions) {
       if (Vector2::distanceSq(m_playerPos, sp) < 120.0f * 120.0f) {
@@ -1040,8 +1043,8 @@ void Application::processInput(float deltaTime) {
       glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_RELEASE)
     mStairCooldown = false;
 
-  
-  if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !m_editorMode) {
+  if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS &&
+      !m_editorMode) {
     if (!m_lmbPressed && m_hasGun && m_gunAmmo > 0) {
       m_lmbPressed = true;
       shootGun();
@@ -1050,9 +1053,9 @@ void Application::processInput(float deltaTime) {
     m_lmbPressed = false;
   }
 
-  
   m_dashCooldown -= deltaTime;
-  if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS && !m_editorMode) {
+  if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS &&
+      !m_editorMode) {
     if (!m_rmbPressed && !m_isDashing && m_dashCooldown <= 0.0f &&
         m_playerStamina >= m_dashStaminaCost) {
       m_rmbPressed = true;
@@ -1063,8 +1066,8 @@ void Application::processInput(float deltaTime) {
       m_playerStamina -= m_dashStaminaCost;
       m_dashCooldown = m_dashCooldownMax;
       m_staminaRegenTimer = m_staminaRegenDelay;
-      spawnParticlesEx(m_playerPos, 8, 0.4f, 0.6f, 1.0f,
-                       3.0f, 6.0f, 40.0f, 100.0f, 0.2f, 0.5f, 0.0f);
+      spawnParticlesEx(m_playerPos, 8, 0.4f, 0.6f, 1.0f, 3.0f, 6.0f, 40.0f,
+                       100.0f, 0.2f, 0.5f, 0.0f);
     }
   } else {
     m_rmbPressed = false;
@@ -1081,13 +1084,12 @@ void Application::processInput(float deltaTime) {
         m_playerPos.x = dashPos.x;
       if (!checkWallCollision({m_playerPos.x, dashPos.y}, 30.0f))
         m_playerPos.y = dashPos.y;
-      
-      spawnParticlesEx(m_playerPos, 1, 0.3f, 0.5f, 0.9f,
-                       2.0f, 4.0f, 10.0f, 30.0f, 0.1f, 0.3f, 0.0f);
+
+      spawnParticlesEx(m_playerPos, 1, 0.3f, 0.5f, 0.9f, 2.0f, 4.0f, 10.0f,
+                       30.0f, 0.1f, 0.3f, 0.0f);
     }
   }
 
-  
   if (glfwGetKey(m_window, GLFW_KEY_F1) == GLFW_PRESS) {
     if (!m_f1Pressed) {
       m_editorMode = !m_editorMode;
@@ -1101,7 +1103,6 @@ void Application::processInput(float deltaTime) {
     m_f1Pressed = false;
   }
 
-  
   if (m_editorMode && mCurrentFloor >= 0 &&
       mCurrentFloor < static_cast<int>(m_floors.size())) {
 
@@ -1203,14 +1204,12 @@ void Application::updateAliens(float deltaTime) {
       Vector2 toPlayerNorm = toPlayer.normalized();
       float dot = Vector2::dot(facingDir, toPlayerNorm);
       if (dot > std::cos(alien.sightAngle)) {
-        canSeePlayer =
-            hasLineOfSight(alien.floor, alien.pos, m_playerPos);
+        canSeePlayer = hasLineOfSight(alien.floor, alien.pos, m_playerPos);
       }
     }
 
     if (m_rabbitPickedUp && distToPlayer < alien.sightRange) {
-      canSeePlayer =
-          hasLineOfSight(alien.floor, alien.pos, m_playerPos);
+      canSeePlayer = hasLineOfSight(alien.floor, alien.pos, m_playerPos);
     }
 
     switch (alien.state) {
@@ -1222,9 +1221,8 @@ void Application::updateAliens(float deltaTime) {
         float randDist =
             100.0f + std::abs(m_randomDist(m_randomEngine)) * 200.0f;
         alien.patrolTarget =
-            alien.pos +
-            Vector2{std::cos(randAngle) * randDist,
-                    std::sin(randAngle) * randDist};
+            alien.pos + Vector2{std::cos(randAngle) * randDist,
+                                std::sin(randAngle) * randDist};
       }
       if (canSeePlayer) {
         alien.state = Alien::State::Chase;
@@ -1237,12 +1235,10 @@ void Application::updateAliens(float deltaTime) {
       float distTarget = toTarget.length();
       if (distTarget < 20.0f) {
         alien.state = Alien::State::Idle;
-        alien.idleTimer =
-            1.0f + std::abs(m_randomDist(m_randomEngine)) * 3.0f;
+        alien.idleTimer = 1.0f + std::abs(m_randomDist(m_randomEngine)) * 3.0f;
       } else {
         Vector2 md = toTarget.normalized();
-        Vector2 newPos =
-            alien.pos + md * alien.speed * 0.5f * deltaTime;
+        Vector2 newPos = alien.pos + md * alien.speed * 0.5f * deltaTime;
         if (!checkWallCollisionOnFloor(alien.floor, newPos, 20.0f)) {
           alien.pos = newPos;
         } else {
@@ -1264,18 +1260,15 @@ void Application::updateAliens(float deltaTime) {
         break;
       }
 
-      float chaseSpeed =
-          m_rabbitPickedUp ? alien.speed * 1.3f : alien.speed;
+      float chaseSpeed = m_rabbitPickedUp ? alien.speed * 1.3f : alien.speed;
 
       if (distToPlayer > alien.attackRange) {
         Vector2 md = toPlayer.normalized();
-        Vector2 newPos =
-            alien.pos + md * chaseSpeed * deltaTime;
+        Vector2 newPos = alien.pos + md * chaseSpeed * deltaTime;
         if (!checkWallCollisionOnFloor(alien.floor, newPos, 20.0f)) {
           alien.pos = newPos;
         }
-        alien.rotation =
-            std::atan2(toPlayer.y, toPlayer.x) - PI * 0.5f;
+        alien.rotation = std::atan2(toPlayer.y, toPlayer.x) - PI * 0.5f;
       } else {
         alien.state = Alien::State::Attack;
       }
@@ -1288,8 +1281,7 @@ void Application::updateAliens(float deltaTime) {
         break;
       }
 
-      alien.rotation =
-          std::atan2(toPlayer.y, toPlayer.x) - PI * 0.5f;
+      alien.rotation = std::atan2(toPlayer.y, toPlayer.x) - PI * 0.5f;
 
       if (alien.attackCooldown <= 0.0f) {
         m_playerHP -= alien.damage;
@@ -1319,28 +1311,31 @@ void Application::updateAliens(float deltaTime) {
 
 void Application::spawnParticles(const Vector2 &pos, int count, float r,
                                  float g, float b) {
-  spawnParticlesEx(pos, count, r, g, b, 3.0f, 8.0f, 30.0f, 110.0f,
-                   0.3f, 1.0f, 0.0f);
+  spawnParticlesEx(pos, count, r, g, b, 3.0f, 8.0f, 30.0f, 110.0f, 0.3f, 1.0f,
+                   0.0f);
 }
 
 void Application::spawnParticlesEx(const Vector2 &pos, int count, float r,
                                    float g, float b, float sizeMin,
                                    float sizeMax, float speedMin,
-                                   float speedMax, float lifeMin,
-                                   float lifeMax, float gravity) {
+                                   float speedMax, float lifeMin, float lifeMax,
+                                   float gravity) {
   for (int i = 0; i < count; ++i) {
     Particle p;
     p.pos = pos;
     float angle = m_randomDist(m_randomEngine) * PI;
-    float spd = speedMin + std::abs(m_randomDist(m_randomEngine)) * (speedMax - speedMin);
+    float spd = speedMin +
+                std::abs(m_randomDist(m_randomEngine)) * (speedMax - speedMin);
     p.vel = {std::cos(angle) * spd, std::sin(angle) * spd};
-    p.maxLife = lifeMin + std::abs(m_randomDist(m_randomEngine)) * (lifeMax - lifeMin);
+    p.maxLife =
+        lifeMin + std::abs(m_randomDist(m_randomEngine)) * (lifeMax - lifeMin);
     p.life = p.maxLife;
     p.r = std::clamp(r + m_randomDist(m_randomEngine) * 0.15f, 0.0f, 1.0f);
     p.g = std::clamp(g + m_randomDist(m_randomEngine) * 0.1f, 0.0f, 1.0f);
     p.b = std::clamp(b + m_randomDist(m_randomEngine) * 0.1f, 0.0f, 1.0f);
     p.a = 1.0f;
-    p.size = sizeMin + std::abs(m_randomDist(m_randomEngine)) * (sizeMax - sizeMin);
+    p.size =
+        sizeMin + std::abs(m_randomDist(m_randomEngine)) * (sizeMax - sizeMin);
     p.gravity = gravity;
     p.rotation = m_randomDist(m_randomEngine) * PI;
     p.rotSpeed = m_randomDist(m_randomEngine) * 5.0f;
@@ -1352,7 +1347,7 @@ void Application::updateParticles(float deltaTime) {
   for (auto &p : m_particles) {
     p.life -= deltaTime;
     p.pos += p.vel * deltaTime;
-    p.vel.y -= p.gravity * deltaTime;  
+    p.vel.y -= p.gravity * deltaTime;
     p.vel = p.vel * 0.96f;
     p.a = std::max(0.0f, p.life / p.maxLife);
     p.size *= 0.98f;
@@ -1387,8 +1382,7 @@ void Application::update(float deltaTime) {
 
   if (m_cameraShakeDuration > 0.0f) {
     m_cameraShakeTimer += deltaTime;
-    float progress =
-        std::min(m_cameraShakeTimer / m_cameraShakeDuration, 1.0f);
+    float progress = std::min(m_cameraShakeTimer / m_cameraShakeDuration, 1.0f);
     m_cameraShakeIntensity *= (1.0f - progress);
     if (progress >= 1.0f) {
       m_cameraShakeDuration = 0.0f;
@@ -1425,21 +1419,24 @@ void Application::update(float deltaTime) {
   updateProjectiles(deltaTime);
   updateHints(deltaTime);
 
-  
   m_hintCooldown -= deltaTime;
 
   if (!m_shownStartHint && m_gameTime > 1.0f) {
     m_shownStartHint = true;
-    showHint("Find the KEYCARD on Floor 2 first!", 5.0f, 0.3f, 0.6f, 1.0f, 0); 
-    std::cout << "💡 TIP: Find the keycard on Floor 2, then rescue the rabbit on Floor 3!\n";
-    std::cout << "    Use WASD to move, Mouse to aim, SPACE to attack, RMB to dash!\n";
+    showHint("Find the KEYCARD on Floor 2 first!", 5.0f, 0.3f, 0.6f, 1.0f, 0);
+    std::cout << "💡 TIP: Find the keycard on Floor 2, then rescue the rabbit "
+                 "on Floor 3!\n";
+    std::cout << "    Use WASD to move, Mouse to aim, SPACE to attack, RMB to "
+                 "dash!\n";
   }
 
   if (mCurrentFloor != m_lastHintFloor && m_hintCooldown <= 0.0f) {
     m_lastHintFloor = mCurrentFloor;
     m_hintCooldown = 3.0f;
     if (mCurrentFloor == 0) {
-      showHint(m_hasRabbit ? "The exit door is here!" : "Door locked - get the rabbit!", 3.0f, 0.3f, 1.0f, 0.4f, 2);  
+      showHint(m_hasRabbit ? "The exit door is here!"
+                           : "Door locked - get the rabbit!",
+               3.0f, 0.3f, 1.0f, 0.4f, 2);
       if (!m_hasRabbit && !m_shownDoorHint) {
         m_shownDoorHint = true;
         std::cout << "🚪 The exit door is on this floor... but it's locked "
@@ -1464,9 +1461,8 @@ void Application::update(float deltaTime) {
         float dist = Vector2::distance(m_playerPos, alien.pos);
         if (dist < 200.0f) {
           m_shownAttackHint = true;
-          showHint("Alien nearby! SPACE to stomp!", 3.0f, 1.0f, 0.4f, 0.3f, 1);  
-          std::cout
-              << "⚠️  Alien nearby! Press SPACE to stomp it!\n";
+          showHint("Alien nearby! SPACE to stomp!", 3.0f, 1.0f, 0.4f, 0.3f, 1);
+          std::cout << "⚠️  Alien nearby! Press SPACE to stomp it!\n";
           break;
         }
       }
@@ -1485,7 +1481,7 @@ void Application::update(float deltaTime) {
         "💀 Remember: dying is just a learning experience!",
     };
     std::cout << tips[tip] << "\n";
-    showHint(tips[tip], 3.0f, 0.9f, 0.8f, 0.3f, 3);  
+    showHint(tips[tip], 3.0f, 0.9f, 0.8f, 0.3f, 3);
     m_hintCooldown = 10.0f;
   }
 }
@@ -1536,14 +1532,14 @@ void Application::renderEditorOverlay() {
     Vector2 tp = map.gridToWorld(gx, gy);
     float half = ts / 2.0f;
     float bw = 3.0f;
-    m_renderer->drawQuad({tp.x, tp.y + half - bw / 2.0f}, {ts, bw}, 1.0f,
-                         1.0f, 0.0f, 0.0f);
-    m_renderer->drawQuad({tp.x, tp.y - half + bw / 2.0f}, {ts, bw}, 1.0f,
-                         1.0f, 0.0f, 0.0f);
-    m_renderer->drawQuad({tp.x - half + bw / 2.0f, tp.y}, {bw, ts}, 1.0f,
-                         1.0f, 0.0f, 0.0f);
-    m_renderer->drawQuad({tp.x + half - bw / 2.0f, tp.y}, {bw, ts}, 1.0f,
-                         1.0f, 0.0f, 0.0f);
+    m_renderer->drawQuad({tp.x, tp.y + half - bw / 2.0f}, {ts, bw}, 1.0f, 1.0f,
+                         0.0f, 0.0f);
+    m_renderer->drawQuad({tp.x, tp.y - half + bw / 2.0f}, {ts, bw}, 1.0f, 1.0f,
+                         0.0f, 0.0f);
+    m_renderer->drawQuad({tp.x - half + bw / 2.0f, tp.y}, {bw, ts}, 1.0f, 1.0f,
+                         0.0f, 0.0f);
+    m_renderer->drawQuad({tp.x + half - bw / 2.0f, tp.y}, {bw, ts}, 1.0f, 1.0f,
+                         0.0f, 0.0f);
   }
 
   m_renderer->beginScreenSpace();
@@ -1555,9 +1551,8 @@ void Application::renderEditorOverlay() {
   float gap = 6.0f;
 
   float barW = defs.size() * (boxSize + gap) + gap;
-  m_renderer->drawQuad(
-      {palX + barW / 2.0f - gap / 2.0f, palY + boxSize / 2.0f},
-      {barW, boxSize + 12.0f}, 0.08f, 0.08f, 0.12f, 0.0f);
+  m_renderer->drawQuad({palX + barW / 2.0f - gap / 2.0f, palY + boxSize / 2.0f},
+                       {barW, boxSize + 12.0f}, 0.08f, 0.08f, 0.12f, 0.0f);
 
   for (int i = 0; i < static_cast<int>(defs.size()); ++i) {
     float bx = palX + i * (boxSize + gap) + boxSize / 2.0f;
@@ -1578,8 +1573,8 @@ void Application::renderEditorOverlay() {
   }
 
   m_renderer->drawQuad({static_cast<float>(mWindowWidth) - 60.0f,
-                         static_cast<float>(mWindowHeight) - 20.0f},
-                        {100, 28}, 0.9f, 0.2f, 0.2f, 0.0f);
+                        static_cast<float>(mWindowHeight) - 20.0f},
+                       {100, 28}, 0.9f, 0.2f, 0.2f, 0.0f);
 
   Vector2 shake{0.0f, 0.0f};
   m_renderer->setCameraPosition(m_cameraPos, shake);
@@ -1599,19 +1594,18 @@ void Application::renderAliens() {
 
       float poolSize = 30.0f + t * 100.0f;
       float poolAlpha = 0.8f - t * 0.4f;
-      m_renderer->drawQuadAlpha(alien.pos, {poolSize, poolSize * 0.6f},
-                                0.5f, 0.0f, 0.0f, poolAlpha, 0.0f);
+      m_renderer->drawQuadAlpha(alien.pos, {poolSize, poolSize * 0.6f}, 0.5f,
+                                0.0f, 0.0f, poolAlpha, 0.0f);
       m_renderer->drawQuadAlpha(alien.pos, {poolSize * 0.7f, poolSize * 0.5f},
                                 0.7f, 0.05f, 0.05f, poolAlpha * 0.8f,
                                 alien.rotation * 0.5f);
 
       float sq = alien.squash;
       if (sq > 0.05f) {
-        float bodyW = 48.0f * (1.0f + (1.0f - sq) * 0.8f); 
-        float bodyH = 48.0f * sq;                            
-        m_renderer->drawQuadAlpha(alien.pos, {bodyW, bodyH},
-                                  0.1f, 0.4f * sq, 0.1f, sq,
-                                  alien.rotation);
+        float bodyW = 48.0f * (1.0f + (1.0f - sq) * 0.8f);
+        float bodyH = 48.0f * sq;
+        m_renderer->drawQuadAlpha(alien.pos, {bodyW, bodyH}, 0.1f, 0.4f * sq,
+                                  0.1f, sq, alien.rotation);
       }
       continue;
     }
@@ -1623,7 +1617,9 @@ void Application::renderAliens() {
     float headSize = 24.0f;
 
     if (alien.elite) {
-      bodyR = 0.6f; bodyG = 0.15f; bodyB = 0.6f;
+      bodyR = 0.6f;
+      bodyG = 0.15f;
+      bodyB = 0.6f;
       bodySize = 64.0f;
       headSize = 30.0f;
     }
@@ -1642,44 +1638,43 @@ void Application::renderAliens() {
       }
     }
 
-    
     if (alien.elite) {
       float glow = (std::sin(alien.animTimer * 3.0f) + 1.0f) * 0.5f;
       m_renderer->drawQuadAlpha({alien.pos.x, alien.pos.y + wobble},
-                                {bodySize + 20.0f, bodySize + 20.0f},
-                                0.6f, 0.1f, 0.6f, 0.1f + glow * 0.08f, 0.0f);
+                                {bodySize + 20.0f, bodySize + 20.0f}, 0.6f,
+                                0.1f, 0.6f, 0.1f + glow * 0.08f, 0.0f);
     }
 
-    m_renderer->drawQuad({alien.pos.x, alien.pos.y + wobble}, {bodySize, bodySize}, bodyR,
-                         bodyG, bodyB, alien.rotation);
+    m_renderer->drawQuad({alien.pos.x, alien.pos.y + wobble},
+                         {bodySize, bodySize}, bodyR, bodyG, bodyB,
+                         alien.rotation);
 
     float headAngle = alien.rotation + PI * 0.5f;
     Vector2 headOffset{std::cos(headAngle) * 20.0f,
                        std::sin(headAngle) * 20.0f};
     m_renderer->drawQuad(
         {alien.pos.x + headOffset.x, alien.pos.y + headOffset.y + wobble},
-        {headSize, headSize}, bodyR * 0.8f, bodyG * 1.2f, bodyB * 0.8f, alien.rotation);
+        {headSize, headSize}, bodyR * 0.8f, bodyG * 1.2f, bodyB * 0.8f,
+        alien.rotation);
 
     float eyeSpread = alien.elite ? 10.0f : 8.0f;
     float eyeSize = alien.elite ? 8.0f : 6.0f;
     float perpAngle = headAngle + PI * 0.5f;
     Vector2 eyeBase = alien.pos + headOffset;
     for (int e = -1; e <= 1; e += 2) {
-      Vector2 eyePos = {
-          eyeBase.x + std::cos(perpAngle) * eyeSpread * e,
-          eyeBase.y + std::sin(perpAngle) * eyeSpread * e + wobble};
+      Vector2 eyePos = {eyeBase.x + std::cos(perpAngle) * eyeSpread * e,
+                        eyeBase.y + std::sin(perpAngle) * eyeSpread * e +
+                            wobble};
       m_renderer->drawQuad(eyePos, {eyeSize, eyeSize}, 1.0f, 0.0f, 0.0f, 0.0f);
     }
 
     if (alien.state == Alien::State::Chase ||
         alien.state == Alien::State::Attack) {
       float alertBob = std::sin(alien.animTimer * 6.0f) * 5.0f;
-      m_renderer->drawQuad(
-          {alien.pos.x, alien.pos.y + 45.0f + alertBob}, {8, 20}, 1.0f, 0.3f,
-          0.3f, 0.0f);
-      m_renderer->drawQuad(
-          {alien.pos.x, alien.pos.y + 30.0f + alertBob}, {6, 6}, 1.0f, 0.3f,
-          0.3f, 0.0f);
+      m_renderer->drawQuad({alien.pos.x, alien.pos.y + 45.0f + alertBob},
+                           {8, 20}, 1.0f, 0.3f, 0.3f, 0.0f);
+      m_renderer->drawQuad({alien.pos.x, alien.pos.y + 30.0f + alertBob},
+                           {6, 6}, 1.0f, 0.3f, 0.3f, 0.0f);
     }
 
     if (alien.hp < alien.maxHp) {
@@ -1687,8 +1682,8 @@ void Application::renderAliens() {
       float barW = 40.0f;
       float barH = 5.0f;
       float barY = alien.pos.y + 55.0f;
-      m_renderer->drawQuadAlpha({alien.pos.x, barY}, {barW + 2, barH + 2},
-                                0.0f, 0.0f, 0.0f, 0.6f);
+      m_renderer->drawQuadAlpha({alien.pos.x, barY}, {barW + 2, barH + 2}, 0.0f,
+                                0.0f, 0.0f, 0.6f);
       float fillW = barW * hpFrac;
       float hpR = hpFrac < 0.5f ? 1.0f : 1.0f - (hpFrac - 0.5f) * 2.0f;
       float hpG = hpFrac > 0.5f ? 1.0f : hpFrac * 2.0f;
@@ -1706,7 +1701,6 @@ void Application::renderHUD() {
   float hudX = 20.0f;
   float hudY = static_cast<float>(mWindowHeight) - 30.0f;
 
-  
   float hpBarW = 200.0f;
   float hpBarH = 18.0f;
   float hpFrac = m_playerHP / m_playerMaxHP;
@@ -1717,19 +1711,20 @@ void Application::renderHUD() {
   float hpG = hpFrac > 0.5f ? 1.0f : hpFrac * 2.0f;
   float fillW = hpBarW * hpFrac;
   if (fillW > 0.1f) {
-    m_renderer->drawQuad({hudX + fillW / 2.0f, hudY}, {fillW, hpBarH}, hpR,
-                         hpG, 0.1f, 0.0f);
+    m_renderer->drawQuad({hudX + fillW / 2.0f, hudY}, {fillW, hpBarH}, hpR, hpG,
+                         0.1f, 0.0f);
   }
   m_renderer->drawQuadAlpha({hudX + hpBarW / 2.0f, hudY},
                             {hpBarW + 2, hpBarH + 2}, 0.8f, 0.8f, 0.8f, 0.3f);
 
-  m_renderer->drawText({hudX - 12.0f, hudY - 4.0f}, "HP", 1.5f, 1.0f, 0.4f, 0.4f);
+  m_renderer->drawText({hudX - 12.0f, hudY - 4.0f}, "HP", 1.5f, 1.0f, 0.4f,
+                       0.4f);
   char hpBuf[32];
-  std::snprintf(hpBuf, sizeof(hpBuf), "%d/%d",
-                static_cast<int>(m_playerHP), static_cast<int>(m_playerMaxHP));
-  m_renderer->drawText({hudX + hpBarW + 8.0f, hudY - 3.0f}, hpBuf, 1.5f, 1.0f, 1.0f, 1.0f);
+  std::snprintf(hpBuf, sizeof(hpBuf), "%d/%d", static_cast<int>(m_playerHP),
+                static_cast<int>(m_playerMaxHP));
+  m_renderer->drawText({hudX + hpBarW + 8.0f, hudY - 3.0f}, hpBuf, 1.5f, 1.0f,
+                       1.0f, 1.0f);
 
-  
   float stamY = hudY - 25.0f;
   float stamBarW = 160.0f;
   float stamBarH = 12.0f;
@@ -1750,24 +1745,24 @@ void Application::renderHUD() {
                             {stamBarW + 2, stamBarH + 2}, 0.5f, 0.7f, 1.0f,
                             0.3f);
 
-  m_renderer->drawText({hudX - 12.0f, stamY - 3.0f}, "ST", 1.2f, 0.4f, 0.7f, 1.0f);
+  m_renderer->drawText({hudX - 12.0f, stamY - 3.0f}, "ST", 1.2f, 0.4f, 0.7f,
+                       1.0f);
 
   if (m_isSprinting) {
-    m_renderer->drawText({hudX + stamBarW + 8.0f, stamY - 3.0f}, "SPRINT", 1.2f, 0.3f, 0.8f, 1.0f);
+    m_renderer->drawText({hudX + stamBarW + 8.0f, stamY - 3.0f}, "SPRINT", 1.2f,
+                         0.3f, 0.8f, 1.0f);
   }
 
-  
   if (m_hasGun && m_gunAmmo > 0) {
     float ammoY = stamY - 25.0f;
     m_renderer->drawQuadAlpha({hudX + 50.0f, ammoY}, {110, 20}, 0.0f, 0.0f,
                               0.0f, 0.7f);
-    
+
     m_renderer->drawQuad({hudX + 10.0f, ammoY}, {18, 8}, 0.5f, 0.5f, 0.55f,
                          0.0f);
     m_renderer->drawQuad({hudX + 5.0f, ammoY - 5.0f}, {6, 10}, 0.4f, 0.35f,
                          0.3f, 0.0f);
 
-    
     for (int i = 0; i < m_gunAmmo && i < 3; ++i) {
       float dotX = hudX + 30.0f + i * 20.0f;
       m_renderer->drawQuad({dotX, ammoY}, {12, 12}, 1.0f, 0.85f, 0.2f, 0.0f);
@@ -1778,7 +1773,6 @@ void Application::renderHUD() {
                          0.9f, 0.3f);
   }
 
-  
   float floorX = static_cast<float>(mWindowWidth) - 120.0f;
   float floorY = static_cast<float>(mWindowHeight) - 30.0f;
   m_renderer->drawQuadAlpha({floorX, floorY}, {100, 30}, 0.05f, 0.05f, 0.1f,
@@ -1790,9 +1784,9 @@ void Application::renderHUD() {
   for (int i = 0; i < 3; ++i) {
     float labelX = floorX - 30.0f + i * 25.0f;
     if (i == mCurrentFloor) {
-      m_renderer->drawQuad({labelX, floorY}, {20, 22},
-                           floorColors[i][0] * 2.0f, floorColors[i][1] * 2.0f,
-                           floorColors[i][2] * 2.0f, 0.0f);
+      m_renderer->drawQuad({labelX, floorY}, {20, 22}, floorColors[i][0] * 2.0f,
+                           floorColors[i][1] * 2.0f, floorColors[i][2] * 2.0f,
+                           0.0f);
     } else {
       m_renderer->drawQuad({labelX, floorY}, {16, 16}, floorColors[i][0],
                            floorColors[i][1], floorColors[i][2], 0.0f);
@@ -1800,15 +1794,14 @@ void Application::renderHUD() {
   }
   char floorBuf[8];
   std::snprintf(floorBuf, sizeof(floorBuf), "F%d", mCurrentFloor + 1);
-  m_renderer->drawText({floorX + 30.0f, floorY - 4.0f}, floorBuf, 1.5f, 1.0f, 1.0f, 1.0f);
+  m_renderer->drawText({floorX + 30.0f, floorY - 4.0f}, floorBuf, 1.5f, 1.0f,
+                       1.0f, 1.0f);
 
-  
   float objX = static_cast<float>(mWindowWidth) / 2.0f;
   float objY = static_cast<float>(mWindowHeight) - 25.0f;
 
   if (!m_hasRabbit) {
-    m_renderer->drawQuadAlpha({objX, objY}, {320, 24}, 0.0f, 0.0f, 0.0f,
-                              0.6f);
+    m_renderer->drawQuadAlpha({objX, objY}, {320, 24}, 0.0f, 0.0f, 0.0f, 0.6f);
     if (!m_hasKeycard) {
       m_renderer->drawTextCentered({objX, objY}, "Find the KEYCARD on Floor 2",
                                    1.5f, 0.3f, 0.6f, 1.0f);
@@ -1824,26 +1817,24 @@ void Application::renderHUD() {
                                  1.5f, 0.3f + pulse * 0.7f, 1.0f, 0.4f);
   }
 
-  
   float timerY = static_cast<float>(mWindowHeight) - 55.0f;
-  m_renderer->drawQuadAlpha({objX, timerY}, {100, 18}, 0.0f, 0.0f, 0.0f,
-                            0.5f);
+  m_renderer->drawQuadAlpha({objX, timerY}, {100, 18}, 0.0f, 0.0f, 0.0f, 0.5f);
   int minutes = static_cast<int>(m_gameTime) / 60;
   int seconds = static_cast<int>(m_gameTime) % 60;
   char timerBuf[16];
   std::snprintf(timerBuf, sizeof(timerBuf), "%d:%02d", minutes, seconds);
-  m_renderer->drawTextCentered({objX, timerY}, timerBuf, 1.5f, 0.9f, 0.8f, 0.5f);
+  m_renderer->drawTextCentered({objX, timerY}, timerBuf, 1.5f, 0.9f, 0.8f,
+                               0.5f);
 
   if (m_killCount > 0) {
     float killY = timerY - 22.0f;
-    m_renderer->drawQuadAlpha({objX, killY}, {100, 18}, 0.0f, 0.0f, 0.0f,
-                              0.4f);
+    m_renderer->drawQuadAlpha({objX, killY}, {100, 18}, 0.0f, 0.0f, 0.0f, 0.4f);
     char killBuf[32];
     std::snprintf(killBuf, sizeof(killBuf), "KILLS: %d", m_killCount);
-    m_renderer->drawTextCentered({objX, killY}, killBuf, 1.5f, 0.9f, 0.3f, 0.3f);
+    m_renderer->drawTextCentered({objX, killY}, killBuf, 1.5f, 0.9f, 0.3f,
+                                 0.3f);
   }
 
-  
   if (m_damageFlashTimer > 0.0f) {
     float alpha = m_damageFlashTimer / 0.3f * 0.4f;
     m_renderer->drawQuadAlpha(
@@ -1853,7 +1844,6 @@ void Application::renderHUD() {
         0.8f, 0.0f, 0.0f, alpha);
   }
 
-  
   if (m_playerHP < 30.0f && m_playerHP > 0.0f) {
     float intensity = (30.0f - m_playerHP) / 30.0f;
     float pulse = (std::sin(m_heartbeatTimer * 4.0f) + 1.0f) * 0.5f;
@@ -1884,14 +1874,16 @@ void Application::renderGameOver() {
     m_renderer->drawQuad({cx, cy + 40.0f}, {300, 50}, 0.1f + pulse * 0.2f,
                          0.5f + pulse * 0.3f, 0.1f + pulse * 0.1f, 0.0f);
     m_renderer->drawTextCentered({cx, cy + 40.0f}, "YOU WIN!", 4.0f,
-                                 0.2f + pulse * 0.8f, 1.0f, 0.3f + pulse * 0.3f);
+                                 0.2f + pulse * 0.8f, 1.0f,
+                                 0.3f + pulse * 0.3f);
     m_renderer->drawQuad({cx, cy - 20.0f}, {40, 40}, 1.0f, 1.0f, 1.0f, 0.0f);
 
     char statsBuf[64];
     std::snprintf(statsBuf, sizeof(statsBuf), "Time: %d:%02d  Kills: %d",
                   static_cast<int>(m_gameTime) / 60,
                   static_cast<int>(m_gameTime) % 60, m_killCount);
-    m_renderer->drawTextCentered({cx, cy - 60.0f}, statsBuf, 2.0f, 0.8f, 0.8f, 0.8f);
+    m_renderer->drawTextCentered({cx, cy - 60.0f}, statsBuf, 2.0f, 0.8f, 0.8f,
+                                 0.8f);
 
     for (int i = 0; i < 5; ++i) {
       float angle = m_winTimer * 2.0f + i * PI * 2.0f / 5.0f;
@@ -1904,8 +1896,8 @@ void Application::renderGameOver() {
     float fade = std::min(m_winTimer, 1.0f);
     m_renderer->drawQuadAlpha({cx, cy + 30.0f}, {250 * fade, 40 * fade}, 0.7f,
                               0.1f, 0.1f, 0.9f);
-    m_renderer->drawTextCentered({cx, cy + 30.0f}, "YOU DIED!", 4.0f,
-                                 1.0f, 0.2f, 0.2f, fade);
+    m_renderer->drawTextCentered({cx, cy + 30.0f}, "YOU DIED!", 4.0f, 1.0f,
+                                 0.2f, 0.2f, fade);
     m_renderer->drawQuad({cx, cy - 20.0f}, {30, 30}, 0.9f, 0.9f, 0.9f, 0.0f);
     m_renderer->drawQuad({cx - 8.0f, cy - 15.0f}, {6, 8}, 0.1f, 0.1f, 0.1f,
                          0.0f);
@@ -1915,7 +1907,8 @@ void Application::renderGameOver() {
     char statsBuf[64];
     std::snprintf(statsBuf, sizeof(statsBuf), "Survived %ds  Kills: %d",
                   static_cast<int>(m_gameTime), m_killCount);
-    m_renderer->drawTextCentered({cx, cy - 60.0f}, statsBuf, 2.0f, 0.7f, 0.7f, 0.7f, fade);
+    m_renderer->drawTextCentered({cx, cy - 60.0f}, statsBuf, 2.0f, 0.7f, 0.7f,
+                                 0.7f, fade);
   }
 
   float hintPulse = (std::sin(m_winTimer * 2.0f) + 1.0f) * 0.5f;
@@ -1957,8 +1950,7 @@ void Application::renderMinimap() {
         continue;
 
       float px = mmX + gx * mapScale + mapScale / 2.0f;
-      float py =
-          mmY + (map.getHeight() - 1 - gy) * mapScale + mapScale / 2.0f;
+      float py = mmY + (map.getHeight() - 1 - gy) * mapScale + mapScale / 2.0f;
 
       if (def->solid) {
         m_renderer->drawQuadAlpha({px, py}, {mapScale, mapScale}, def->r,
@@ -1994,8 +1986,8 @@ void Application::renderMinimap() {
 
   if (!m_hasRabbit && mCurrentFloor == m_rabbitFloor) {
     float rx = mmX + (m_rabbitPos.x / map.getTileSize()) * mapScale;
-    float ry = mmY + (map.getHeight() - m_rabbitPos.y / map.getTileSize()) *
-                         mapScale;
+    float ry =
+        mmY + (map.getHeight() - m_rabbitPos.y / map.getTileSize()) * mapScale;
     float pulse = (std::sin(m_gameTime * 4.0f) + 1.0f) * 0.5f;
     m_renderer->drawQuad({rx, ry}, {mapScale * 2.0f, mapScale * 2.0f}, 1.0f,
                          1.0f, 0.5f + pulse * 0.5f, 0.0f);
@@ -2004,8 +1996,8 @@ void Application::renderMinimap() {
 
 // ─────────────────────── hints / messages ─────────────────
 
-void Application::showHint(const std::string &text, float duration,
-                           float r, float g, float b, int icon) {
+void Application::showHint(const std::string &text, float duration, float r,
+                           float g, float b, int icon) {
   HintMessage h;
   h.text = text;
   h.timer = duration;
@@ -2035,9 +2027,9 @@ void Application::renderHints() {
 
   for (int i = 0; i < static_cast<int>(m_hints.size()); ++i) {
     const auto &h = m_hints[i];
-    float alpha = std::min(h.timer, 1.0f); 
+    float alpha = std::min(h.timer, 1.0f);
     if (h.timer > h.duration - 0.3f)
-      alpha = (h.duration - h.timer) / 0.3f; 
+      alpha = (h.duration - h.timer) / 0.3f;
 
     float y = baseY + i * 32.0f;
 
@@ -2046,31 +2038,31 @@ void Application::renderHints() {
 
     float iconX = hintX - 145.0f;
     switch (h.iconType) {
-    case 0: 
-      m_renderer->drawQuadAlpha({iconX, y}, {18, 18}, 0.3f, 0.7f, 1.0f,
-                                alpha, 0.0f);
+    case 0:
+      m_renderer->drawQuadAlpha({iconX, y}, {18, 18}, 0.3f, 0.7f, 1.0f, alpha,
+                                0.0f);
       m_renderer->drawQuadAlpha({iconX, y + 2.0f}, {4, 8}, 1.0f, 1.0f, 1.0f,
                                 alpha, 0.0f);
       m_renderer->drawQuadAlpha({iconX, y + 7.0f}, {4, 4}, 1.0f, 1.0f, 1.0f,
                                 alpha, 0.0f);
       break;
-    case 1: 
-      m_renderer->drawQuadAlpha({iconX, y}, {20, 18}, 1.0f, 0.7f, 0.1f,
-                                alpha, 0.0f);
+    case 1:
+      m_renderer->drawQuadAlpha({iconX, y}, {20, 18}, 1.0f, 0.7f, 0.1f, alpha,
+                                0.0f);
       m_renderer->drawQuadAlpha({iconX, y + 1.0f}, {3, 8}, 0.1f, 0.1f, 0.0f,
                                 alpha, 0.0f);
       m_renderer->drawQuadAlpha({iconX, y - 5.0f}, {3, 3}, 0.1f, 0.1f, 0.0f,
                                 alpha, 0.0f);
       break;
-    case 2: 
+    case 2:
       m_renderer->drawQuadAlpha({iconX, y}, {14, 14}, h.r, h.g, h.b, alpha,
                                 0.78f);
       m_renderer->drawQuadAlpha({iconX, y}, {14, 14}, h.r, h.g, h.b, alpha,
                                 0.0f);
       break;
-    case 3: 
-      m_renderer->drawQuadAlpha({iconX, y}, {18, 18}, 0.9f, 0.8f, 0.2f,
-                                alpha, 0.0f);
+    case 3:
+      m_renderer->drawQuadAlpha({iconX, y}, {18, 18}, 0.9f, 0.8f, 0.2f, alpha,
+                                0.0f);
       m_renderer->drawQuadAlpha({iconX - 4.0f, y + 3.0f}, {3, 3}, 0.1f, 0.1f,
                                 0.0f, alpha, 0.0f);
       m_renderer->drawQuadAlpha({iconX + 4.0f, y + 3.0f}, {3, 3}, 0.1f, 0.1f,
@@ -2098,38 +2090,50 @@ void Application::renderWaypoint() {
   bool showWaypoint = false;
 
   if (!m_hasRabbit) {
-    
+
     int targetFloor;
     Vector2 objectivePos;
     if (!m_hasKeycard) {
       targetFloor = m_keycardFloor;
       objectivePos = m_keycardPos;
-      targetR = 0.3f; targetG = 0.6f; targetB = 1.0f;
+      targetR = 0.3f;
+      targetG = 0.6f;
+      targetB = 1.0f;
     } else {
       targetFloor = m_rabbitFloor;
       objectivePos = m_rabbitPos;
-      targetR = 1.0f; targetG = 1.0f; targetB = 0.8f;
+      targetR = 1.0f;
+      targetG = 1.0f;
+      targetB = 0.8f;
     }
 
     if (mCurrentFloor == targetFloor) {
       target = objectivePos;
       showWaypoint = true;
     } else {
-      
+
       if (mCurrentFloor < static_cast<int>(m_floors.size())) {
         auto stairs = m_floors[mCurrentFloor].findTiles('S');
         auto elevs = m_floors[mCurrentFloor].findTiles('E');
         float bestDist = 999999.0f;
         for (const auto &s : stairs) {
           float d = Vector2::distanceSq(m_playerPos, s);
-          if (d < bestDist) { bestDist = d; target = s; }
+          if (d < bestDist) {
+            bestDist = d;
+            target = s;
+          }
         }
         for (const auto &e : elevs) {
           float d = Vector2::distanceSq(m_playerPos, e);
-          if (d < bestDist) { bestDist = d; target = e; }
+          if (d < bestDist) {
+            bestDist = d;
+            target = e;
+          }
         }
         if (bestDist < 999999.0f) {
-          targetR = 0.5f; targetG = 0.8f; targetB = 1.0f;
+          targetR = 0.5f;
+          targetG = 0.8f;
+          targetB = 1.0f;
           showWaypoint = true;
         }
       }
@@ -2174,10 +2178,8 @@ void Application::renderWaypoint() {
   if (!showWaypoint)
     return;
 
-  float screenTargetX =
-      (target.x - m_cameraPos.x) + (mWindowWidth * 0.5f);
-  float screenTargetY =
-      (target.y - m_cameraPos.y) + (mWindowHeight * 0.5f);
+  float screenTargetX = (target.x - m_cameraPos.x) + (mWindowWidth * 0.5f);
+  float screenTargetY = (target.y - m_cameraPos.y) + (mWindowHeight * 0.5f);
 
   float cx = mWindowWidth * 0.5f;
   float cy = mWindowHeight * 0.5f;
@@ -2189,7 +2191,7 @@ void Application::renderWaypoint() {
     return;
 
   float angle = std::atan2(dirY, dirX);
-  float edgeDist = 60.0f; 
+  float edgeDist = 60.0f;
 
   float arrowX = cx + std::cos(angle) * std::min(dist, cx - edgeDist);
   float arrowY = cy + std::sin(angle) * std::min(dist, cy - edgeDist);
@@ -2216,11 +2218,9 @@ void Application::render() {
   m_renderer->beginFrame();
   m_renderer->setCameraPosition(m_cameraPos, shakeOffset);
 
-  if (mCurrentFloor >= 0 &&
-      mCurrentFloor < static_cast<int>(m_floors.size())) {
+  if (mCurrentFloor >= 0 && mCurrentFloor < static_cast<int>(m_floors.size())) {
     m_floors[mCurrentFloor].render(*m_renderer);
 
-    
     auto elevPositions = m_floors[mCurrentFloor].findTiles('E');
     for (const auto &ep : elevPositions) {
       bool nearby = Vector2::distanceSq(m_playerPos, ep) < 150.0f * 150.0f;
@@ -2228,7 +2228,6 @@ void Application::render() {
                            nearby ? 0.3f : 0.3f, nearby ? 0.4f : 0.7f, 0.0f);
     }
 
-    
     auto stairPositions = m_floors[mCurrentFloor].findTiles('S');
     for (const auto &sp : stairPositions) {
       bool nearby = Vector2::distanceSq(m_playerPos, sp) < 150.0f * 150.0f;
@@ -2239,7 +2238,6 @@ void Application::render() {
       }
     }
 
-    
     if (mCurrentFloor == m_exitFloor) {
       auto exitTiles = m_floors[mCurrentFloor].findTiles('X');
       for (const auto &xp : exitTiles) {
@@ -2255,25 +2253,22 @@ void Application::render() {
                              doorG * 0.85f, doorB * 0.85f, 0.0f);
         m_renderer->drawQuad({xp.x, xp.y - 20.0f}, {60, 30}, doorR * 0.85f,
                              doorG * 0.85f, doorB * 0.85f, 0.0f);
-        m_renderer->drawQuad({xp.x + 28.0f, xp.y}, {8, 12},
-                             0.8f, 0.7f, 0.3f, 0.0f);
+        m_renderer->drawQuad({xp.x + 28.0f, xp.y}, {8, 12}, 0.8f, 0.7f, 0.3f,
+                             0.0f);
         if (active) {
           m_renderer->drawQuadAlpha(xp, {120, 120}, 0.2f, 0.9f, 0.3f,
                                     0.15f + pulse * 0.1f, 0.0f);
           float arrowBob = std::sin(m_gameTime * 5.0f) * 10.0f;
-          m_renderer->drawQuad(
-              {xp.x, xp.y + 65.0f + arrowBob}, {16, 24}, 0.2f, 1.0f, 0.3f,
-              PI);
+          m_renderer->drawQuad({xp.x, xp.y + 65.0f + arrowBob}, {16, 24}, 0.2f,
+                               1.0f, 0.3f, PI);
         } else {
-          m_renderer->drawQuadAlpha(xp, {50, 6}, 0.8f, 0.2f, 0.2f, 0.5f,
-                                    0.78f);
+          m_renderer->drawQuadAlpha(xp, {50, 6}, 0.8f, 0.2f, 0.2f, 0.5f, 0.78f);
           m_renderer->drawQuadAlpha(xp, {50, 6}, 0.8f, 0.2f, 0.2f, 0.5f,
                                     -0.78f);
         }
       }
     }
 
-    
     if (!m_hasRabbit && mCurrentFloor == m_rabbitFloor) {
       float bob = std::sin(m_rabbitBob) * 8.0f;
       float glow = (std::sin(m_rabbitBob * 1.5f) + 1.0f) * 0.5f;
@@ -2281,31 +2276,27 @@ void Application::render() {
       m_renderer->drawQuadAlpha({m_rabbitPos.x, m_rabbitPos.y + bob}, {70, 70},
                                 1.0f, 1.0f, 0.8f + glow * 0.2f,
                                 0.2f + glow * 0.1f, 0.0f);
-      m_renderer->drawQuad({m_rabbitPos.x, m_rabbitPos.y + bob}, {40, 40},
-                           1.0f, 1.0f, 1.0f, 0.0f);
-      m_renderer->drawQuad(
-          {m_rabbitPos.x - 10.0f, m_rabbitPos.y + 25.0f + bob}, {8, 18}, 1.0f,
-          0.9f, 0.9f, 0.1f);
-      m_renderer->drawQuad(
-          {m_rabbitPos.x + 10.0f, m_rabbitPos.y + 25.0f + bob}, {8, 18}, 1.0f,
-          0.9f, 0.9f, -0.1f);
-      m_renderer->drawQuad(
-          {m_rabbitPos.x - 8.0f, m_rabbitPos.y + 5.0f + bob}, {5, 5}, 0.2f,
-          0.0f, 0.0f, 0.0f);
-      m_renderer->drawQuad(
-          {m_rabbitPos.x + 8.0f, m_rabbitPos.y + 5.0f + bob}, {5, 5}, 0.2f,
-          0.0f, 0.0f, 0.0f);
+      m_renderer->drawQuad({m_rabbitPos.x, m_rabbitPos.y + bob}, {40, 40}, 1.0f,
+                           1.0f, 1.0f, 0.0f);
+      m_renderer->drawQuad({m_rabbitPos.x - 10.0f, m_rabbitPos.y + 25.0f + bob},
+                           {8, 18}, 1.0f, 0.9f, 0.9f, 0.1f);
+      m_renderer->drawQuad({m_rabbitPos.x + 10.0f, m_rabbitPos.y + 25.0f + bob},
+                           {8, 18}, 1.0f, 0.9f, 0.9f, -0.1f);
+      m_renderer->drawQuad({m_rabbitPos.x - 8.0f, m_rabbitPos.y + 5.0f + bob},
+                           {5, 5}, 0.2f, 0.0f, 0.0f, 0.0f);
+      m_renderer->drawQuad({m_rabbitPos.x + 8.0f, m_rabbitPos.y + 5.0f + bob},
+                           {5, 5}, 0.2f, 0.0f, 0.0f, 0.0f);
 
       float distToRabbit = Vector2::distance(m_playerPos, m_rabbitPos);
       if (distToRabbit < 120.0f) {
         float promptBob = std::sin(m_gameTime * 3.0f) * 5.0f;
         m_renderer->drawQuadAlpha(
-            {m_rabbitPos.x, m_rabbitPos.y + 55.0f + promptBob}, {80, 20},
-            0.0f, 0.0f, 0.0f, 0.7f, 0.0f);
+            {m_rabbitPos.x, m_rabbitPos.y + 55.0f + promptBob}, {80, 20}, 0.0f,
+            0.0f, 0.0f, 0.7f, 0.0f);
         if (m_hasKeycard) {
           m_renderer->drawTextCentered(
-              {m_rabbitPos.x, m_rabbitPos.y + 55.0f + promptBob},
-              "Press F", 2.0f, 1.0f, 1.0f, 0.3f);
+              {m_rabbitPos.x, m_rabbitPos.y + 55.0f + promptBob}, "Press F",
+              2.0f, 1.0f, 1.0f, 0.3f);
         } else {
           m_renderer->drawTextCentered(
               {m_rabbitPos.x, m_rabbitPos.y + 55.0f + promptBob},
@@ -2314,23 +2305,22 @@ void Application::render() {
       }
     }
 
-    
     if (!m_hasKeycard && mCurrentFloor == m_keycardFloor) {
       float bob = std::sin(m_keycardBob) * 6.0f;
       float glow = (std::sin(m_keycardBob * 1.5f) + 1.0f) * 0.5f;
 
-      
-      m_renderer->drawQuadAlpha({m_keycardPos.x, m_keycardPos.y + bob}, {60, 60},
-                                0.2f, 0.5f, 1.0f, 0.15f + glow * 0.1f, 0.0f);
-      
+      m_renderer->drawQuadAlpha({m_keycardPos.x, m_keycardPos.y + bob},
+                                {60, 60}, 0.2f, 0.5f, 1.0f, 0.15f + glow * 0.1f,
+                                0.0f);
+
       m_renderer->drawQuad({m_keycardPos.x, m_keycardPos.y + bob}, {28, 20},
                            0.15f, 0.4f, 0.9f, 0.0f);
-      
-      m_renderer->drawQuad({m_keycardPos.x, m_keycardPos.y + bob + 4.0f}, {22, 4},
-                           0.8f, 0.8f, 0.2f, 0.0f);
-      
-      m_renderer->drawQuad({m_keycardPos.x - 6.0f, m_keycardPos.y + bob - 3.0f}, {8, 6},
-                           0.9f, 0.8f, 0.3f, 0.0f);
+
+      m_renderer->drawQuad({m_keycardPos.x, m_keycardPos.y + bob + 4.0f},
+                           {22, 4}, 0.8f, 0.8f, 0.2f, 0.0f);
+
+      m_renderer->drawQuad({m_keycardPos.x - 6.0f, m_keycardPos.y + bob - 3.0f},
+                           {8, 6}, 0.9f, 0.8f, 0.3f, 0.0f);
 
       float distToCard = Vector2::distance(m_playerPos, m_keycardPos);
       if (distToCard < 120.0f) {
@@ -2344,7 +2334,6 @@ void Application::render() {
       }
     }
 
-    
     auto decors = m_floors[mCurrentFloor].findTiles('D');
     for (const auto &dp : decors) {
       m_renderer->drawQuad(dp, {60, 60}, 0.55f, 0.35f, 0.15f, 0.0f);
@@ -2359,8 +2348,8 @@ void Application::render() {
                       std::sin(m_gameTime * 13.0f + lp.y) * 0.1f;
       m_renderer->drawQuadAlpha(lp, {120, 120}, 1.0f, 0.9f, 0.5f,
                                 0.08f * flicker, 0.0f);
-      m_renderer->drawQuadAlpha(lp, {60, 60}, 1.0f, 0.9f, 0.6f,
-                                0.15f * flicker, 0.0f);
+      m_renderer->drawQuadAlpha(lp, {60, 60}, 1.0f, 0.9f, 0.6f, 0.15f * flicker,
+                                0.0f);
       m_renderer->drawQuad(lp, {16, 16}, 1.0f * flicker, 0.85f * flicker,
                            0.4f * flicker, 0.0f);
     }
@@ -2394,38 +2383,38 @@ void Application::render() {
       m_renderer->drawQuad(vp, {44, 56}, 0.50f, 0.35f, 0.15f, 0.0f);
       m_renderer->drawQuad(vp, {48, 48}, 0.55f, 0.38f, 0.18f, 0.0f);
       m_renderer->drawQuad(vp, {44, 40}, 0.60f, 0.42f, 0.20f, 0.0f);
-      m_renderer->drawQuad({vp.x, vp.y + 18.0f}, {46, 4}, 0.35f, 0.35f,
-                           0.40f, 0.0f);
-      m_renderer->drawQuad({vp.x, vp.y - 18.0f}, {46, 4}, 0.35f, 0.35f,
-                           0.40f, 0.0f);
+      m_renderer->drawQuad({vp.x, vp.y + 18.0f}, {46, 4}, 0.35f, 0.35f, 0.40f,
+                           0.0f);
+      m_renderer->drawQuad({vp.x, vp.y - 18.0f}, {46, 4}, 0.35f, 0.35f, 0.40f,
+                           0.0f);
     }
 
     auto columns = m_floors[mCurrentFloor].findTiles('C');
     for (const auto &cp : columns) {
       m_renderer->drawQuad(cp, {36, 90}, 0.55f, 0.52f, 0.50f, 0.0f);
       m_renderer->drawQuad(cp, {30, 80}, 0.62f, 0.58f, 0.55f, 0.0f);
-      m_renderer->drawQuad({cp.x, cp.y + 40.0f}, {42, 10}, 0.50f, 0.48f,
-                           0.45f, 0.0f);
-      m_renderer->drawQuad({cp.x, cp.y - 40.0f}, {42, 10}, 0.50f, 0.48f,
-                           0.45f, 0.0f);
+      m_renderer->drawQuad({cp.x, cp.y + 40.0f}, {42, 10}, 0.50f, 0.48f, 0.45f,
+                           0.0f);
+      m_renderer->drawQuad({cp.x, cp.y - 40.0f}, {42, 10}, 0.50f, 0.48f, 0.45f,
+                           0.0f);
     }
 
     auto bookshelves = m_floors[mCurrentFloor].findTiles('K');
     for (const auto &kp : bookshelves) {
       m_renderer->drawQuad(kp, {90, 80}, 0.35f, 0.22f, 0.12f, 0.0f);
       m_renderer->drawQuad(kp, {82, 72}, 0.42f, 0.28f, 0.15f, 0.0f);
-      float bookColors[][3] = {
-          {0.6f, 0.2f, 0.2f}, {0.2f, 0.4f, 0.6f}, {0.2f, 0.5f, 0.3f},
-          {0.6f, 0.5f, 0.2f}, {0.5f, 0.2f, 0.5f}};
+      float bookColors[][3] = {{0.6f, 0.2f, 0.2f},
+                               {0.2f, 0.4f, 0.6f},
+                               {0.2f, 0.5f, 0.3f},
+                               {0.6f, 0.5f, 0.2f},
+                               {0.5f, 0.2f, 0.5f}};
       for (int b = 0; b < 5; ++b) {
         float bx = kp.x - 30.0f + b * 15.0f;
-        m_renderer->drawQuad({bx, kp.y + 15.0f}, {12, 20},
-                             bookColors[b][0], bookColors[b][1],
-                             bookColors[b][2], 0.0f);
-        m_renderer->drawQuad({bx + 3.0f, kp.y - 15.0f}, {10, 18},
-                             bookColors[(b + 2) % 5][0],
-                             bookColors[(b + 2) % 5][1],
-                             bookColors[(b + 2) % 5][2], 0.05f);
+        m_renderer->drawQuad({bx, kp.y + 15.0f}, {12, 20}, bookColors[b][0],
+                             bookColors[b][1], bookColors[b][2], 0.0f);
+        m_renderer->drawQuad(
+            {bx + 3.0f, kp.y - 15.0f}, {10, 18}, bookColors[(b + 2) % 5][0],
+            bookColors[(b + 2) % 5][1], bookColors[(b + 2) % 5][2], 0.05f);
       }
     }
 
@@ -2441,22 +2430,16 @@ void Application::render() {
     }
   }
 
-  
   renderHealthPickups();
 
-  
   renderGunPickups();
 
-  
   renderAliens();
 
-  
   renderProjectiles();
 
-  
   renderParticles();
 
-  
   {
     Vector2 drawPos = {m_playerPos.x, m_playerPos.y + m_lungeHeight};
     float playerSize = 64.0f;
@@ -2464,14 +2447,15 @@ void Application::render() {
     if (m_lungeHeight > 2.0f) {
       float shadowAlpha = 0.3f * (m_lungeHeight / 40.0f);
       float shadowScale = 1.0f - (m_lungeHeight / 80.0f);
-      m_renderer->drawQuadAlpha(m_playerPos,
-                                {playerSize * shadowScale, playerSize * shadowScale * 0.5f},
-                                0.0f, 0.0f, 0.0f, shadowAlpha, 0.0f);
+      m_renderer->drawQuadAlpha(
+          m_playerPos,
+          {playerSize * shadowScale, playerSize * shadowScale * 0.5f}, 0.0f,
+          0.0f, 0.0f, shadowAlpha, 0.0f);
     }
 
     if (m_playerTexture) {
-      m_renderer->drawQuad(drawPos, {playerSize, playerSize}, m_playerTexture.get(),
-                           m_playerRotation);
+      m_renderer->drawQuad(drawPos, {playerSize, playerSize},
+                           m_playerTexture.get(), m_playerRotation);
     } else {
       m_renderer->drawQuad(drawPos, {playerSize, playerSize}, 0.9f, 0.2f, 0.8f,
                            m_playerRotation);
@@ -2486,15 +2470,14 @@ void Application::render() {
 
   renderEditorOverlay();
 
-  
   if (mNearElevator) {
     float uiWX = m_playerPos.x;
     float uiWY = m_playerPos.y + 120.0f;
 
-    m_renderer->drawQuadAlpha({uiWX, uiWY}, {200, 120}, 0.1f, 0.1f, 0.15f,
-                              0.9f, 0.0f);
-    m_renderer->drawQuadAlpha({uiWX, uiWY}, {196, 116}, 0.2f, 0.2f, 0.25f,
-                              0.8f, 0.0f);
+    m_renderer->drawQuadAlpha({uiWX, uiWY}, {200, 120}, 0.1f, 0.1f, 0.15f, 0.9f,
+                              0.0f);
+    m_renderer->drawQuadAlpha({uiWX, uiWY}, {196, 116}, 0.2f, 0.2f, 0.25f, 0.8f,
+                              0.0f);
 
     for (int i = 0; i < 3; ++i) {
       float btnY = uiWY - 30.0f + i * 35.0f;
@@ -2509,15 +2492,13 @@ void Application::render() {
                          0.0f);
   }
 
-  
-  if (mCurrentFloor >= 0 &&
-      mCurrentFloor < static_cast<int>(m_floors.size())) {
+  if (mCurrentFloor >= 0 && mCurrentFloor < static_cast<int>(m_floors.size())) {
     auto stairPos = m_floors[mCurrentFloor].findTiles('S');
     for (const auto &sp : stairPos) {
       if (Vector2::distanceSq(m_playerPos, sp) < 120.0f * 120.0f) {
         float promptY = sp.y + 60.0f;
-        m_renderer->drawQuadAlpha({sp.x, promptY}, {100, 22}, 0.0f, 0.0f,
-                                  0.0f, 0.6f, 0.0f);
+        m_renderer->drawQuadAlpha({sp.x, promptY}, {100, 22}, 0.0f, 0.0f, 0.0f,
+                                  0.6f, 0.0f);
         m_renderer->drawQuad({sp.x - 20.0f, promptY}, {14, 14}, 0.8f, 0.8f,
                              0.2f, 0.0f);
         m_renderer->drawQuad({sp.x + 20.0f, promptY}, {14, 14}, 0.8f, 0.4f,
@@ -2527,21 +2508,16 @@ void Application::render() {
     }
   }
 
-  
   renderHUD();
 
-  
   renderMinimap();
 
-  
   if (m_gameState == GameState::Playing) {
     renderWaypoint();
   }
 
-  
   renderHints();
 
-  
   if (m_gameState != GameState::Playing) {
     renderGameOver();
   }
@@ -2554,9 +2530,10 @@ void Application::render() {
 // ─────────────────────── run ───────────────────────────────
 
 void Application::run() {
-  std::cout << "\n🎮 XENOCIDE running!\n";
-  std::cout << "   WASD/Arrows — move | Mouse — aim | Shift — sprint | RMB — dash\n";
-  std::cout << "   SPACE — attack aliens | LMB — shoot gun | 1/2/3 — elevator floors\n";
+  std::cout
+      << "   WASD/Arrows — move | Mouse — aim | Shift — sprint | RMB — dash\n";
+  std::cout << "   SPACE — attack aliens | LMB — shoot gun | 1/2/3 — elevator "
+               "floors\n";
   std::cout << "   E/Q — stairs up/down | F — pick up items\n";
   std::cout << "   ESC — exit | R — restart\n";
   std::cout << "   F1 — toggle map editor\n";
@@ -2594,4 +2571,4 @@ void Application::shakeCamera(float intensity, float duration) {
   m_cameraShakeTimer = 0.0f;
 }
 
-} 
+} // namespace mine
